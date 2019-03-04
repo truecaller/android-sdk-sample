@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bgColor">
+
+    <ImageView
+        android:id="@+id/truecaller_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:alpha="0.7"
+        android:src="@drawable/ic_truecaller_logo_white"
+        tools:ignore="ContentDescription"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnProceed"
+        android:layout_below="@id/truecaller_logo"
+        android:gravity="start|center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp32"
+        android:paddingStart="@dimen/dp32"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/phone_number"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp16"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:text="@string/country_code_in"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp32"/>
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_phone_num"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:paddingTop="16dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent50"
+                android:textSize="@dimen/sp32"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnProceed"
+        style="@style/com_truecaller_truebutton_text_style"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/btn_background"
+        android:text="@string/proceed"
+        android:textColor="@color/colorPrimary"/>
+</RelativeLayout>

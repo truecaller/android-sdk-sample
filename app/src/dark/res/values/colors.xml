@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark -->
+    <color name="bgColor">#BDB2AD</color>
+    <color name="bg_light">#EFEBE9</color>
+    <color name="colorPrimary">#5D4037</color>
+    <color name="colorPrimaryDark">#5D4037</color>
+    <color name="colorAccent">#795548</color>
+    <color name="colorPrimary50">#7fFFFFFF</color>
+    <color name="colorPrimaryDark50">#7fBBBBBB</color>
+    <color name="colorAccent50">#7f795548</color>
+    <color name="colorAccent1">#795548</color>
+    <color name="colorAccent2">#795548</color>
+    <color name="colorAccent2Dark">#593548</color>
+</resources>

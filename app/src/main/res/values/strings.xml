@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+True SDK Copyright notice and License
+
+Copyright(c)2015-present,True Software Scandinavia AB.All rights reserved.
+
+In accordance with the separate agreement executed between You and True Software Scandinavia AB You are granted a limited,non-exclusive,
+non-sublicensable,non-transferrable,royalty-free,license to use the True SDK Product in object code form only,solely for the purpose of using the
+True SDK Product with the applications and API’s provided by True Software Scandinavia AB.
+
+HE TRUE SDK PRODUCT IS PROVIDED WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE,SOFTWARE QUALITY,PERFORMANCE,DATA ACCURACY AND NON-INFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+BE LIABLE FOR ANY CLAIM,DAMAGES OR OTHER LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE,ARISING FROM,OUT OF OR IN CONNECTION WITH THE
+TRUE SDK PRODUCT OR THE USE OR OTHER DEALINGS IN THE TRUE SDK PRODUCT.AS A RESULT,THE TRUE SDK PRODUCT IS PROVIDED"AS IS"AND BY INTEGRATING THE TRUE
+SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
+-->
+<resources>
+    <string name="app_name">SDK Sample</string>
+    <string name="partnerKey">1uBkN7c604f716da04af3b218666ba47b6630</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="job">Job</string>
+    <string name="custom_button">Custom Button</string>
+    <string name="get_profile">GET PROFILE</string>
+    <string name="create_profile">Create Profile</string>
+    <string name="title_activity_signed_in">SignedInActivity</string>
+    <string name="large_text">
+        "You're now signed in. \n\n\n"
+        "Get more verified sign ups by connecting TrueSDK\n\n"
+
+        "FREE\n"
+        "No hidden fees. And no cost for verifying Truecaller users.\n\n"
+        "SMOOTH\n"
+        "Frictionless sign ups in 3rd party Android applications.\n\n"
+        "LIGHTWEIGHT\n"
+        "Ultra-lightweight so you can set up and go live quickly.\n\n"
+        "TrueSDK for developers\n"
+        "A phone number is much more than a way to connect — it’s an identity. Truecaller offers a unique tool, TrueSDK, for "
+        "No more One Time Password (OTP) verification or users dropping off. TrueSDK helps end users quickly and"
+        "effortlessly utilize their Truecaller credentials to sign-up with one-touch to third-party apps with their phone "
+        "number.\n\n"
+        "Save your time and resources. TrueSDK will help drastically reduce costs, improve the overall quality of your "
+        "community (no more spam accounts) and accelerate global user growth.\n\n"
+
+    </string>
+    <string name="phone_number">Phone number</string>
+    <string name="proceed">Proceed</string>
+    <string name="country_code_in">+91\ </string>
+    <string name="verify">Verify</string>
+    <string name="first_name">First Name</string>
+    <string name="john">John</string>
+    <string name="last_name">Last Name</string>
+    <string name="smith">Smith</string>
+    <string name="otp_code">OTP Code</string>
+    <string name="hint_otp">555&#8211;123</string>
+    <string name="waiting_for_otp_sms">Waiting for OTP SMS</string>
+    <string name="waiting_for_missed_call">Waiting for Missed Call</string>
+    <string name="hint_phone_num">99999&#8211;11111</string>
+    <string name="auto_fill_token">%1s \u2714</string>
+    <string name="show_fullscreen">Show FullScreen</string>
+    <string name="show_skip_footer">Show Skip Footer</string>
+    <string name="with_otp">With Otp</string>
+    <string name="let_s_go">Let\'s Go!!</string>
+</resources>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bgColor">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnVerify"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp32"
+        android:paddingStart="@dimen/dp32"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/first_name"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp16"/>
+
+        <EditText
+            android:id="@+id/edtFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="@string/john"
+            android:inputType="textPersonName"
+            android:paddingTop="@dimen/dp4"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent50"
+            android:textSize="@dimen/sp32"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/last_name"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp16"/>
+
+        <EditText
+            android:id="@+id/edtLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="@string/smith"
+            android:inputType="textPersonName"
+            android:paddingTop="@dimen/dp4"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent50"
+            android:textSize="@dimen/sp32"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/otp_code"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp16"/>
+
+        <EditText
+            android:id="@+id/edtOtpCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_otp"
+            android:inputType="number"
+            android:maxLength="6"
+            android:paddingTop="@dimen/dp4"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent50"
+            android:textSize="@dimen/sp32"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:text="@string/waiting_for_otp_sms"
+        android:textColor="@color/colorPrimaryDark"
+        android:visibility="gone"/>
+
+
+    <Button
+        android:id="@+id/btnVerify"
+        style="@style/com_truecaller_truebutton_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/dp32"
+        android:layout_marginRight="@dimen/dp32"
+        android:background="@drawable/btn_background"
+        android:text="@string/verify"
+        android:textColor="@color/colorPrimary"/>
+
+</RelativeLayout>
