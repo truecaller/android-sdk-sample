@@ -17,6 +17,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.gladed.androidgitversion' version '0.4.9'
+}
+
 allprojects {
     repositories {
         jcenter()
@@ -27,6 +31,20 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+def renameApk(variant, output) {
+    def flavorName = variant.productFlavors[0].name
+    def buildType = variant.buildType.name
+    def versionName = variant.versionName
+    def versionCode = variant.versionCode
+
+    def oldSuffix = flavorName + "-" + buildType
+
+    def version = versionName + "." + versionCode
+    def newSuffix = oldSuffix + "-" + version
+
+    output.outputFileName = output.outputFileName.replace(oldSuffix, newSuffix)
 }
 
 // Android Environment Global Settings

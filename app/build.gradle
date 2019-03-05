@@ -13,6 +13,13 @@ dependencies {
     testImplementation "junit:junit:$rootProject.junit"
 }
 
+androidGitVersion {
+    codeFormat 'MMNNP'
+    format '%tag%'
+    hideBranches = [ 'master' ]
+    prefix 'v'
+}
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -20,8 +27,8 @@ android {
         applicationId "com.truecaller.android.sdksample"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionName androidGitVersion.name()
+        versionCode androidGitVersion.code()
     }
 
     buildTypes {
@@ -41,13 +48,20 @@ android {
         dark {
             applicationId 'com.truecaller.sdksample2'
         }
-        light{
+        light {
             // uses defaultConfig
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            rootProject.renameApk(variant, output)
+        }
+
     }
 }
 

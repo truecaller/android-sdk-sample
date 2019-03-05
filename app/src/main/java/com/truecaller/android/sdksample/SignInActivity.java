@@ -22,6 +22,7 @@
 package com.truecaller.android.sdksample;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -194,8 +195,7 @@ public class SignInActivity extends Activity {
         public void onClick(final View view) {
             try {
                 trueButton.callOnClick();
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -208,10 +208,11 @@ public class SignInActivity extends Activity {
         }
     };
 
-    private EditText             edtOtp;
-    private TrueButton           trueButton;
-    private EditText             mPhoneField;
+    private EditText   edtOtp;
+    private TrueButton trueButton;
+    private EditText   mPhoneField;
 
+    @SuppressLint("NewApi")
     private View.OnClickListener btnGoClickListner = v -> {
         initTrueSdk();
         showLayout(LANDING_LAYOUT);
@@ -251,7 +252,8 @@ public class SignInActivity extends Activity {
                 .footerType(((Switch) findViewById(R.id.skip)).isChecked() ? TrueSdkScope.FOOTER_TYPE_SKIP
                         : TrueSdkScope.FOOTER_TYPE_CONTINUE)
                 .consentTitleOption(titleSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
-                        ? 0 : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
+                        ? TrueSdkScope.SDK_CONSENT_TITLE_LOG_IN
+                        : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
                 .build();
         TrueSDK.init(trueScope);
 
