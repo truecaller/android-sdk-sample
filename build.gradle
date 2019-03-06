@@ -37,12 +37,10 @@ def renameApk(variant, output) {
     def flavorName = variant.productFlavors[0].name
     def buildType = variant.buildType.name
     def versionName = variant.versionName
-    def versionCode = variant.versionCode
 
     def oldSuffix = flavorName + "-" + buildType
 
-    def version = versionName + "." + versionCode
-    def newSuffix = oldSuffix + "-" + version
+    def newSuffix = oldSuffix + "-" + versionName
 
     output.outputFileName = output.outputFileName.replace(oldSuffix, newSuffix)
 }
