@@ -23,7 +23,7 @@ class SmsUtils {
             final Object[] pdus = (Object[]) extras.get(EXTRA_PDUS);
             final String format = extras.getString(EXTRA_FORMAT);
 
-            if (pdus.length > 0) {
+            if (pdus != null && pdus.length > 0) {
                 return smsMessageFromPduCompat((byte[]) pdus[0], format);
             }
         }
