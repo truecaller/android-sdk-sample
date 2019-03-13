@@ -56,7 +56,6 @@ import android.widget.Toast;
 import com.truecaller.android.sdk.ITrueCallback;
 import com.truecaller.android.sdk.TrueButton;
 import com.truecaller.android.sdk.TrueError;
-import com.truecaller.android.sdk.TrueError;
 import com.truecaller.android.sdk.TrueException;
 import com.truecaller.android.sdk.TrueProfile;
 import com.truecaller.android.sdk.TrueSDK;
@@ -103,19 +102,6 @@ public class SignInActivity extends Activity {
         public void onVerificationRequired() {
             showLayout(FORM_LAYOUT);
             findViewById(R.id.btnProceed).setOnClickListener(proceedClickListener);
-            //            if (ContextCompat.checkSelfPermission(SignInActivity.this, Manifest.permission
-            // .READ_PHONE_STATE) ==
-            //                    PackageManager.PERMISSION_GRANTED) {
-            //                TelephonyManager systemService = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-            //                String number = systemService.getLine1Number();
-            //                if (!TextUtils.isEmpty(number)) {
-            //                    Pair<String, String> phoneNumber = PhoneUtils.processPhoneNumber(number);
-            //                    ((EditText) findViewById(R.id.edtPhone)).setText(phoneNumber.second);
-            //                } else {
-            //                    Toast.makeText(SignInActivity.this, "Couldn't auto fill the number", Toast
-            // .LENGTH_SHORT).show();
-            //                }
-            //            }
         }
     };
 
