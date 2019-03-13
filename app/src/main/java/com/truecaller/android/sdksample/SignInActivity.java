@@ -187,12 +187,7 @@ public class SignInActivity extends Activity {
         }
     };
 
-    private final View.OnClickListener proceedClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(final View view) {
-            checkPhonePermission();
-        }
-    };
+    private final View.OnClickListener proceedClickListener = view -> checkPhonePermission();
 
     private EditText   edtOtp;
     private TrueButton trueButton;
