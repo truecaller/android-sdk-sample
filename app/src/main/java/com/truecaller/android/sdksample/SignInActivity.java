@@ -38,7 +38,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.SmsMessage;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -316,12 +315,7 @@ public class SignInActivity extends Activity {
                     "Displaying camera permission rationale to provide additional context.");
             Snackbar.make(findViewById(R.id.activity_landing), "Give permission to identify device.",
                     Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Allow", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            requestRequiredPhonePermissions();
-                        }
-                    })
+                    .setAction("Allow", view -> requestRequiredPhonePermissions())
                     .show();
         } else {
             // Phone permission has not been granted yet. Request it directly.

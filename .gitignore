@@ -1,6 +1,7 @@
 .gradle
 /.idea/*
 build/
+dark/
 /*.properties
 *.iml
 *.DS_Store

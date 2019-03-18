@@ -16,7 +16,7 @@ dependencies {
 androidGitVersion {
     codeFormat 'MMNNP'
     format '%tag%%-count%'
-    hideBranches = [ 'master' ]
+    hideBranches = ['master']
     prefix 'v'
 }
 
@@ -62,6 +62,16 @@ android {
             rootProject.renameApk(variant, output)
         }
 
+    }
+
+    signingConfigs {
+
+        debug {
+            storeFile file("signings/debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
     }
 }
 
