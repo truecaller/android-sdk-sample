@@ -139,8 +139,11 @@ public class SignInActivity extends Activity {
 
         @Override
         public void onRequestFailure(final int requestCode, @NonNull final TrueException e) {
-            Toast.makeText(SignInActivity.this, "OnFailureApiCallback: " + e.getExceptionMessage(),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(
+                    SignInActivity.this,
+                    "OnFailureApiCallback: " + e.getExceptionMessage(),
+                    Toast.LENGTH_SHORT)
+                    .show();
             showLayout(FORM_LAYOUT);
         }
     };
@@ -234,6 +237,8 @@ public class SignInActivity extends Activity {
                 .consentTitleOption(titleSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
                         ? TrueSdkScope.SDK_CONSENT_TITLE_LOG_IN
                         : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
+                .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ? TrueSdkScope.SDK_OPTION_WITH_OTP
+                        : TrueSdkScope.SDK_OPTION_WIHTOUT_OTP)
                 .build();
         TrueSDK.init(trueScope);
 
