@@ -57,8 +57,8 @@ import com.truecaller.android.sdk.TrueButton;
 import com.truecaller.android.sdk.TrueError;
 import com.truecaller.android.sdk.TrueException;
 import com.truecaller.android.sdk.TrueProfile;
-import com.truecaller.android.sdk.TrueSDK;
-import com.truecaller.android.sdk.TrueSdkScope;
+import com.truecaller.android.sdk.TruecallerSDK;
+import com.truecaller.android.sdk.TruecallerSdkScope;
 import com.truecaller.android.sdk.clients.VerificationCallback;
 
 import java.util.Locale;
@@ -171,9 +171,9 @@ public class SignInActivity extends Activity {
             if (!TextUtils.isEmpty(otp) && verificationCallbackType == VerificationCallback.TYPE_OTP) {
                 otp = otp.substring(0, 6);
                 showLoader("Verifying profile...", false);
-                TrueSDK.getInstance().verifyOtp(profile, otp, apiCallback);
+                TruecallerSDK.getInstance().verifyOtp(profile, otp, apiCallback);
             } else {
-                TrueSDK.getInstance().verifyMissedCall(profile, apiCallback);
+                TruecallerSDK.getInstance().verifyMissedCall(profile, apiCallback);
             }
         }
     };
@@ -197,7 +197,7 @@ public class SignInActivity extends Activity {
 
     @SuppressLint("NewApi")
     private View.OnClickListener btnGoClickListner = v -> {
-        initTrueSdk();
+        initTruecallerSDK();
         showLayout(LANDING_LAYOUT);
     };
 
@@ -217,7 +217,7 @@ public class SignInActivity extends Activity {
         findViewById(R.id.buttonGo).setOnClickListener(btnGoClickListner);
         titleSelector = findViewById(R.id.sdkTitleOptions);
 
-        initTrueSdk();
+        initTruecallerSDK();
         System.out.println("phone permission " + (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_PHONE_STATE) == PackageManager
                 .PERMISSION_GRANTED));
@@ -228,19 +228,19 @@ public class SignInActivity extends Activity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initTrueSdk() {
-        TrueSdkScope trueScope = new TrueSdkScope.Builder(this, sdkCallback)
-                .consentMode(((Switch) findViewById(R.id.fullscreen)).isChecked() ? TrueSdkScope.CONSENT_MODE_FULLSCREEN
-                        : TrueSdkScope.CONSENT_MODE_POPUP)
-                .footerType(((Switch) findViewById(R.id.skip)).isChecked() ? TrueSdkScope.FOOTER_TYPE_SKIP
-                        : TrueSdkScope.FOOTER_TYPE_CONTINUE)
+    private void initTruecallerSDK() {
+        TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
+                .consentMode(((Switch) findViewById(R.id.fullscreen)).isChecked() ? TruecallerSdkScope.CONSENT_MODE_FULLSCREEN
+                        : TruecallerSdkScope.CONSENT_MODE_POPUP)
+                .footerType(((Switch) findViewById(R.id.skip)).isChecked() ? TruecallerSdkScope.FOOTER_TYPE_SKIP
+                        : TruecallerSdkScope.FOOTER_TYPE_CONTINUE)
                 .consentTitleOption(titleSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
-                        ? TrueSdkScope.SDK_CONSENT_TITLE_LOG_IN
+                        ? TruecallerSdkScope.SDK_CONSENT_TITLE_LOG_IN
                         : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
-                .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ? TrueSdkScope.SDK_OPTION_WITH_OTP
-                        : TrueSdkScope.SDK_OPTION_WIHTOUT_OTP)
+                .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ? TruecallerSdkScope.SDK_OPTION_WITH_OTP
+                        : TruecallerSdkScope.SDK_OPTION_WIHTOUT_OTP)
                 .build();
-        TrueSDK.init(trueScope);
+        TruecallerSDK.init(trueScope);
 
 
         EditText localeEt = findViewById(R.id.localeEt);
@@ -250,7 +250,7 @@ public class SignInActivity extends Activity {
         }
 
         try {
-            TrueSDK.getInstance().setLocale(new Locale(locale));
+            TruecallerSDK.getInstance().setLocale(new Locale(locale));
         } catch (Exception e) {
             //            ignored
         }
@@ -286,7 +286,7 @@ public class SignInActivity extends Activity {
         if (!TextUtils.isEmpty(phone)) {
             showLoader("Trying " + getViaText() + "...",
                     verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL);
-            TrueSDK.getInstance().requestVerification("IN", phone, apiCallback);
+            TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback);
         }
     }
 
@@ -381,7 +381,7 @@ public class SignInActivity extends Activity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TrueSDK.getInstance().onActivityResultObtained(this, resultCode, data);
+        TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data);
     }
 
     private void waitForCode() {
