@@ -254,6 +254,7 @@ public class SignInActivity extends Activity {
         } catch (Exception e) {
             //            ignored
         }
+        findViewById(R.id.btnStart).setVisibility(TruecallerSDK.getInstance().isUsable() ? View.VISIBLE : View.GONE);
     }
 
     private int resolveSelectedPosition(final int checkedRadioButtonId) {
@@ -452,6 +453,7 @@ public class SignInActivity extends Activity {
         findViewById(R.id.optionsMenu).setVisibility(id == SETTINGS_LAYOUT ? View.VISIBLE : View.GONE);
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.hideSoftInputFromWindow(findViewById(R.id.landingLayout).getWindowToken(), 0);
     }
 
@@ -504,5 +506,4 @@ public class SignInActivity extends Activity {
                     REQUEST_PHONE);
         }
     }
-
 }
