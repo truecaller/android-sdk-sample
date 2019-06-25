@@ -1,87 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-    <RadioGroup
-        android:id="@+id/sdkTitleOptions"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <RadioButton
-            android:id="@+id/zero"
+        <RadioGroup
+            android:id="@+id/sdkTitleOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/zero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Login"/>
+
+            <RadioButton
+                android:id="@+id/one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Signup"/>
+
+            <RadioButton
+                android:id="@+id/two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Signin"/>
+
+            <RadioButton
+                android:id="@+id/three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Verify"/>
+
+            <RadioButton
+                android:id="@+id/four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Register"/>
+
+            <RadioButton
+                android:id="@+id/five"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Get Started"/>
+        </RadioGroup>
+
+        <Switch
+            android:id="@+id/fullscreen"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/show_fullscreen"/>
+
+        <RadioGroup
+            android:id="@+id/additionalFooters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/skip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Skip"/>
+
+            <RadioButton
+                android:id="@+id/uan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Use Another Number (UAN)"/>
+
+            <RadioButton
+                android:id="@+id/none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" None"/>
+
+        </RadioGroup>
+
+        <Switch
+            android:id="@+id/sdkOptions"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/with_otp"/>
+
+        <EditText
+            android:id="@+id/localeEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Login"/>
+            android:hint="Enter locale : en"/>
 
-        <RadioButton
-            android:id="@+id/one"
+        <Button
+            android:id="@+id/buttonGo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=" Signup"/>
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:text="@string/let_s_go"/>
 
-        <RadioButton
-            android:id="@+id/two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Signin"/>
+    </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Verify"/>
-
-        <RadioButton
-            android:id="@+id/four"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Register"/>
-
-        <RadioButton
-            android:id="@+id/five"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=" Get Started"/>
-    </RadioGroup>
-
-    <Switch
-        android:id="@+id/fullscreen"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/show_fullscreen"/>
-
-    <Switch
-        android:id="@+id/skip"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/show_skip_footer"/>
-
-    <Switch
-        android:id="@+id/sdkOptions"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/with_otp"/>
-
-    <EditText
-        android:id="@+id/localeEt"
-        android:layout_width="match_parent"
-        android:hint="Enter locale : en"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/buttonGo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:foreground="?selectableItemBackground"
-        android:text="@string/let_s_go"/>
-
-</LinearLayout>
+</ScrollView>

@@ -78,6 +78,7 @@ public class SignInActivity extends Activity {
 
     private BroadcastReceiver mTokenReceiver;
     private RadioGroup        titleSelector;
+    private RadioGroup        additionalFooterSelector;
     private int               verificationCallbackType;
 
     private final ITrueCallback sdkCallback = new ITrueCallback() {
@@ -216,6 +217,7 @@ public class SignInActivity extends Activity {
         findViewById(R.id.btnStart).setOnClickListener(startClickListener);
         findViewById(R.id.buttonGo).setOnClickListener(btnGoClickListner);
         titleSelector = findViewById(R.id.sdkTitleOptions);
+        additionalFooterSelector = findViewById(R.id.additionalFooters);
 
         initTruecallerSDK();
         System.out.println("phone permission " + (ActivityCompat.checkSelfPermission(this,
@@ -230,14 +232,17 @@ public class SignInActivity extends Activity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initTruecallerSDK() {
         TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
-                .consentMode(((Switch) findViewById(R.id.fullscreen)).isChecked() ? TruecallerSdkScope.CONSENT_MODE_FULLSCREEN
+                .consentMode(((Switch) findViewById(R.id.fullscreen)).isChecked() ?
+                        TruecallerSdkScope.CONSENT_MODE_FULLSCREEN
                         : TruecallerSdkScope.CONSENT_MODE_POPUP)
-                .footerType(((Switch) findViewById(R.id.skip)).isChecked() ? TruecallerSdkScope.FOOTER_TYPE_SKIP
-                        : TruecallerSdkScope.FOOTER_TYPE_CONTINUE)
+                .footerType(additionalFooterSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
+                        ? TruecallerSdkScope.FOOTER_TYPE_NONE
+                        : resolveAdditionalFooter(additionalFooterSelector.getCheckedRadioButtonId()))
                 .consentTitleOption(titleSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
                         ? TruecallerSdkScope.SDK_CONSENT_TITLE_LOG_IN
                         : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
-                .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ? TruecallerSdkScope.SDK_OPTION_WITH_OTP
+                .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ?
+                        TruecallerSdkScope.SDK_OPTION_WITH_OTP
                         : TruecallerSdkScope.SDK_OPTION_WIHTOUT_OTP)
                 .build();
         TruecallerSDK.init(trueScope);
@@ -255,6 +260,17 @@ public class SignInActivity extends Activity {
             //            ignored
         }
         findViewById(R.id.btnStart).setVisibility(TruecallerSDK.getInstance().isUsable() ? View.VISIBLE : View.GONE);
+    }
+
+    private int resolveAdditionalFooter(final int checkedRadioButtonId) {
+        switch (checkedRadioButtonId) {
+            case R.id.skip:
+                return TruecallerSdkScope.FOOTER_TYPE_SKIP;
+            case R.id.uan:
+                return TruecallerSdkScope.FOOTER_TYPE_CONTINUE;
+            default:
+                return TruecallerSdkScope.FOOTER_TYPE_NONE;
+        }
     }
 
     private int resolveSelectedPosition(final int checkedRadioButtonId) {
