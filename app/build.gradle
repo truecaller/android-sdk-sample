@@ -2,13 +2,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation(name: "truesdk-0.7-releasePartner", ext: "aar")
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttp"
     implementation "com.android.support:appcompat-v7:$rootProject.androidSupportLib"
     implementation "com.android.support:design:$rootProject.androidSupportLib"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
 
     testImplementation "junit:junit:$rootProject.junit"
 }
@@ -33,8 +30,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
