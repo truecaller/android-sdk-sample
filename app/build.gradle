@@ -2,10 +2,16 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 dependencies {
+    implementation(name: "truesdk-0.8-releasePartner", ext: "aar")
     implementation "com.android.support:appcompat-v7:$rootProject.androidSupportLib"
     implementation "com.android.support:design:$rootProject.androidSupportLib"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
+    implementation "com.android.support:support-annotations:$rootProject.androidSupportLib"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttp"
+//    implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
+//    implementation('com.google.android.gms:play-services-auth-api-phone:17.1.0')
 
     testImplementation "junit:junit:$rootProject.junit"
 }

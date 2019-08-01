@@ -85,7 +85,8 @@ public class SignInActivity extends Activity {
         @Override
         public void onSuccessProfileShared(@NonNull final TrueProfile trueProfile) {
             Toast.makeText(SignInActivity.this,
-                    "Verified without " + getViaText() + " ! (Truecaller User): " + trueProfile.firstName,
+                    "Verified without " + getViaText() + " ! (Truecaller User): " + trueProfile.firstName
+                            + " and access token :" + trueProfile.accessToken,
                     Toast.LENGTH_SHORT).show();
             showLayout(LANDING_LAYOUT);
             startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
@@ -227,6 +228,36 @@ public class SignInActivity extends Activity {
                 Manifest.permission.READ_CALL_LOG) == PackageManager
                 .PERMISSION_GRANTED));
         System.out.println("answer call permission " + isAnswerCallPermissionEnabled());
+        //        SmsRetrieverClient client = SmsRetriever.getClient(this /* context */);
+        //
+        //        // Starts SmsRetriever, which waits for ONE matching SMS message until timeout
+        //        // (5 minutes). The matching SMS message will be sent via a Broadcast Intent with
+        //        // action SmsRetriever#SMS_RETRIEVED_ACTION.
+        //        Task<Void> task = client.startSmsRetriever();
+        //
+        //        // Listen for success/failure of the start Task. If in a background thread, this
+        //        // can be made blocking using Tasks.await(task, [timeout]);
+        //        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+        //            @Override
+        //            public void onSuccess(Void aVoid) {
+        //                // Successfully started retriever, expect broadcast intent
+        //                // ...
+        //                //                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_SHORT).show();
+        //                //                Log.d("Test", "success");
+        //                SignInActivity.this.registerReceiver(new MySMSBroadcastReceiver(),
+        //                        new IntentFilter("com.google.android.gms.auth.api.phone.SMS_RETRIEVED"));
+        //            }
+        //        });
+        //
+        //        task.addOnFailureListener(new OnFailureListener() {
+        //            @Override
+        //            public void onFailure(@NonNull Exception e) {
+        //                // Failed to start retriever, inspect Exception for more details
+        //                // ...
+        //                Toast.makeText(SignInActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+        //                Log.d("Test", "Failed");
+        //            }
+        //        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -520,6 +551,34 @@ public class SignInActivity extends Activity {
             ActivityCompat.requestPermissions(SignInActivity.this,
                     new String[]{ Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE },
                     REQUEST_PHONE);
+        }
+    }
+
+    public static class MySMSBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //            if (SmsRetriever.SMS_RETRIEVED_ACTION.equals(intent.getAction())) {
+            //                Bundle extras = intent.getExtras();
+            //                Status status = (Status) extras.get(SmsRetriever.EXTRA_STATUS);
+            //
+            //                switch (status.getStatusCode()) {
+            //                    case CommonStatusCodes.SUCCESS:
+            //                        // Get SMS message contents
+            //                        String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
+            //                        // Extract one-time code from the message and complete verification
+            //                        // by sending the code back to your server.
+            //                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            //                        Log.d("Test", message);
+            //                        break;
+            //                    case CommonStatusCodes.TIMEOUT:
+            //                        // Waiting for SMS timed out (5 minutes)
+            //                        // Handle the error ...
+            //                        Toast.makeText(context, "Timed out", Toast.LENGTH_SHORT).show();
+            //                        Log.d("Test", "Timed out");
+            //                        break;
+            //                }
+            //            }
         }
     }
 }
