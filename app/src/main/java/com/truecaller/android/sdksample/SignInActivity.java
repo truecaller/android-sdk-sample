@@ -24,27 +24,20 @@ package com.truecaller.android.sdksample;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.telephony.SmsMessage;
-import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -60,6 +53,7 @@ import com.truecaller.android.sdk.TrueProfile;
 import com.truecaller.android.sdk.TruecallerSDK;
 import com.truecaller.android.sdk.TruecallerSdkScope;
 import com.truecaller.android.sdk.clients.VerificationCallback;
+import com.truecaller.android.sdk.clients.VerificationDataBundle;
 
 import java.util.Locale;
 
@@ -67,7 +61,6 @@ public class SignInActivity extends Activity {
 
     private static final String TAG           = "SignInActivity";
     private static final int    REQUEST_PHONE = 0;
-    private static final int    REQUEST_SMS   = 1;
 
     //constants for layouts
     private static final int LANDING_LAYOUT  = 1;
@@ -76,10 +69,9 @@ public class SignInActivity extends Activity {
     private static final int FORM_LAYOUT     = 4;
     private static final int SETTINGS_LAYOUT = 5;
 
-    private BroadcastReceiver mTokenReceiver;
-    private RadioGroup        titleSelector;
-    private RadioGroup        additionalFooterSelector;
-    private int               verificationCallbackType;
+    private RadioGroup titleSelector;
+    private RadioGroup additionalFooterSelector;
+    private int        verificationCallbackType;
 
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
@@ -106,34 +98,19 @@ public class SignInActivity extends Activity {
         }
     };
 
-    private final CountDownTimer countDownTimer = new CountDownTimer(240000, 1000) {
-
-        public void onTick(long millisUntilFinished) {
-            ((Button) findViewById(R.id.btnVerify)).setText("Verify (" + millisUntilFinished / 1000 + ")");
-        }
-
-        public void onFinish() {
-            ((Button) findViewById(R.id.btnVerify)).setText("Retry");
-            ((Button) findViewById(R.id.btnVerify)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    showLayout(FORM_LAYOUT);
-                }
-            });
-
-        }
-    };
-
     private final VerificationCallback apiCallback = new VerificationCallback() {
 
         @Override
-        public void onRequestSuccess(final int requestCode, @Nullable String accessToken) {
-            if (requestCode == VerificationCallback.TYPE_MISSED_CALL || requestCode == VerificationCallback.TYPE_OTP) {
+        public void onRequestSuccess(final int requestCode, @Nullable VerificationDataBundle bundle) {
+            if (requestCode == VerificationCallback.TYPE_MISSED_CALL || requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
+            } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
+                fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
             } else {
                 Toast.makeText(SignInActivity.this,
-                        "Success: Verified with" + getViaText() + " with " + accessToken, Toast.LENGTH_SHORT).show();
+                        "Success: Verified with" + getViaText() + " with " + bundle.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
+                        Toast.LENGTH_SHORT).show();
                 showLayout(LANDING_LAYOUT);
                 startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
             }
@@ -150,10 +127,14 @@ public class SignInActivity extends Activity {
         }
     };
 
+    private void fillOtp(final String otp) {
+        edtOtp.setText(otp);
+    }
+
     @NonNull
     private String getViaText() {
         String viaText = "Unknown";
-        if (verificationCallbackType == VerificationCallback.TYPE_OTP) {
+        if (verificationCallbackType == VerificationCallback.TYPE_OTP_INITIATED) {
             viaText = "OTP";
         } else if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL) {
             viaText = "MISSED CALL";
@@ -170,7 +151,8 @@ public class SignInActivity extends Activity {
             final String lastName = ((EditText) findViewById(R.id.edtLastName)).getText().toString();
             final TrueProfile profile = new TrueProfile.Builder(firstName, lastName).build();
 
-            if (!TextUtils.isEmpty(otp) && verificationCallbackType == VerificationCallback.TYPE_OTP) {
+            if (!TextUtils.isEmpty(otp) && verificationCallbackType == VerificationCallback.TYPE_OTP_RECEIVED
+                    || verificationCallbackType == VerificationCallback.TYPE_OTP_INITIATED) {
                 otp = otp.substring(0, 6);
                 showLoader("Verifying profile...", false);
                 TruecallerSDK.getInstance().verifyOtp(profile, otp, apiCallback);
@@ -228,36 +210,6 @@ public class SignInActivity extends Activity {
                 Manifest.permission.READ_CALL_LOG) == PackageManager
                 .PERMISSION_GRANTED));
         System.out.println("answer call permission " + isAnswerCallPermissionEnabled());
-        //        SmsRetrieverClient client = SmsRetriever.getClient(this /* context */);
-        //
-        //        // Starts SmsRetriever, which waits for ONE matching SMS message until timeout
-        //        // (5 minutes). The matching SMS message will be sent via a Broadcast Intent with
-        //        // action SmsRetriever#SMS_RETRIEVED_ACTION.
-        //        Task<Void> task = client.startSmsRetriever();
-        //
-        //        // Listen for success/failure of the start Task. If in a background thread, this
-        //        // can be made blocking using Tasks.await(task, [timeout]);
-        //        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-        //            @Override
-        //            public void onSuccess(Void aVoid) {
-        //                // Successfully started retriever, expect broadcast intent
-        //                // ...
-        //                //                Toast.makeText(SignInActivity.this, "success", Toast.LENGTH_SHORT).show();
-        //                //                Log.d("Test", "success");
-        //                SignInActivity.this.registerReceiver(new MySMSBroadcastReceiver(),
-        //                        new IntentFilter("com.google.android.gms.auth.api.phone.SMS_RETRIEVED"));
-        //            }
-        //        });
-        //
-        //        task.addOnFailureListener(new OnFailureListener() {
-        //            @Override
-        //            public void onFailure(@NonNull Exception e) {
-        //                // Failed to start retriever, inspect Exception for more details
-        //                // ...
-        //                Toast.makeText(SignInActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-        //                Log.d("Test", "Failed");
-        //            }
-        //        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -357,15 +309,12 @@ public class SignInActivity extends Activity {
     private void requestPhonePermission() {
         Log.i(TAG, "PHONE permission has NOT been granted. Requesting permission.");
 
-        // BEGIN_INCLUDE(phone_permission_request)
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)
                 || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALL_LOG)
                 || shouldShowAnswerCallRequestPermissionRationale()) {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
-            Log.i(TAG,
-                    "Displaying camera permission rationale to provide additional context.");
             Snackbar.make(findViewById(R.id.activity_landing), "Give permission to identify device.",
                     Snackbar.LENGTH_INDEFINITE)
                     .setAction("Allow", view -> requestRequiredPhonePermissions())
@@ -374,56 +323,6 @@ public class SignInActivity extends Activity {
             // Phone permission has not been granted yet. Request it directly.
             requestRequiredPhonePermissions();
         }
-        // END_INCLUDE(phone_permission_request)
-    }
-
-    public void checkSMSPermission() {
-        // BEGIN_INCLUDE(sms_permission)
-        // Check if the SMS permission is already available.
-        verificationCallbackType = VerificationCallback.TYPE_OTP;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
-            // SMS permission has not been granted.
-            requestSMSPermission();
-        } else {
-            waitForCode();
-            requestVerification();
-        }
-        // END_INCLUDE(SMS_permission)
-    }
-
-    /**
-     * Requests the SMS permission.
-     * If the permission has been denied previously, a SnackBar will prompt the user to grant the
-     * permission, otherwise it is requested directly.
-     */
-    private void requestSMSPermission() {
-        Log.i(TAG, "SMS permission has NOT been granted. Requesting permission.");
-
-        // BEGIN_INCLUDE(sms_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.READ_SMS)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example if the user has previously denied the permission.
-            Log.i(TAG,
-                    "Displaying SMS permission rationale to provide additional context.");
-            Snackbar.make(findViewById(R.id.activity_landing), "Give permission to identify device.",
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Allow", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat.requestPermissions(SignInActivity.this,
-                                    new String[]{ Manifest.permission.READ_SMS },
-                                    REQUEST_SMS);
-                        }
-                    })
-                    .show();
-        } else {
-            // SMS permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.READ_SMS },
-                    REQUEST_SMS);
-        }
-        // END_INCLUDE(sms_permission_request)
     }
 
     @Override
@@ -432,55 +331,9 @@ public class SignInActivity extends Activity {
         TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data);
     }
 
-    private void waitForCode() {
-        //SmsUtils.register(this);
-        countDownTimer.start();
-        if (mTokenReceiver == null) {
-            mTokenReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(final Context context, final Intent intent) {
-                    if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
-                        SmsMessage message = SmsUtils.getFirstReceivedMessage(intent);
-                        if (message != null) {
-                            final String token = SmsUtils.getVerificationCode(message.getMessageBody());
-                            if (!TextUtils.isEmpty(token)) {
-                                EditText editText = findViewById(R.id.edtOtpCode);
-                                final String finalOtpText = getString(R.string.auto_fill_token, token);
-                                editText.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(finalOtpText
-                                        .length()) });
-                                editText.setText(finalOtpText);
-                            }
-                            countDownTimer.cancel();
-                            ((Button) findViewById(R.id.btnVerify)).setText(R.string.verify);
-                            unregisterReceiver(mTokenReceiver);
-                            mTokenReceiver = null;
-                        }
-                    }
-                }
-            };
-        }
-
-
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-        //        intentFilter.addAction(SmsUtils.ACTION_PROFILE_RESPONSE);
-        registerReceiver(mTokenReceiver, intentFilter);
-    }
-
     public void showLoader(String message, final boolean showSmsVerificationButton) {
         showLayout(LOADER_LAYOUT);
         ((TextView) findViewById(R.id.txtLoader)).setText(message);
-        if (showSmsVerificationButton) {
-            //            todo show sms button if number cant be resolved here
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (mTokenReceiver != null) {
-            unregisterReceiver(mTokenReceiver);
-        }
-        super.onDestroy();
     }
 
     @Override
@@ -524,10 +377,12 @@ public class SignInActivity extends Activity {
             //                if any of the phone permissions are not given, we would fallback to otp flow
             //                it would be a better place to request sms permission to auto-fill otp
             else {
-                checkSMSPermission();
+                verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
+                requestVerification();
             }
-        } else if (requestCode == REQUEST_SMS) {
+        } else {
             //            this will start sms verification
+            verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
             requestVerification();
         }
     }
@@ -551,34 +406,6 @@ public class SignInActivity extends Activity {
             ActivityCompat.requestPermissions(SignInActivity.this,
                     new String[]{ Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE },
                     REQUEST_PHONE);
-        }
-    }
-
-    public static class MySMSBroadcastReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //            if (SmsRetriever.SMS_RETRIEVED_ACTION.equals(intent.getAction())) {
-            //                Bundle extras = intent.getExtras();
-            //                Status status = (Status) extras.get(SmsRetriever.EXTRA_STATUS);
-            //
-            //                switch (status.getStatusCode()) {
-            //                    case CommonStatusCodes.SUCCESS:
-            //                        // Get SMS message contents
-            //                        String message = (String) extras.get(SmsRetriever.EXTRA_SMS_MESSAGE);
-            //                        // Extract one-time code from the message and complete verification
-            //                        // by sending the code back to your server.
-            //                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            //                        Log.d("Test", message);
-            //                        break;
-            //                    case CommonStatusCodes.TIMEOUT:
-            //                        // Waiting for SMS timed out (5 minutes)
-            //                        // Handle the error ...
-            //                        Toast.makeText(context, "Timed out", Toast.LENGTH_SHORT).show();
-            //                        Log.d("Test", "Timed out");
-            //                        break;
-            //                }
-            //            }
         }
     }
 }
