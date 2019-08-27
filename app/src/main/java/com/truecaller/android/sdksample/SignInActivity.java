@@ -102,7 +102,9 @@ public class SignInActivity extends Activity {
 
         @Override
         public void onRequestSuccess(final int requestCode, @Nullable VerificationDataBundle bundle) {
-            if (requestCode == VerificationCallback.TYPE_MISSED_CALL || requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
+            if (requestCode == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+                showLoader("Waiting for call", false);
+            } else if (requestCode == VerificationCallback.TYPE_MISSED_CALL_RECEIVED || requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
             } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
@@ -136,7 +138,7 @@ public class SignInActivity extends Activity {
         String viaText = "Unknown";
         if (verificationCallbackType == VerificationCallback.TYPE_OTP_INITIATED) {
             viaText = "OTP";
-        } else if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL) {
+        } else if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
             viaText = "MISSED CALL";
         }
         return viaText;
@@ -285,7 +287,7 @@ public class SignInActivity extends Activity {
         final String phone = mPhoneField.getText().toString().trim();
         if (!TextUtils.isEmpty(phone)) {
             showLoader("Trying " + getViaText() + "...",
-                    verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL);
+                    verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED);
             TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback);
         }
     }
@@ -296,7 +298,7 @@ public class SignInActivity extends Activity {
                 || !isAnswerCallPermissionEnabled()) {
             requestPhonePermission();
         } else {
-            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL;
+            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
             requestVerification();
         }
     }
@@ -371,7 +373,7 @@ public class SignInActivity extends Activity {
             }
             if (isPhonePermissionsGiven) {
                 //               this will start missed-call verification
-                verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL;
+                verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
                 requestVerification();
             }
             //                if any of the phone permissions are not given, we would fallback to otp flow
