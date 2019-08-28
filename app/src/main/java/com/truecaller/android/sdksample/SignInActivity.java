@@ -77,8 +77,7 @@ public class SignInActivity extends Activity {
         @Override
         public void onSuccessProfileShared(@NonNull final TrueProfile trueProfile) {
             Toast.makeText(SignInActivity.this,
-                    "Verified without " + getViaText() + " ! (Truecaller User): " + trueProfile.firstName
-                            + " and access token :" + trueProfile.accessToken,
+                    "Verified Truecaller User: " + trueProfile.firstName,
                     Toast.LENGTH_SHORT).show();
             showLayout(LANDING_LAYOUT);
             startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
@@ -109,6 +108,13 @@ public class SignInActivity extends Activity {
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
             } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
                 fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
+            } else if (requestCode == VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE) {
+                Toast.makeText(SignInActivity.this,
+                        "Profile verified for your app before: " + bundle.getProfile().firstName
+                                + " and access token: " + bundle.getProfile().accessToken,
+                        Toast.LENGTH_SHORT).show();
+                showLayout(LANDING_LAYOUT);
+                startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
             } else {
                 Toast.makeText(SignInActivity.this,
                         "Success: Verified with" + getViaText() + " with " + bundle.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
