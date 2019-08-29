@@ -61,7 +61,7 @@ ext.jsr305 = "1.3.9"
 ext.constraintLayout = '1.0.2'
 
 // Truecaller SDK
-ext.truecallerSdk = "0.8"
+ext.truecallerSdk = "1.0"
 
 // Square libs
 ext.retrofit = "2.1.0"
