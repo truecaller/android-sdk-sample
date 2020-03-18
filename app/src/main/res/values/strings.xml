@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-True SDK Copyright notice and License
-
-Copyright(c)2015-present,True Software Scandinavia AB.All rights reserved.
-
-In accordance with the separate agreement executed between You and True Software Scandinavia AB You are granted a limited,non-exclusive,
-non-sublicensable,non-transferrable,royalty-free,license to use the True SDK Product in object code form only,solely for the purpose of using the
-True SDK Product with the applications and API’s provided by True Software Scandinavia AB.
-
-HE TRUE SDK PRODUCT IS PROVIDED WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE,SOFTWARE QUALITY,PERFORMANCE,DATA ACCURACY AND NON-INFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-BE LIABLE FOR ANY CLAIM,DAMAGES OR OTHER LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE,ARISING FROM,OUT OF OR IN CONNECTION WITH THE
-TRUE SDK PRODUCT OR THE USE OR OTHER DEALINGS IN THE TRUE SDK PRODUCT.AS A RESULT,THE TRUE SDK PRODUCT IS PROVIDED"AS IS"AND BY INTEGRATING THE TRUE
-SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
+<?xml version="1.0" encoding="utf-8"?><!--
+ * Truecaller SDK Copyright notice and License
+ * <p/>
+ * Copyright(c)2015-present,True Software Scandinavia AB.All rights reserved.
+ * <p/>
+ * In accordance with the separate agreement executed between You and Your respective Truecaller entity, You are granted a limited,non-exclusive,
+ * non-sublicensable,non-transferrable,royalty-free,license to use the Truecaller SDK Product in object code form only,solely for the purpose of using the
+ * Truecaller SDK Product with the applications and API’s provided by Truecaller.
+ * <p/>
+ * THE TRUECALLER SDK PRODUCT IS PROVIDED WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE,SOFTWARE QUALITY,PERFORMANCE,DATA ACCURACY AND NON-INFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM,DAMAGES OR OTHER LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE,ARISING FROM,OUT OF OR IN CONNECTION WITH THE
+ * TRUECALLER SDK PRODUCT OR THE USE OR OTHER DEALINGS IN THE TRUE SDK PRODUCT.AS A RESULT,THE TRUECALLER SDK PRODUCT IS PROVIDED”AS IS”AND BY INTEGRATING
+ * THE TRUECALLER
+ * SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE
 -->
 <resources>
     <string name="app_name">SDK Sample</string>
@@ -63,4 +63,63 @@ SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
     <string name="show_skip_footer">Show Skip Footer</string>
     <string name="with_otp">With Otp</string>
     <string name="let_s_go">Let\'s Go!!</string>
+    <string name="show_bottomsheet">Show BottomSheet</string>
+    <string name="shape">Rectangular Button</string>
+    <string-array name="SdkPartnerLoginPrefixOptionsArray">
+        <item>To get started</item>
+        <item>To continue</item>
+        <item>To place order</item>
+        <item>To complete your purchase</item>
+        <item>To checkout</item>
+        <item>To complete your booking</item>
+        <item>To proceed with your booking</item>
+        <item>To continue with your booking</item>
+        <item>To get details</item>
+        <item>To view more</item>
+        <item>To continue reading</item>
+        <item>To proceed</item>
+        <item>For new updates</item>
+        <item>To get updates</item>
+        <item>To subscribe</item>
+        <item>To subscribe &amp; get updates</item>
+    </string-array>
+    <string-array name="SdkPartnerLoginSuffixOptionsArray">
+        <item>please verify mobile number</item>
+        <item>please login</item>
+        <item>please signup</item>
+        <item>please login/signup</item>
+        <item>please register</item>
+        <item>please sign in</item>
+    </string-array>
+    <string-array name="SdkPartnerCTAPrefixOptionsArray">
+        <item>Use %s</item>
+        <item>Continue with %s</item>
+        <item>Proceed with %s</item>
+    </string-array>
+    <string-array name="SdkPartnerSampleColors">
+        <item>#5D4037</item>
+        <item>white</item>
+        <item>red</item>
+        <item>blue</item>
+        <item>green</item>
+        <item>black</item>
+        <item>gray</item>
+        <item>cyan</item>
+        <item>magenta</item>
+        <item>yellow</item>
+        <item>lightgray</item>
+        <item>darkgray</item>
+        <item>grey</item>
+        <item>lightgrey</item>
+        <item>darkgrey</item>
+        <item>aqua</item>
+        <item>fuchsia</item>
+        <item>lime</item>
+        <item>maroon</item>
+        <item>navy</item>
+        <item>olive</item>
+        <item>purple</item>
+        <item>silver</item>
+        <item>teal</item>
+    </string-array>
 </resources>

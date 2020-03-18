@@ -1,50 +1,44 @@
 /**
- * True SDK Copyright notice and License
+ * Truecaller SDK Copyright notice and License
  * <p/>
  * Copyright(c)2015-present,True Software Scandinavia AB.All rights reserved.
  * <p/>
- * In accordance with the separate agreement executed between You and True Software Scandinavia AB You are granted a
- * limited,non-exclusive,
- * non-sublicensable,non-transferrable,royalty-free,license to use the True SDK Product in object code form only,
- * solely for the purpose of using the
- * True SDK Product with the applications and API’s provided by True Software Scandinavia AB.
+ * In accordance with the separate agreement executed between You and Your respective Truecaller entity, You are granted a limited,non-exclusive,
+ * non-sublicensable,non-transferrable,royalty-free,license to use the Truecaller SDK Product in object code form only,solely for the purpose of using the
+ * Truecaller SDK Product with the applications and API’s provided by Truecaller.
  * <p/>
- * THE TRUE SDK PRODUCT IS PROVIDED WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO THE
- * WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE,SOFTWARE QUALITY,PERFORMANCE,DATA ACCURACY AND NON-INFRINGEMENT.IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM,DAMAGES OR OTHER LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE,ARISING
- * FROM,OUT OF OR IN CONNECTION WITH THE
- * TRUE SDK PRODUCT OR THE USE OR OTHER DEALINGS IN THE TRUE SDK PRODUCT.AS A RESULT,THE TRUE SDK PRODUCT IS
- * PROVIDED"AS IS"AND BY INTEGRATING THE TRUE
- * SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
+ * THE TRUECALLER SDK PRODUCT IS PROVIDED WITHOUT WARRANTY OF ANY KIND,EXPRESS OR IMPLIED,INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE,SOFTWARE QUALITY,PERFORMANCE,DATA ACCURACY AND NON-INFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM,DAMAGES OR OTHER LIABILITY,WHETHER IN AN ACTION OF CONTRACT,TORT OR OTHERWISE,ARISING FROM,OUT OF OR IN CONNECTION WITH THE
+ * TRUECALLER SDK PRODUCT OR THE USE OR OTHER DEALINGS IN THE TRUE SDK PRODUCT.AS A RESULT,THE TRUECALLER SDK PRODUCT IS PROVIDED”AS IS”AND BY INTEGRATING
+ * THE TRUECALLER
+ * SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE
  **/
+
 package com.truecaller.android.sdksample;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.truecaller.android.sdk.ITrueCallback;
 import com.truecaller.android.sdk.TrueButton;
 import com.truecaller.android.sdk.TrueError;
@@ -57,7 +51,13 @@ import com.truecaller.android.sdk.clients.VerificationDataBundle;
 
 import java.util.Locale;
 
-public class SignInActivity extends Activity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+public class SignInActivity extends AppCompatActivity {
 
     private static final String TAG           = "SignInActivity";
     private static final int    REQUEST_PHONE = 0;
@@ -72,6 +72,8 @@ public class SignInActivity extends Activity {
     private RadioGroup titleSelector;
     private RadioGroup additionalFooterSelector;
     private int        verificationCallbackType;
+    private Spinner    ctaPrefixSpinner, prefixSpinner, suffixSpinner;
+    private Spinner colorSpinner, colorTextSpinner;
 
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
@@ -92,6 +94,9 @@ public class SignInActivity extends Activity {
 
         @Override
         public void onVerificationRequired() {
+            Toast.makeText(SignInActivity.this,
+                    "Verification Required",
+                    Toast.LENGTH_SHORT).show();
             showLayout(FORM_LAYOUT);
             findViewById(R.id.btnProceed).setOnClickListener(proceedClickListener);
         }
@@ -102,11 +107,28 @@ public class SignInActivity extends Activity {
         @Override
         public void onRequestSuccess(final int requestCode, @Nullable VerificationDataBundle bundle) {
             if (requestCode == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+                Toast.makeText(SignInActivity.this,
+                        "Missed call initiated",
+                        Toast.LENGTH_SHORT).show();
+                verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
                 showLoader("Waiting for call", false);
-            } else if (requestCode == VerificationCallback.TYPE_MISSED_CALL_RECEIVED || requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
+            } else if (requestCode == VerificationCallback.TYPE_MISSED_CALL_RECEIVED) {
+                Toast.makeText(SignInActivity.this,
+                        "Missed call received",
+                        Toast.LENGTH_SHORT).show();
+                showLayout(PROFILE_LAYOUT);
+                findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
+            } else if (requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
+                Toast.makeText(SignInActivity.this,
+                        "OTP initiated",
+                        Toast.LENGTH_SHORT).show();
+                verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
             } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
+                Toast.makeText(SignInActivity.this,
+                        "OTP received",
+                        Toast.LENGTH_SHORT).show();
                 fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
             } else if (requestCode == VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE) {
                 Toast.makeText(SignInActivity.this,
@@ -128,7 +150,7 @@ public class SignInActivity extends Activity {
         public void onRequestFailure(final int requestCode, @NonNull final TrueException e) {
             Toast.makeText(
                     SignInActivity.this,
-                    "OnFailureApiCallback: " + e.getExceptionMessage(),
+                    "OnFailureApiCallback: " + e.getExceptionType() + "\n" + e.getExceptionMessage(),
                     Toast.LENGTH_SHORT)
                     .show();
             showLayout(FORM_LAYOUT);
@@ -159,9 +181,10 @@ public class SignInActivity extends Activity {
             final String lastName = ((EditText) findViewById(R.id.edtLastName)).getText().toString();
             final TrueProfile profile = new TrueProfile.Builder(firstName, lastName).build();
 
-            if (!TextUtils.isEmpty(otp) && verificationCallbackType == VerificationCallback.TYPE_OTP_RECEIVED
-                    || verificationCallbackType == VerificationCallback.TYPE_OTP_INITIATED) {
-                otp = otp.substring(0, 6);
+            if (verificationCallbackType == VerificationCallback.TYPE_OTP_INITIATED) {
+                if (TextUtils.isEmpty(otp)) {
+                    return;
+                }
                 showLoader("Verifying profile...", false);
                 TruecallerSDK.getInstance().verifyOtp(profile, otp, apiCallback);
             } else {
@@ -210,6 +233,14 @@ public class SignInActivity extends Activity {
         titleSelector = findViewById(R.id.sdkTitleOptions);
         additionalFooterSelector = findViewById(R.id.additionalFooters);
 
+        colorSpinner = findViewById(R.id.color_spinner);
+        colorTextSpinner = findViewById(R.id.color_text_spinner);
+        ctaPrefixSpinner = findViewById(R.id.cta_prefix_spinner);
+        prefixSpinner = findViewById(R.id.prefix_spinner);
+        suffixSpinner = findViewById(R.id.suffix_spinner);
+
+        setSpinnerAdapters();
+
         initTruecallerSDK();
         System.out.println("phone permission " + (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.READ_PHONE_STATE) == PackageManager
@@ -220,12 +251,64 @@ public class SignInActivity extends Activity {
         System.out.println("answer call permission " + isAnswerCallPermissionEnabled());
     }
 
+    private void setSpinnerAdapters() {
+        ArrayAdapter<CharSequence> adapterP =
+                ArrayAdapter.createFromResource(this,
+                        R.array.SdkPartnerLoginPrefixOptionsArray,
+                        android.R.layout.simple_spinner_item);
+        adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        prefixSpinner.setAdapter(adapterP);
+
+        ArrayAdapter<CharSequence> adapterS =
+                ArrayAdapter.createFromResource(this,
+                        R.array.SdkPartnerLoginSuffixOptionsArray,
+                        android.R.layout.simple_spinner_item);
+        adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        suffixSpinner.setAdapter(adapterS);
+
+        ArrayAdapter<CharSequence> adapterCP =
+                ArrayAdapter.createFromResource(this,
+                        R.array.SdkPartnerCTAPrefixOptionsArray,
+                        android.R.layout.simple_spinner_item);
+        adapterCP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ctaPrefixSpinner.setAdapter(adapterCP);
+
+        ArrayAdapter<CharSequence> adapterColor =
+                ArrayAdapter.createFromResource(this,
+                        R.array.SdkPartnerSampleColors,
+                        android.R.layout.simple_spinner_item);
+        adapterColor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        colorSpinner.setAdapter(adapterColor);
+        colorTextSpinner.setAdapter(adapterColor);
+
+        prefixSpinner.setSelection(0);
+        suffixSpinner.setSelection(0);
+        ctaPrefixSpinner.setSelection(0);
+        colorSpinner.setSelection(0);
+        colorTextSpinner.setSelection(1);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initTruecallerSDK() {
+        EditText editTextTnC = findViewById(R.id.editTextTnC);
+        EditText editTextPp = findViewById(R.id.editTextPp);
+
         TruecallerSdkScope trueScope = new TruecallerSdkScope.Builder(this, sdkCallback)
                 .consentMode(((Switch) findViewById(R.id.fullscreen)).isChecked() ?
                         TruecallerSdkScope.CONSENT_MODE_FULLSCREEN
-                        : TruecallerSdkScope.CONSENT_MODE_POPUP)
+                        : (((Switch) findViewById(R.id.bottomsheet)).isChecked() ?
+                        TruecallerSdkScope.CONSENT_MODE_BOTTOMSHEET
+                        : TruecallerSdkScope.CONSENT_MODE_POPUP))
+                .buttonColor(Color.parseColor(colorSpinner.getSelectedItem().toString())) //default TC blue
+                .buttonTextColor(Color.parseColor(colorTextSpinner.getSelectedItem().toString())) //default white
+                .loginTextPrefix(prefixSpinner.getSelectedItemPosition()) //default 0
+                .loginTextSuffix(suffixSpinner.getSelectedItemPosition()) //default 0
+                .ctaTextPrefix(ctaPrefixSpinner.getSelectedItemPosition()) //default 0
+                .buttonShapeOptions(((Switch) findViewById(R.id.shapeOptions)).isChecked() ?
+                        TruecallerSdkScope.BUTTON_SHAPE_RECTANGLE
+                        : TruecallerSdkScope.BUTTON_SHAPE_ROUNDED) //default ROUNDED
+                .privacyPolicyUrl(editTextPp.getText().toString()) //default NULL
+                .termsOfServiceUrl(editTextTnC.getText().toString()) //default NULL
                 .footerType(additionalFooterSelector.getCheckedRadioButtonId() == ListView.INVALID_POSITION
                         ? TruecallerSdkScope.FOOTER_TYPE_NONE
                         : resolveAdditionalFooter(additionalFooterSelector.getCheckedRadioButtonId()))
@@ -234,7 +317,7 @@ public class SignInActivity extends Activity {
                         : resolveSelectedPosition(titleSelector.getCheckedRadioButtonId()))
                 .sdkOptions(((Switch) findViewById(R.id.sdkOptions)).isChecked() ?
                         TruecallerSdkScope.SDK_OPTION_WITH_OTP
-                        : TruecallerSdkScope.SDK_OPTION_WIHTOUT_OTP)
+                        : TruecallerSdkScope.SDK_OPTION_WITHOUT_OTP)
                 .build();
         TruecallerSDK.init(trueScope);
 
@@ -259,6 +342,12 @@ public class SignInActivity extends Activity {
                 return TruecallerSdkScope.FOOTER_TYPE_SKIP;
             case R.id.uan:
                 return TruecallerSdkScope.FOOTER_TYPE_CONTINUE;
+            case R.id.uam:
+                return TruecallerSdkScope.FOOTER_TYPE_ANOTHER_METHOD;
+            case R.id.edm:
+                return TruecallerSdkScope.FOOTER_TYPE_MANUALLY;
+            case R.id.idl:
+                return TruecallerSdkScope.FOOTER_TYPE_LATER;
             default:
                 return TruecallerSdkScope.FOOTER_TYPE_NONE;
         }
@@ -294,19 +383,20 @@ public class SignInActivity extends Activity {
         if (!TextUtils.isEmpty(phone)) {
             showLoader("Trying " + getViaText() + "...",
                     verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED);
-            TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback);
+            TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback, this);
         }
     }
 
     public void checkPhonePermission() {
-        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        //commented the logic for asking permission because that became a part of SDK 2.0 itself
+        /*if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED
                 || !isAnswerCallPermissionEnabled()) {
             requestPhonePermission();
-        } else {
-            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
-            requestVerification();
-        }
+        } else {*/
+        //            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
+        requestVerification();
+        //        }
     }
 
     /**
@@ -369,7 +459,8 @@ public class SignInActivity extends Activity {
     public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions,
                                            @NonNull final int[] grantResults) {
         //       we continue whether we get required phone permissions or not
-        if (requestCode == REQUEST_PHONE) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        /*if (requestCode == REQUEST_PHONE) {
             boolean isPhonePermissionsGiven = true;
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
@@ -392,7 +483,7 @@ public class SignInActivity extends Activity {
             //            this will start sms verification
             verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
             requestVerification();
-        }
+        }*/
     }
 
     private boolean isAnswerCallPermissionEnabled() {
