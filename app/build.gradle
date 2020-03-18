@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$rootProject.androidSupportLib"
-    implementation "com.android.support:design:$rootProject.androidSupportLib"
+    implementation "androidx.appcompat:appcompat:$rootProject.xappcompat"
+    implementation "com.google.android.material:material:$rootProject.xmaterial"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
 
