@@ -49,6 +49,8 @@ import com.truecaller.android.sdk.TruecallerSdkScope;
 import com.truecaller.android.sdk.clients.VerificationCallback;
 import com.truecaller.android.sdk.clients.VerificationDataBundle;
 
+import org.shadow.apache.commons.lang3.StringUtils;
+
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -323,16 +325,15 @@ public class SignInActivity extends AppCompatActivity {
 
 
         EditText localeEt = findViewById(R.id.localeEt);
-        String locale = "en";
+        String locale = null;
         if (!TextUtils.isEmpty(localeEt.getText())) {
             locale = localeEt.getText().toString();
         }
 
-        try {
+        if (!StringUtils.isEmpty(locale)) {
             TruecallerSDK.getInstance().setLocale(new Locale(locale));
-        } catch (Exception e) {
-            //            ignored
         }
+
         findViewById(R.id.btnStart).setVisibility(TruecallerSDK.getInstance().isUsable() ? View.VISIBLE : View.GONE);
     }
 
