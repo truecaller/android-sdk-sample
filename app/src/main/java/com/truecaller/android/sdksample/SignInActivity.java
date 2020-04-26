@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.truecaller.android.sdk.ITrueCallback;
+import com.truecaller.android.sdk.SdkThemeOptions;
 import com.truecaller.android.sdk.TrueButton;
 import com.truecaller.android.sdk.TrueError;
 import com.truecaller.android.sdk.TrueException;
@@ -322,8 +323,9 @@ public class SignInActivity extends AppCompatActivity {
                         : TruecallerSdkScope.SDK_OPTION_WITHOUT_OTP)
                 .build();
         TruecallerSDK.init(trueScope);
-
-
+        TruecallerSDK.getInstance().setTheme(((Switch) findViewById(R.id.themeOptions)).isChecked() ?
+                SdkThemeOptions.DARK
+                : SdkThemeOptions.LIGHT);
         EditText localeEt = findViewById(R.id.localeEt);
         String locale = null;
         if (!TextUtils.isEmpty(localeEt.getText())) {
