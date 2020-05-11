@@ -323,9 +323,11 @@ public class SignInActivity extends AppCompatActivity {
                         : TruecallerSdkScope.SDK_OPTION_WITHOUT_OTP)
                 .build();
         TruecallerSDK.init(trueScope);
-        TruecallerSDK.getInstance().setTheme(((Switch) findViewById(R.id.themeOptions)).isChecked() ?
-                SdkThemeOptions.DARK
-                : SdkThemeOptions.LIGHT);
+        if (TruecallerSDK.getInstance().isUsable()) {
+            TruecallerSDK.getInstance().setTheme(((Switch) findViewById(R.id.themeOptions)).isChecked() ?
+                    SdkThemeOptions.DARK
+                    : SdkThemeOptions.LIGHT);
+        }
         EditText localeEt = findViewById(R.id.localeEt);
         String locale = null;
         if (!TextUtils.isEmpty(localeEt.getText())) {
