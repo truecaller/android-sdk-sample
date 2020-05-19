@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context="com.truecaller.android.sdksample.FlowSelectionFragment">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/flow1"
+        style="@style/ButtonStyle"
+        android:background="@android:color/holo_orange_dark"
+        android:text="Flow 1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/flow2"
+        style="@style/ButtonStyle"
+        android:background="@android:color/holo_green_dark"
+        android:text="Flow 2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/flow3"
+        style="@style/ButtonStyle"
+        android:background="@android:color/holo_blue_dark"
+        android:text="Flow 3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/flow4"
+        style="@style/ButtonStyle"
+        android:background="@android:color/holo_purple"
+        android:text="Flow 4" />
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.xappcompat"
@@ -16,6 +17,8 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "com.google.android.gms:play-services-auth-api-phone:12.0.1"*/
 
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation "junit:junit:$rootProject.junit"
 }
 

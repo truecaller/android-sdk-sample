@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgColor">
+
+    <LinearLayout
+        android:id="@+id/phone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/dp32"
+        android:paddingLeft="@dimen/dp32"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/phone_number"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/sp16" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:text="@string/country_code_in"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/sp32" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_phone_num"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:paddingTop="16dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent50"
+                android:textSize="@dimen/sp32" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnProceed"
+        style="@style/com_truecaller_truebutton_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/phone_layout"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/btn_background"
+        android:text="@string/proceed"
+        android:textColor="@color/colorPrimary" />
+
+    <ImageView
+        android:id="@+id/close_layout"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_sdk_close"
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>
