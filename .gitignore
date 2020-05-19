@@ -2,6 +2,6 @@
 /.idea/*
 build/
 dark/
-/*.properties
+/local.properties
 *.iml
 *.DS_Store
