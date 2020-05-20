@@ -37,7 +37,7 @@
                 android:textSize="@dimen/sp32" />
 
             <EditText
-                android:id="@+id/edtPhone"
+                android:id="@+id/editPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -64,14 +64,13 @@
         android:text="@string/proceed"
         android:textColor="@color/colorPrimary" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/close_layout"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="end"
-        android:onClick="onClickCloseDialog"
         android:src="@drawable/ic_sdk_close"
         tools:ignore="ContentDescription" />
 

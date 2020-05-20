@@ -9,4 +9,6 @@ interface FragmentListener {
     fun setScope(scope: Scope)
     fun loadFlowSelectionFragment()
     fun onVerificationRequired()
+    fun closeFlow()
+    fun initVerification(phoneNumber: String)
 }

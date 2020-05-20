@@ -3,7 +3,7 @@ package com.truecaller.android.sdksample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TruecallerSDK
@@ -74,9 +74,15 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener {
         }
     }
 
-    fun onClickCloseDialog(view: View) {
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        (fragment as Flow1Fragment).dismissDialog()
+    override fun closeFlow() {
         supportFragmentManager.popBackStack()
+    }
+
+    override fun initVerification(phoneNumber: String) {
+        if (phoneNumber.isBlank() || phoneNumber.length != 10) {
+            Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Yo!", Toast.LENGTH_SHORT).show()
+        }
     }
 }
