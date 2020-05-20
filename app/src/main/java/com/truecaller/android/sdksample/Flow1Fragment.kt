@@ -31,4 +31,8 @@ class Flow1Fragment : BaseFragment() {
             fragmentListener.initVerification(phoneNumber)
         }
     }
+
+    fun showDialogProgress(inProgress : Boolean) {
+        customDialog.showInputNumberView(inProgress)
+    }
 }

@@ -78,11 +78,18 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener {
         supportFragmentManager.popBackStack()
     }
 
+    private fun getCurrentFragment(): Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
     override fun initVerification(phoneNumber: String) {
         if (phoneNumber.isBlank() || phoneNumber.length != 10) {
             Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Yo!", Toast.LENGTH_SHORT).show()
+            getCurrentFragment()?.let {
+                if (it is Flow1Fragment) {
+                    it.showDialogProgress(true)
+                }
+            }
         }
     }
 }
