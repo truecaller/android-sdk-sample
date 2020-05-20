@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 
 class Flow1Fragment : Fragment() {
 
+    private lateinit var customDialog: CustomDialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -17,6 +19,10 @@ class Flow1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CustomDialog(requireContext())
+        customDialog = CustomDialog(requireContext())
+    }
+
+    fun dismissDialog() {
+        customDialog.dismiss()
     }
 }

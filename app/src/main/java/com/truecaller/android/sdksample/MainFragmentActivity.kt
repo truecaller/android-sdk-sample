@@ -3,6 +3,7 @@ package com.truecaller.android.sdksample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TruecallerSDK
@@ -14,9 +15,10 @@ const val FLOW1 = 1
 const val FLOW2 = 2
 const val FLOW3 = 3
 const val FLOW4 = 4
+
 class MainFragmentActivity : AppCompatActivity(), FragmentListener {
 
-    private var flowType : Int = 0
+    private var flowType: Int = 0
     private lateinit var scope: Scope
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,5 +72,11 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener {
         if (!StringUtils.isEmpty(scope.locale)) {
             TruecallerSDK.getInstance().setLocale(Locale(scope.locale))
         }
+    }
+
+    fun onClickCloseDialog(view: View) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        (fragment as Flow1Fragment).dismissDialog()
+        supportFragmentManager.popBackStack()
     }
 }
