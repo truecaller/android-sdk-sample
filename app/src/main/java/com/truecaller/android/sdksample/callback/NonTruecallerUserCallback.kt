@@ -46,7 +46,6 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.verifiedBefore()
-                //startActivity(Intent(callbackListener.getContext(), SignedInActivity::class.java))
             }
             else -> {
                 Toast.makeText(
@@ -55,7 +54,6 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.verificationComplete()
-                //startActivity(Intent(callbackListener.getContext(), SignedInActivity::class.java))
             }
         }
     }

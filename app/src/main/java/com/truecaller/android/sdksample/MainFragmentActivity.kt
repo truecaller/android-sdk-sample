@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdk.TruecallerSDK
+import com.truecaller.android.sdk.clients.VerificationCallback
 import com.truecaller.android.sdksample.callback.CallbackListener
 import com.truecaller.android.sdksample.callback.FragmentListener
 import com.truecaller.android.sdksample.callback.NonTruecallerUserCallback
@@ -23,6 +25,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     private var flowType: Int = 0
     private lateinit var scope: Scope
     private var nonTruecallerUserCallback = NonTruecallerUserCallback(this)
+    private var verificationCallbackType = 0
+    private var otp: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,39 +91,88 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         if (phoneNumber.isBlank() || phoneNumber.length != 10) {
             Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Yo!", Toast.LENGTH_SHORT).show()
             getCurrentFragment()?.let {
                 when (it) {
                     is Flow1Fragment -> {
                         TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
-                        it.showDialogProgress(true)
+                        it.showInputNumberView(true)
                     }
                 }
             }
         }
     }
 
+    override fun validateOtp(otp: String) {
+        if (otp.isBlank() || otp.length != 6) {
+            Toast.makeText(this, "Please enter a valid otp", Toast.LENGTH_SHORT).show()
+        } else {
+            this.otp = otp
+            getCurrentFragment()?.let {
+                when (it) {
+                    is Flow1Fragment -> {
+                        it.showInputNameView(false)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun verifyUser(trueProfile: TrueProfile) {
+        when (verificationCallbackType) {
+            VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> TruecallerSDK.getInstance().verifyMissedCall(trueProfile, nonTruecallerUserCallback)
+            VerificationCallback.TYPE_OTP_RECEIVED ->
+                otp?.let {
+                    TruecallerSDK.getInstance().verifyOtp(trueProfile, it, nonTruecallerUserCallback)
+                }
+        }
+    }
+
     override fun receivedMissedCall() {
+        verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showDialogProgress(false)
+                is Flow1Fragment -> {
+                    it.showInputNameView(false)
+                }
             }
         }
     }
 
     override fun receivedOtp(otp: String?) {
+        verificationCallbackType = VerificationCallback.TYPE_OTP_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showDialogProgress(false)
+                is Flow1Fragment -> it.showInputOtpView(false)
             }
         }
     }
 
     override fun verifiedBefore() {
-
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> {
+                    it.closeDialog()
+                }
+            }
+        }
+        resetValues()
+        startActivity(Intent(this, SignedInActivity::class.java))
     }
 
     override fun verificationComplete() {
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> {
+                    it.closeDialog()
+                }
+            }
+        }
+        resetValues()
+        startActivity(Intent(this, SignedInActivity::class.java))
+    }
 
+    private fun resetValues() {
+        verificationCallbackType = 0
+        otp = ""
     }
 }

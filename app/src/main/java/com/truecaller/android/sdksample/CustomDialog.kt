@@ -13,6 +13,9 @@ import android.widget.ProgressBar
 
 class CustomDialog(context: Context) : Dialog(context) {
 
+    var proceedButton: Button
+    private var progressBar: ProgressBar
+
     init {
         window?.requestFeature(Window.FEATURE_NO_TITLE)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -20,21 +23,41 @@ class CustomDialog(context: Context) : Dialog(context) {
         val displayMetrics = DisplayMetrics()
         window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         window?.setLayout(displayMetrics.widthPixels * 3 / 4, displayMetrics.heightPixels * 3 / 4)
+        progressBar = findViewById(R.id.progress_bar)
+        proceedButton = findViewById(R.id.btnProceed)
+        proceedButton.tag = PHONE_LAYOUT
         show()
     }
 
     fun showInputNumberView(inProgress : Boolean) {
-        findViewById<ProgressBar>(R.id.progress_bar).visibility = if (inProgress) View.VISIBLE else View.GONE
+        progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         findViewById<LinearLayout>(R.id.phone_layout).visibility = if (inProgress) View.GONE else View.VISIBLE
-        findViewById<Button>(R.id.btnProceed).visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.tag = PHONE_LAYOUT
+
+        findViewById<LinearLayout>(R.id.name_layout).visibility = View.GONE
+        findViewById<LinearLayout>(R.id.otp_layout).visibility = View.GONE
     }
 
-    /*fun showDialogView() {
-       val constraintLayout = findViewById<ConstraintLayout>(R.id.constraint_layout)
-       val constrainSet = ConstraintSet()
-       constrainSet.clone(constraintLayout)
-       constrainSet.setDimensionRatio(constraintLayout.getChildAt(0).id, "2:3")
-       constrainSet.applyTo(constraintLayout)
-       show()
-   }*/
+    fun showInputNameView(inProgress : Boolean) {
+        progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
+        findViewById<LinearLayout>(R.id.name_layout).visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.tag = NAME_LAYOUT
+
+        findViewById<LinearLayout>(R.id.phone_layout).visibility = View.GONE
+        findViewById<LinearLayout>(R.id.otp_layout).visibility = View.GONE
+    }
+
+    fun showInputOtpView(inProgress : Boolean) {
+        progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
+        findViewById<LinearLayout>(R.id.otp_layout).visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
+        proceedButton.tag = OTP_LAYOUT
+
+        findViewById<LinearLayout>(R.id.name_layout).visibility = View.GONE
+        findViewById<LinearLayout>(R.id.phone_layout).visibility = View.GONE
+    }
+
+
 }

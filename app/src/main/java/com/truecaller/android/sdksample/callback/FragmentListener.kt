@@ -1,5 +1,6 @@
 package com.truecaller.android.sdksample.callback
 
+import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdksample.Scope
 
 interface FragmentListener : BaseListener {
@@ -9,4 +10,6 @@ interface FragmentListener : BaseListener {
     fun onVerificationRequired()
     fun closeFlow()
     fun initVerification(phoneNumber: String)
+    fun validateOtp(otp: String)
+    fun verifyUser(trueProfile: TrueProfile)
 }
