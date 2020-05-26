@@ -47,11 +47,11 @@ class Flow1Fragment : BaseFragment() {
                 }
             }
         }
+        customDialog.setOnDismissListener { fragmentListener.closeFlow() }
     }
 
     fun closeDialog() {
         customDialog.dismiss()
-        fragmentListener.closeFlow()
     }
 
     fun showInputNumberView(inProgress: Boolean) {

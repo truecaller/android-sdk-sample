@@ -171,6 +171,16 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         startActivity(Intent(this, SignedInActivity::class.java))
     }
 
+    override fun requestFailed() {
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> {
+                    it.showInputNumberView(false)
+                }
+            }
+        }
+    }
+
     private fun resetValues() {
         verificationCallbackType = 0
         otp = ""

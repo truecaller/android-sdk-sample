@@ -65,5 +65,6 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             Toast.LENGTH_SHORT
         )
             .show()
+        callbackListener.requestFailed()
     }
 }
