@@ -164,6 +164,10 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
+    override fun success() {
+        startActivity(Intent(this, SignedInSuccessfulActivity::class.java))
+    }
+
     override fun verifiedBefore() {
         getCurrentFragment()?.let {
             when (it) {
@@ -173,7 +177,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             }
         }
         resetValues()
-        startActivity(Intent(this, SignedInActivity::class.java))
+        success()
     }
 
     override fun verificationComplete() {
@@ -185,7 +189,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             }
         }
         resetValues()
-        startActivity(Intent(this, SignedInActivity::class.java))
+        success()
     }
 
     override fun requestFailed() {

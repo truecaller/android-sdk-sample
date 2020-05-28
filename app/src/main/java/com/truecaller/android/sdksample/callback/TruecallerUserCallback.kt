@@ -13,6 +13,7 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
             "Verified Truecaller User: " + trueProfile.firstName,
             Toast.LENGTH_SHORT
         ).show()
+        fragmentListener.success()
     }
 
     override fun onFailureProfileShared(trueError: TrueError) {

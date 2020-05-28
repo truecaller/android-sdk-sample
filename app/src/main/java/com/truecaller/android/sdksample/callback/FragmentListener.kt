@@ -13,4 +13,5 @@ interface FragmentListener : BaseListener {
     fun initVerification(phoneNumber: String)
     fun validateOtp(otp: String)
     fun verifyUser(trueProfile: TrueProfile)
+    fun success()
 }
