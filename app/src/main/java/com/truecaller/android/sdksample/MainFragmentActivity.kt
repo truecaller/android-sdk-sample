@@ -20,6 +20,8 @@ const val FLOW2 = 2
 const val FLOW3 = 3
 const val FLOW4 = 4
 
+const val REQUEST_CODE = 1291
+
 class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackListener {
 
     //    private var flowType: Int = 0
@@ -84,7 +86,11 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data)
+        if (requestCode == REQUEST_CODE) {
+            recreate()
+        } else {
+            TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data)
+        }
     }
 
     private fun initTruecallerSdk() {
@@ -165,7 +171,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     }
 
     override fun success() {
-        startActivity(Intent(this, SignedInSuccessfulActivity::class.java))
+        startActivityForResult(Intent(this, SignedInSuccessfulActivity::class.java), REQUEST_CODE)
     }
 
     override fun verifiedBefore() {
