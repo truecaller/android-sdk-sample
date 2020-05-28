@@ -22,10 +22,11 @@ class CustomDialog(context: Context) : Dialog(context) {
         setContentView(R.layout.form_dialog)
         val displayMetrics = DisplayMetrics()
         window?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        window?.setLayout(displayMetrics.widthPixels * 3 / 4, displayMetrics.heightPixels * 3 / 4)
+        window?.setLayout(displayMetrics.widthPixels * 3 / 4, displayMetrics.heightPixels * 1 / 3)
         progressBar = findViewById(R.id.progress_bar)
         proceedButton = findViewById(R.id.btnProceed)
         proceedButton.tag = PHONE_LAYOUT
+        setCanceledOnTouchOutside(false)
     }
 
     fun showInputNumberView(inProgress : Boolean) {

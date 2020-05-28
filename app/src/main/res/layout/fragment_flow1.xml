@@ -17,18 +17,12 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/getStartedBtn"
-        style="?attr/buttonBarButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+        style="@style/DefaultButton"
         android:layout_gravity="bottom"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/btn_rounded"
-        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="center"
         android:text="Get Started"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold" />
 
