@@ -262,7 +262,6 @@
             android:id="@+id/buttonGo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:foreground="?selectableItemBackground"
             android:text="@string/let_s_go" />
 
