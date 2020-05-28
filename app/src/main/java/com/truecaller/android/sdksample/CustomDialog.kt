@@ -26,7 +26,6 @@ class CustomDialog(context: Context) : Dialog(context) {
         progressBar = findViewById(R.id.progress_bar)
         proceedButton = findViewById(R.id.btnProceed)
         proceedButton.tag = PHONE_LAYOUT
-        show()
     }
 
     fun showInputNumberView(inProgress : Boolean) {
@@ -58,6 +57,4 @@ class CustomDialog(context: Context) : Dialog(context) {
         findViewById<LinearLayout>(R.id.name_layout).visibility = View.GONE
         findViewById<LinearLayout>(R.id.phone_layout).visibility = View.GONE
     }
-
-
 }

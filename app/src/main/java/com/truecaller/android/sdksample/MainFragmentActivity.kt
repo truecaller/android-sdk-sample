@@ -22,7 +22,7 @@ const val FLOW4 = 4
 
 class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackListener {
 
-    private var flowType: Int = 0
+    //    private var flowType: Int = 0
     private lateinit var scope: Scope
     private var nonTruecallerUserCallback = NonTruecallerUserCallback(this)
     private var verificationCallbackType = 0
@@ -45,14 +45,24 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         return this
     }
 
-    override fun getProfile(flowType: Int) {
-        this.flowType = flowType
-        initTruecallerSdk()
-        TruecallerSDK.getInstance().getUserProfile(this)
+    override fun startFlow(flowType: Int) {
+        //        this.flowType = flowType
+        when (flowType) {
+            1 -> addFragment(Flow1Fragment())
+        }
     }
 
     override fun setScope(scope: Scope) {
         this.scope = scope
+    }
+
+    override fun getProfile() {
+        initTruecallerSdk()
+        if (TruecallerSDK.getInstance().isUsable) {
+            TruecallerSDK.getInstance().getUserProfile(this)
+        } else {
+            Toast.makeText(this, "No compatible client available", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun loadFlowSelectionFragment() {
@@ -60,8 +70,12 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     }
 
     override fun onVerificationRequired() {
-        when (flowType) {
-            1 -> addFragment(Flow1Fragment())
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> {
+                    it.showDialog()
+                }
+            }
         }
     }
 
@@ -81,9 +95,9 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    override fun closeFlow() {
+    /*override fun closeFlow() {
         supportFragmentManager.popBackStack()
-    }
+    }*/
 
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
 

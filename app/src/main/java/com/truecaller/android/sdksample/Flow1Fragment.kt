@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import com.truecaller.android.sdk.TrueProfile
+import kotlinx.android.synthetic.main.fragment_flow1.getStartedBtn
 
 const val PHONE_LAYOUT = 1
 const val OTP_LAYOUT = 2
@@ -25,6 +26,7 @@ class Flow1Fragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getStartedBtn.setOnClickListener { fragmentListener.getProfile() }
         customDialog = CustomDialog(requireContext())
         customDialog.findViewById<ImageView>(R.id.close_layout).setOnClickListener {
             closeDialog()
@@ -47,7 +49,10 @@ class Flow1Fragment : BaseFragment() {
                 }
             }
         }
-        customDialog.setOnDismissListener { fragmentListener.closeFlow() }
+    }
+
+    fun showDialog() {
+        customDialog.show()
     }
 
     fun closeDialog() {

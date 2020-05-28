@@ -27,6 +27,6 @@ class FlowSelectionFragment : BaseFragment() {
     }
 
     private fun startFlow(flowType: Int) {
-        fragmentListener.getProfile(flowType)
+        fragmentListener.startFlow(flowType)
     }
 }
