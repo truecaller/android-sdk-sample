@@ -31,14 +31,17 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_fragment)
-        addFragment(OptionsCustomizationFragment())
+        addFragment(OptionsCustomizationFragment(), false)
     }
 
-    private fun addFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
+    private fun addFragment(fragment: Fragment, addToBackStack: Boolean = true) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment, fragment.tag)
-            .addToBackStack(null)
-            .commit()
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(null).commit()
+        } else {
+            fragmentTransaction.commit()
+        }
     }
 
     override fun getContext(): Context {
