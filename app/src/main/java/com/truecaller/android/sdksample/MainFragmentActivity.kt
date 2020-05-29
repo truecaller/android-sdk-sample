@@ -141,6 +141,10 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     }
 
     override fun verifyUser(trueProfile: TrueProfile) {
+        if (trueProfile.firstName.isNullOrBlank()) {
+            Toast.makeText(this, "Please enter a valid first name", Toast.LENGTH_SHORT).show()
+            return
+        }
         when (verificationCallbackType) {
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> TruecallerSDK.getInstance().verifyMissedCall(trueProfile, nonTruecallerUserCallback)
             VerificationCallback.TYPE_OTP_RECEIVED ->
@@ -202,7 +206,17 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         getCurrentFragment()?.let {
             when (it) {
                 is Flow1Fragment -> {
-                    it.showInputNumberView(false)
+                    when (verificationCallbackType) {
+                        VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
+                            it.showInputNameView(false)
+                        }
+                        VerificationCallback.TYPE_OTP_RECEIVED -> {
+                            it.showInputOtpView(false)
+                        }
+                        else -> {
+                            it.showInputNumberView(false)
+                        }
+                    }
                 }
             }
         }
