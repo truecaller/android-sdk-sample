@@ -241,6 +241,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         is Flow2Fragment -> it.showInputNameView(false)
                     }
                 }
+                VerificationCallback.TYPE_OTP_INITIATED,
                 VerificationCallback.TYPE_OTP_RECEIVED -> {
                     when (it) {
                         is Flow1Fragment -> it.showInputOtpView(false)

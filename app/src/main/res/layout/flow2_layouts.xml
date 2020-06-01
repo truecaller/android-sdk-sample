@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/verificationLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="40dp"
-    android:visibility="gone">
+    android:visibility="gone"
+    tools:visibility="visible">
 
     <LinearLayout
         android:id="@+id/parentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="40dp">
+        android:paddingTop="100dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/header"
@@ -19,13 +21,13 @@
             android:layout_height="wrap_content"
             android:text="Please tell us your\nMobile Number"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="30sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:text="Login with your mobile number"
             android:textColor="@color/white" />
 
@@ -33,11 +35,11 @@
             android:id="@+id/editPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
             android:hint="@string/hint_phone_num"
             android:inputType="phone"
             android:maxLength="10"
-            android:paddingTop="16dp"
             android:textColor="@color/white"
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
@@ -47,12 +49,12 @@
             android:id="@+id/editOtp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
             android:hint="@string/hint_otp"
             android:inputType="phone"
             android:maxLength="6"
-            android:paddingTop="16dp"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/white"
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
             android:visibility="gone" />
@@ -61,11 +63,11 @@
             android:id="@+id/editFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
-            android:paddingTop="16dp"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/white"
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
             android:visibility="gone" />
