@@ -147,10 +147,24 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
         when (verificationCallbackType) {
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> TruecallerSDK.getInstance().verifyMissedCall(trueProfile, nonTruecallerUserCallback)
+            VerificationCallback.TYPE_OTP_INITIATED,
             VerificationCallback.TYPE_OTP_RECEIVED ->
                 otp?.let {
                     TruecallerSDK.getInstance().verifyOtp(trueProfile, it, nonTruecallerUserCallback)
                 }
+        }
+    }
+
+    override fun initiatedMissedCall() {
+        verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED
+    }
+
+    override fun initiatedOtp() {
+        verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> it.showInputOtpView(false)
+            }
         }
     }
 

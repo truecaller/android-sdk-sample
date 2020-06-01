@@ -14,6 +14,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                     "Missed call initiated",
                     Toast.LENGTH_SHORT
                 ).show()
+                callbackListener.initiatedMissedCall()
             }
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                 Toast.makeText(
@@ -29,6 +30,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                     "OTP initiated",
                     Toast.LENGTH_SHORT
                 ).show()
+                callbackListener.initiatedOtp()
             }
             VerificationCallback.TYPE_OTP_RECEIVED -> {
                 Toast.makeText(
