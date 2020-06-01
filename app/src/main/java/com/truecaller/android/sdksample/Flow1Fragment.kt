@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import com.truecaller.android.sdk.TrueProfile
-import kotlinx.android.synthetic.main.fragment_flow1.getStartedBtn
+import kotlinx.android.synthetic.main.flow_home_page.getStartedBtn
 
 const val PHONE_LAYOUT = 1
 const val OTP_LAYOUT = 2
