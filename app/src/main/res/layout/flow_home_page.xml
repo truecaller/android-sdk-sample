@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/homeLayout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="40dp"
-    android:paddingBottom="80dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:padding="40dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/truecaller_logo"
@@ -20,9 +20,9 @@
         android:layout_gravity="bottom"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="Get Started"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
 </FrameLayout>

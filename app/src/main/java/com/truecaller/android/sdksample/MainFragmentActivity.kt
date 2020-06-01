@@ -20,6 +20,10 @@ const val FLOW2 = 2
 const val FLOW3 = 3
 const val FLOW4 = 4
 
+const val PHONE_LAYOUT = 1
+const val OTP_LAYOUT = 2
+const val NAME_LAYOUT = 3
+
 const val REQUEST_CODE = 1291
 
 class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackListener {
@@ -53,7 +57,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun startFlow(flowType: Int) {
         //        this.flowType = flowType
         when (flowType) {
-            1 -> addFragment(Flow1Fragment())
+            FLOW1 -> addFragment(Flow1Fragment())
+            FLOW2 -> addFragment(Flow2Fragment())
         }
     }
 
@@ -77,9 +82,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun onVerificationRequired() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> {
-                    it.showDialog()
-                }
+                is Flow1Fragment -> it.showVerificationFlow()
+                is Flow2Fragment -> it.showVerificationFlow()
             }
         }
     }
@@ -87,7 +91,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE) {
-            recreate()
+            supportFragmentManager.popBackStack()
         } else {
             TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data)
         }
@@ -120,6 +124,10 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
                         it.showInputNumberView(true)
                     }
+                    is Flow2Fragment -> {
+                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
+                        it.showInputNumberView(true)
+                    }
                 }
             }
         }
@@ -132,9 +140,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             this.otp = otp
             getCurrentFragment()?.let {
                 when (it) {
-                    is Flow1Fragment -> {
-                        it.showInputNameView(false)
-                    }
+                    is Flow1Fragment -> it.showInputNameView(false)
+                    is Flow2Fragment -> it.showInputNameView(false)
                 }
             }
         }
@@ -164,6 +171,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         getCurrentFragment()?.let {
             when (it) {
                 is Flow1Fragment -> it.showInputOtpView(false)
+                is Flow2Fragment -> it.showInputOtpView(false)
             }
         }
     }
@@ -172,9 +180,9 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> {
-                    it.showInputNameView(false)
-                }
+                is Flow1Fragment -> it.showInputNameView(false)
+                is Flow2Fragment -> it.showInputNameView(false)
+
             }
         }
     }
@@ -184,6 +192,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         getCurrentFragment()?.let {
             when (it) {
                 is Flow1Fragment -> it.showInputOtpView(false)
+                is Flow2Fragment -> it.showInputOtpView(false)
             }
         }
     }
@@ -195,9 +204,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun verifiedBefore() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> {
-                    it.closeDialog()
-                }
+                is Flow1Fragment -> it.closeVerificationFlow()
+                is Flow2Fragment -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -207,9 +215,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun verificationComplete() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> {
-                    it.closeDialog()
-                }
+                is Flow1Fragment -> it.closeVerificationFlow()
+                is Flow2Fragment -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -218,18 +225,23 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun requestFailed() {
         getCurrentFragment()?.let {
-            when (it) {
-                is Flow1Fragment -> {
-                    when (verificationCallbackType) {
-                        VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
-                            it.showInputNameView(false)
-                        }
-                        VerificationCallback.TYPE_OTP_RECEIVED -> {
-                            it.showInputOtpView(false)
-                        }
-                        else -> {
-                            it.showInputNumberView(false)
-                        }
+            when (verificationCallbackType) {
+                VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
+                    when (it) {
+                        is Flow1Fragment -> it.showInputNameView(false)
+                        is Flow2Fragment -> it.showInputNameView(false)
+                    }
+                }
+                VerificationCallback.TYPE_OTP_RECEIVED -> {
+                    when (it) {
+                        is Flow1Fragment -> it.showInputOtpView(false)
+                        is Flow2Fragment -> it.showInputOtpView(false)
+                    }
+                }
+                else -> {
+                    when (it) {
+                        is Flow1Fragment -> it.showInputNumberView(false)
+                        is Flow2Fragment -> it.showInputNumberView(false)
                     }
                 }
             }

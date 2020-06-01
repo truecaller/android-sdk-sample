@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/flow2"
+    tools:context="com.truecaller.android.sdksample.Flow2Fragment">
+
+    <include layout="@layout/flow_home_page" />
+
+    <include layout="@layout/flow2_layouts" />
+
+</FrameLayout>

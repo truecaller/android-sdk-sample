@@ -14,4 +14,6 @@
     <color name="colorAccent2Dark">#593548</color>
     <color name="darkBlue">#0f6cd9</color>
     <color name="lightBlue">#00AEFE</color>
+    <color name="flow1">#823170</color>
+    <color name="flow2">#05283c</color>
 </resources>

@@ -9,10 +9,6 @@ import android.widget.ImageView
 import com.truecaller.android.sdk.TrueProfile
 import kotlinx.android.synthetic.main.flow_home_page.getStartedBtn
 
-const val PHONE_LAYOUT = 1
-const val OTP_LAYOUT = 2
-const val NAME_LAYOUT = 3
-
 class Flow1Fragment : BaseFragment() {
 
     private lateinit var customDialog: CustomDialog
@@ -29,7 +25,7 @@ class Flow1Fragment : BaseFragment() {
         getStartedBtn.setOnClickListener { fragmentListener.getProfile() }
         customDialog = CustomDialog(requireContext())
         customDialog.findViewById<ImageView>(R.id.close_layout).setOnClickListener {
-            closeDialog()
+            closeVerificationFlow()
         }
         customDialog.proceedButton.setOnClickListener {
             when (customDialog.proceedButton.tag) {
@@ -51,11 +47,11 @@ class Flow1Fragment : BaseFragment() {
         }
     }
 
-    fun showDialog() {
+    fun showVerificationFlow() {
         customDialog.show()
     }
 
-    fun closeDialog() {
+    fun closeVerificationFlow() {
         customDialog.dismiss()
     }
 
