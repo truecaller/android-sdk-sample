@@ -198,7 +198,16 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     }
 
     override fun success() {
-        startActivityForResult(Intent(this, SignedInSuccessfulActivity::class.java), REQUEST_CODE)
+        val intent = Intent(this, SignedInSuccessfulActivity::class.java)
+        var flowType = 1
+        getCurrentFragment()?.let {
+            when (it) {
+                is Flow1Fragment -> flowType = FLOW1
+                is Flow2Fragment -> flowType = FLOW2
+            }
+        }
+        intent.putExtra("flow", flowType)
+        startActivityForResult(intent, REQUEST_CODE)
     }
 
     override fun verifiedBefore() {
