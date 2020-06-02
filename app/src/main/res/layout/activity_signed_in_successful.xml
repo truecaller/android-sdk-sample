@@ -11,12 +11,14 @@
     tools:context="com.truecaller.android.sdksample.SignedInSuccessfulActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/successImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         app:srcCompat="@drawable/ic_smiling_attendant" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -26,6 +28,7 @@
         android:textSize="24sp" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/successText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

@@ -59,6 +59,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         when (flowType) {
             FLOW1 -> addFragment(Flow1Fragment())
             FLOW2 -> addFragment(Flow2Fragment())
+            FLOW3 -> addFragment(Flow3Fragment())
         }
     }
 
@@ -204,6 +205,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             when (it) {
                 is Flow1Fragment -> flowType = FLOW1
                 is Flow2Fragment -> flowType = FLOW2
+                is Flow3Fragment -> flowType = FLOW3
             }
         }
         intent.putExtra("flow", flowType)
