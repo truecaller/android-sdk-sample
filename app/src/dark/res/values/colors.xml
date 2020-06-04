@@ -17,4 +17,6 @@
     <color name="lightBlue">#00AEFE</color>
     <color name="flow1">#823170</color>
     <color name="flow2">#05283c</color>
+    <color name="dial">#e8e8e8</color>
+    <color name="dial_text">#444555</color>
 </resources>

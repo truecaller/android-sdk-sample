@@ -30,9 +30,11 @@
             android:backgroundTint="@color/white"
             android:gravity="center"
             android:text="Get Started"
-            android:textColor="@color/darkBlue"
+            android:textColor="@color/lightBlue"
             android:textSize="16sp" />
 
     </FrameLayout>
+
+    <include layout="@layout/dialpad"/>
 
 </FrameLayout>

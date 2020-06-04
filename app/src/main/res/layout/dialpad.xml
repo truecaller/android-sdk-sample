@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="40dp"
+        android:paddingTop="150dp"
+        android:paddingEnd="40dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please tell us your\nMobile Number"
+            android:textColor="@color/lightBlue"
+            android:textSize="30sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Mobile number"
+            android:textColor="#b5bbc9" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_phone_num"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textColor="@color/lightBlue"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_otp"
+            android:inputType="phone"
+            android:maxLength="6"
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/first_name"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.truecaller.android.sdksample.utils.NumericKeyboard
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:padding="32dp"
+        app:field="@+id/editPhone"
+        app:keyTextColor="@color/dial_text" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnProceed"
+        style="@style/DefaultButton"
+        android:layout_gravity="bottom"
+        android:layout_margin="40dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/proceed"
+        android:textColor="@color/lightBlue"
+        android:textSize="16sp" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</LinearLayout>
