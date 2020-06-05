@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verificationLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -45,8 +46,7 @@
             android:maxLength="10"
             android:textColor="@color/lightBlue"
             android:textColorHint="@color/colorPrimaryDark50"
-            android:textSize="@dimen/sp32"
-            android:visibility="visible" />
+            android:textSize="@dimen/sp32" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editOtp"
@@ -57,31 +57,34 @@
             android:hint="@string/hint_otp"
             android:inputType="phone"
             android:maxLength="6"
-            android:textColor="@color/white"
+            android:textColor="@color/lightBlue"
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
             android:visibility="gone" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editFirstName"
+            android:id="@+id/editName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:background="@android:color/transparent"
-            android:hint="@string/first_name"
+            android:background="@drawable/layer_bg"
+            android:drawableEnd="@drawable/ic_next_filled"
+            android:hint="@string/name"
             android:inputType="textPersonName"
-            android:textColor="@color/white"
+            android:padding="8dp"
+            android:textColor="@color/lightBlue"
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
             android:visibility="gone" />
     </LinearLayout>
 
     <com.truecaller.android.sdksample.utils.NumericKeyboard
+        android:id="@+id/numKeyboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:padding="32dp"
-        app:field="@+id/editPhone"
+        app:field="@id/editPhone"
         app:keyTextColor="@color/dial_text" />
 
     <androidx.appcompat.widget.AppCompatButton
