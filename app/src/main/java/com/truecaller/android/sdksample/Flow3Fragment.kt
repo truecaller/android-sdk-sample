@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdksample.utils.NumericKeyboard
 import kotlinx.android.synthetic.main.dialpad.editName
+import kotlinx.android.synthetic.main.dialpad.editOtp
+import kotlinx.android.synthetic.main.dialpad.editPhone
 import kotlinx.android.synthetic.main.dialpad.verificationLayout
 import kotlinx.android.synthetic.main.fragment_flow3.getStartedBtn
 import kotlinx.android.synthetic.main.fragment_flow3.homeLayout
@@ -90,7 +92,7 @@ class Flow3Fragment : BaseFragment() {
         view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
         view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.visibility = if (inProgress) View.GONE else View.VISIBLE
-
+        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.field = editPhone
         view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.VISIBLE
         view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.GONE
         view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.GONE
@@ -105,6 +107,7 @@ class Flow3Fragment : BaseFragment() {
         view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
         view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.field = editOtp
 
         view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.VISIBLE
         view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.GONE
