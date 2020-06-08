@@ -19,6 +19,7 @@ const val FLOW1 = 1
 const val FLOW2 = 2
 const val FLOW3 = 3
 const val FLOW4 = 4
+const val FLOW5 = 5
 
 const val PHONE_LAYOUT = 1
 const val OTP_LAYOUT = 2
@@ -62,6 +63,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             FLOW2 -> addFragment(Flow2Fragment())
             FLOW3 -> addFragment(Flow3Fragment())
             FLOW4 -> addFragment(Flow4Fragment())
+            FLOW5 -> startActivity(Intent(this, SignInActivity::class.java))
         }
     }
 

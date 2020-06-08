@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.fragment_flow_selection.flow1
 import kotlinx.android.synthetic.main.fragment_flow_selection.flow2
 import kotlinx.android.synthetic.main.fragment_flow_selection.flow3
 import kotlinx.android.synthetic.main.fragment_flow_selection.flow4
+import kotlinx.android.synthetic.main.fragment_flow_selection.flow5
 
 class FlowSelectionFragment : BaseFragment() {
 
@@ -24,6 +25,7 @@ class FlowSelectionFragment : BaseFragment() {
         flow2.setOnClickListener { startFlow(FLOW2) }
         flow3.setOnClickListener { startFlow(FLOW3) }
         flow4.setOnClickListener { startFlow(FLOW4) }
+        flow5.setOnClickListener { startFlow(FLOW5) }
     }
 
     private fun startFlow(flowType: Int) {

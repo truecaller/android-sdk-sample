@@ -26,7 +26,7 @@ SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
 
     <style name="ButtonStyle">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">60dp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:layout_marginBottom">25dp</item>
         <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>

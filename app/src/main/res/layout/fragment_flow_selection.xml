@@ -10,25 +10,26 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/flow1"
         style="@style/ButtonStyle"
-        android:background="@android:color/holo_orange_dark"
         android:text="Flow 1" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/flow2"
         style="@style/ButtonStyle"
-        android:background="@android:color/holo_green_dark"
         android:text="Flow 2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/flow3"
         style="@style/ButtonStyle"
-        android:background="@android:color/holo_blue_dark"
         android:text="Flow 3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/flow4"
         style="@style/ButtonStyle"
-        android:background="@android:color/holo_purple"
         android:text="Flow 4" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/flow5"
+        style="@style/ButtonStyle"
+        android:text="Default Flow" />
 
 </LinearLayout>
