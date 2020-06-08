@@ -97,7 +97,7 @@ class OptionsCustomizationFragment : BaseFragment() {
         prefixSpinner.setSelection(0)
         suffixSpinner.setSelection(0)
         ctaPrefixSpinner.setSelection(0)
-        colorSpinner.setSelection(0)
+        colorSpinner.setSelection(2)
         colorTextSpinner.setSelection(1)
     }
 
