@@ -61,6 +61,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             FLOW1 -> addFragment(Flow1Fragment())
             FLOW2 -> addFragment(Flow2Fragment())
             FLOW3 -> addFragment(Flow3Fragment())
+            FLOW4 -> addFragment(Flow4Fragment())
         }
     }
 
@@ -87,6 +88,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.showVerificationFlow()
                 is Flow2Fragment -> it.showVerificationFlow()
                 is Flow3Fragment -> it.showVerificationFlow()
+                is Flow4Fragment -> it.showVerificationFlow()
             }
         }
     }
@@ -135,6 +137,10 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
                         it.showInputNumberView(true)
                     }
+                    is Flow4Fragment -> {
+                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
+                        it.showInputNumberView(true)
+                    }
                 }
             }
         }
@@ -150,6 +156,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                     is Flow1Fragment -> it.showInputNameView(false)
                     is Flow2Fragment -> it.showInputNameView(false)
                     is Flow3Fragment -> it.showInputNameView(false)
+                    is Flow4Fragment -> it.showInputNameView(false)
                 }
             }
         }
@@ -181,6 +188,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.showInputOtpView(false)
                 is Flow2Fragment -> it.showInputOtpView(false)
                 is Flow3Fragment -> it.showInputOtpView(false)
+                is Flow4Fragment -> it.showInputOtpView(false)
             }
         }
     }
@@ -192,6 +200,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.showInputNameView(false)
                 is Flow2Fragment -> it.showInputNameView(false)
                 is Flow3Fragment -> it.showInputNameView(false)
+                is Flow4Fragment -> it.showInputNameView(false)
 
             }
         }
@@ -204,6 +213,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.showInputOtpView(false)
                 is Flow2Fragment -> it.showInputOtpView(false)
                 is Flow3Fragment -> it.showInputOtpView(false)
+                is Flow4Fragment -> it.showInputOtpView(false)
             }
         }
     }
@@ -216,6 +226,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> flowType = FLOW1
                 is Flow2Fragment -> flowType = FLOW2
                 is Flow3Fragment -> flowType = FLOW3
+                is Flow4Fragment -> flowType = FLOW4
             }
         }
         intent.putExtra("flow", flowType)
@@ -228,6 +239,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.closeVerificationFlow()
                 is Flow2Fragment -> it.closeVerificationFlow()
                 is Flow3Fragment -> it.closeVerificationFlow()
+                is Flow4Fragment -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -240,6 +252,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is Flow1Fragment -> it.closeVerificationFlow()
                 is Flow2Fragment -> it.closeVerificationFlow()
                 is Flow3Fragment -> it.closeVerificationFlow()
+                is Flow4Fragment -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -254,6 +267,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         is Flow1Fragment -> it.showInputNameView(false)
                         is Flow2Fragment -> it.showInputNameView(false)
                         is Flow3Fragment -> it.showInputNameView(false)
+                        is Flow4Fragment -> it.showInputNameView(false)
                     }
                 }
                 VerificationCallback.TYPE_OTP_INITIATED,
@@ -262,6 +276,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         is Flow1Fragment -> it.showInputOtpView(false)
                         is Flow2Fragment -> it.showInputOtpView(false)
                         is Flow3Fragment -> it.showInputOtpView(false)
+                        is Flow4Fragment -> it.showInputOtpView(false)
                     }
                 }
                 else -> {
@@ -269,6 +284,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         is Flow1Fragment -> it.showInputNumberView(false)
                         is Flow2Fragment -> it.showInputNumberView(false)
                         is Flow3Fragment -> it.showInputNumberView(false)
+                        is Flow4Fragment -> it.showInputNumberView(false)
                     }
                 }
             }

@@ -19,7 +19,7 @@ class SignedInSuccessfulActivity : AppCompatActivity() {
         when (flowType) {
             FLOW1 -> rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.flow1))
             FLOW2 -> rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.flow2))
-            FLOW3 -> {
+            FLOW3, FLOW4 -> {
                 rootLayout.background = ContextCompat.getDrawable(this, R.drawable.success_bg_layer)
                 welcomeText.setTextColor(ContextCompat.getColor(this, android.R.color.black))
                 successText.setTextColor(ContextCompat.getColor(this, android.R.color.black))
