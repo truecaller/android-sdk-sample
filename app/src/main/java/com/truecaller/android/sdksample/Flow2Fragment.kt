@@ -49,8 +49,8 @@ class Flow2Fragment : BaseFragment() {
                     fragmentListener.validateOtp(otp)
                 }
                 NAME_LAYOUT -> {
-                    val firstName = view.findViewById<EditText>(R.id.editFirstName).text.toString()
-                    val trueProfile = TrueProfile.Builder(firstName, "").build()
+                    val fullName = view.findViewById<EditText>(R.id.editFirstName).text.toString()
+                    val trueProfile = TrueProfile.Builder(fullName.getFirstName(), fullName.getLastName()).build()
                     fragmentListener.verifyUser(trueProfile)
                 }
             }
@@ -68,7 +68,7 @@ class Flow2Fragment : BaseFragment() {
         verificationLayout.visibility = View.GONE
     }
 
-    fun showInputNumberView(inProgress : Boolean) {
+    fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -80,10 +80,9 @@ class Flow2Fragment : BaseFragment() {
 
         view?.findViewById<AppCompatTextView>(R.id.header)?.text = "Please tell us your\nMobile Number"
         view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Login with your number"
-
     }
 
-    fun showInputNameView(inProgress : Boolean) {
+    fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -97,7 +96,7 @@ class Flow2Fragment : BaseFragment() {
         view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Complete your profile"
     }
 
-    fun showInputOtpView(inProgress : Boolean) {
+    fun showInputOtpView(inProgress: Boolean) {
         proceedButton.tag = OTP_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE

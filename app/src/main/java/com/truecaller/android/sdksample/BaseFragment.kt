@@ -15,4 +15,13 @@ open class BaseFragment : Fragment() {
         fragmentListener = context as MainFragmentActivity
         truecallerUserCallback = TruecallerUserCallback(fragmentListener)
     }
+
+    fun String.getFirstName(): String {
+        return split(" ").first()
+    }
+
+    fun String.getLastName(): String {
+        val splitName = split(" ")
+        return if (splitName.size > 1) splitName.last() else ""
+    }
 }

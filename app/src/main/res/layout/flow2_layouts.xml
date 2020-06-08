@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:background="@android:color/transparent"
-            android:hint="@string/first_name"
+            android:hint="@string/name"
             android:inputType="textPersonName"
             android:textColor="@color/white"
             android:textColorHint="@color/colorPrimaryDark50"

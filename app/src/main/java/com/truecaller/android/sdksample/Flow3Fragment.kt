@@ -55,8 +55,8 @@ class Flow3Fragment : BaseFragment() {
                     fragmentListener.validateOtp(otp)
                 }
                 NAME_LAYOUT -> {
-                    val firstName = view.findViewById<EditText>(R.id.editName).text.toString()
-                    val trueProfile = TrueProfile.Builder(firstName, "").build()
+                    val fullName = view.findViewById<EditText>(R.id.editName).text.toString()
+                    val trueProfile = TrueProfile.Builder(fullName.getFirstName(), fullName.getLastName()).build()
                     fragmentListener.verifyUser(trueProfile)
                 }
             }
