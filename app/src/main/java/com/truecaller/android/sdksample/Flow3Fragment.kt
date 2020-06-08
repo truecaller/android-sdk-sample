@@ -15,10 +15,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdksample.utils.NumericKeyboard
-import kotlinx.android.synthetic.main.dialpad.editName
-import kotlinx.android.synthetic.main.dialpad.editOtp
-import kotlinx.android.synthetic.main.dialpad.editPhone
-import kotlinx.android.synthetic.main.dialpad.verificationLayout
+import kotlinx.android.synthetic.main.flow3_layouts.editName
+import kotlinx.android.synthetic.main.flow3_layouts.editOtp
+import kotlinx.android.synthetic.main.flow3_layouts.editPhone
+import kotlinx.android.synthetic.main.flow3_layouts.verificationLayout
 import kotlinx.android.synthetic.main.fragment_flow3.getStartedBtn
 import kotlinx.android.synthetic.main.fragment_flow3.homeLayout
 

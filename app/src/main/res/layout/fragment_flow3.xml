@@ -35,6 +35,6 @@
 
     </FrameLayout>
 
-    <include layout="@layout/dialpad"/>
+    <include layout="@layout/flow3_layouts"/>
 
 </FrameLayout>
