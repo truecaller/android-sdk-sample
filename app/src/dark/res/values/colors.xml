@@ -19,4 +19,5 @@
     <color name="flow2">#05283c</color>
     <color name="dial">#e8e8e8</color>
     <color name="dial_text">#444555</color>
+    <color name="card_layout_color">#FFDACCC7</color>
 </resources>
