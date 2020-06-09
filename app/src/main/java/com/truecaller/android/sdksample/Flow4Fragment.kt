@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
@@ -44,15 +43,15 @@ class Flow4Fragment : BaseFragment() {
         proceedButton.setOnClickListener {
             when (proceedButton.tag) {
                 PHONE_LAYOUT -> {
-                    val phoneNumber = view.findViewById<EditText>(R.id.editPhone).text.toString()
+                    val phoneNumber = editPhone.text.toString()
                     fragmentListener.initVerification(phoneNumber)
                 }
                 OTP_LAYOUT -> {
-                    val otp = view.findViewById<EditText>(R.id.editOtp).text.toString()
+                    val otp = editOtp.text.toString()
                     fragmentListener.validateOtp(otp)
                 }
                 NAME_LAYOUT -> {
-                    val fullName = view.findViewById<EditText>(R.id.editName).text.toString()
+                    val fullName = editName.text.toString()
                     val trueProfile = TrueProfile.Builder(fullName.getFirstName(), fullName.getLastName()).build()
                     fragmentListener.verifyUser(trueProfile)
                 }
