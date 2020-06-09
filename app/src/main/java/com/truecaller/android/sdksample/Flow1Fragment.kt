@@ -49,6 +49,7 @@ class Flow1Fragment : BaseFragment() {
 
     fun showVerificationFlow() {
         customDialog.show()
+        showInputNumberView(false)
     }
 
     fun closeVerificationFlow() {
