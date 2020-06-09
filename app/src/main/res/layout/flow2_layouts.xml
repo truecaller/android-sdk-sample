@@ -77,8 +77,6 @@
         android:id="@+id/btnProceed"
         style="@style/DefaultButton"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="50dp"
         android:text="@string/proceed"
         android:textSize="16sp" />
