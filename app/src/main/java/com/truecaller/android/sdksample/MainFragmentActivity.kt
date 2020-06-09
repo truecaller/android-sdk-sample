@@ -87,10 +87,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun onVerificationRequired() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showVerificationFlow()
-                is Flow2Fragment -> it.showVerificationFlow()
-                is Flow3Fragment -> it.showVerificationFlow()
-                is Flow4Fragment -> it.showVerificationFlow()
+                is FragmentPresenter -> it.showVerificationFlow()
             }
         }
     }
@@ -127,19 +124,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         } else {
             getCurrentFragment()?.let {
                 when (it) {
-                    is Flow1Fragment -> {
-                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
-                        it.showInputNumberView(true)
-                    }
-                    is Flow2Fragment -> {
-                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
-                        it.showInputNumberView(true)
-                    }
-                    is Flow3Fragment -> {
-                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
-                        it.showInputNumberView(true)
-                    }
-                    is Flow4Fragment -> {
+                    is FragmentPresenter -> {
                         TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
                         it.showInputNumberView(true)
                     }
@@ -155,10 +140,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             this.otp = otp
             getCurrentFragment()?.let {
                 when (it) {
-                    is Flow1Fragment -> it.showInputNameView(false)
-                    is Flow2Fragment -> it.showInputNameView(false)
-                    is Flow3Fragment -> it.showInputNameView(false)
-                    is Flow4Fragment -> it.showInputNameView(false)
+                    is FragmentPresenter -> it.showInputNameView(false)
                 }
             }
         }
@@ -187,10 +169,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showInputOtpView(false)
-                is Flow2Fragment -> it.showInputOtpView(false)
-                is Flow3Fragment -> it.showInputOtpView(false)
-                is Flow4Fragment -> it.showInputOtpView(false)
+                is FragmentPresenter -> it.showInputOtpView(false)
             }
         }
     }
@@ -199,11 +178,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showInputNameView(false)
-                is Flow2Fragment -> it.showInputNameView(false)
-                is Flow3Fragment -> it.showInputNameView(false)
-                is Flow4Fragment -> it.showInputNameView(false)
-
+                is FragmentPresenter -> it.showInputNameView(false)
             }
         }
     }
@@ -212,10 +187,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = VerificationCallback.TYPE_OTP_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.showInputOtpView(false)
-                is Flow2Fragment -> it.showInputOtpView(false)
-                is Flow3Fragment -> it.showInputOtpView(false)
-                is Flow4Fragment -> it.showInputOtpView(false)
+                is FragmentPresenter -> it.showInputOtpView(false)
             }
         }
     }
@@ -238,10 +210,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun verifiedBefore() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.closeVerificationFlow()
-                is Flow2Fragment -> it.closeVerificationFlow()
-                is Flow3Fragment -> it.closeVerificationFlow()
-                is Flow4Fragment -> it.closeVerificationFlow()
+                is FragmentPresenter -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -251,10 +220,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun verificationComplete() {
         getCurrentFragment()?.let {
             when (it) {
-                is Flow1Fragment -> it.closeVerificationFlow()
-                is Flow2Fragment -> it.closeVerificationFlow()
-                is Flow3Fragment -> it.closeVerificationFlow()
-                is Flow4Fragment -> it.closeVerificationFlow()
+                is FragmentPresenter -> it.closeVerificationFlow()
             }
         }
         resetValues()
@@ -266,27 +232,18 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             when (verificationCallbackType) {
                 VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                     when (it) {
-                        is Flow1Fragment -> it.showInputNameView(false)
-                        is Flow2Fragment -> it.showInputNameView(false)
-                        is Flow3Fragment -> it.showInputNameView(false)
-                        is Flow4Fragment -> it.showInputNameView(false)
+                        is FragmentPresenter -> it.showInputNameView(false)
                     }
                 }
                 VerificationCallback.TYPE_OTP_INITIATED,
                 VerificationCallback.TYPE_OTP_RECEIVED -> {
                     when (it) {
-                        is Flow1Fragment -> it.showInputOtpView(false)
-                        is Flow2Fragment -> it.showInputOtpView(false)
-                        is Flow3Fragment -> it.showInputOtpView(false)
-                        is Flow4Fragment -> it.showInputOtpView(false)
+                        is FragmentPresenter -> it.showInputOtpView(false)
                     }
                 }
                 else -> {
                     when (it) {
-                        is Flow1Fragment -> it.showInputNumberView(false)
-                        is Flow2Fragment -> it.showInputNumberView(false)
-                        is Flow3Fragment -> it.showInputNumberView(false)
-                        is Flow4Fragment -> it.showInputNumberView(false)
+                        is FragmentPresenter -> it.showInputNumberView(false)
                     }
                 }
             }

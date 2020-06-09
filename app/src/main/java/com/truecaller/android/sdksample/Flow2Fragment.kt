@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.flow_home_page.homeLayout
 /**
  * A simple [Fragment] subclass.
  */
-class Flow2Fragment : BaseFragment() {
+class Flow2Fragment : BaseFragment(), FragmentPresenter {
 
     private lateinit var proceedButton: Button
     private lateinit var progressBar: ProgressBar
@@ -59,18 +59,18 @@ class Flow2Fragment : BaseFragment() {
         }
     }
 
-    fun showVerificationFlow() {
+    override fun showVerificationFlow() {
         homeLayout.visibility = View.GONE
         verificationLayout.visibility = View.VISIBLE
         showInputNumberView(false)
     }
 
-    fun closeVerificationFlow() {
+    override fun closeVerificationFlow() {
         homeLayout.visibility = View.VISIBLE
         verificationLayout.visibility = View.GONE
     }
 
-    fun showInputNumberView(inProgress: Boolean) {
+    override fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -84,7 +84,7 @@ class Flow2Fragment : BaseFragment() {
         subHeader.text = "Login with your number"
     }
 
-    fun showInputNameView(inProgress: Boolean) {
+    override fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -98,7 +98,7 @@ class Flow2Fragment : BaseFragment() {
         subHeader.text = "Complete your profile"
     }
 
-    fun showInputOtpView(inProgress: Boolean) {
+    override fun showInputOtpView(inProgress: Boolean) {
         proceedButton.tag = OTP_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE

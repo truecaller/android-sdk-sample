@@ -9,7 +9,7 @@ import android.widget.ImageView
 import com.truecaller.android.sdk.TrueProfile
 import kotlinx.android.synthetic.main.flow_home_page.getStartedBtn
 
-class Flow1Fragment : BaseFragment() {
+class Flow1Fragment : BaseFragment(), FragmentPresenter {
 
     private lateinit var customDialog: CustomDialog
 
@@ -47,24 +47,24 @@ class Flow1Fragment : BaseFragment() {
         }
     }
 
-    fun showVerificationFlow() {
+    override fun showVerificationFlow() {
         customDialog.show()
         showInputNumberView(false)
     }
 
-    fun closeVerificationFlow() {
+    override fun closeVerificationFlow() {
         customDialog.dismiss()
     }
 
-    fun showInputNumberView(inProgress: Boolean) {
+    override fun showInputNumberView(inProgress: Boolean) {
         customDialog.showInputNumberView(inProgress)
     }
 
-    fun showInputNameView(inProgress: Boolean) {
+    override fun showInputNameView(inProgress: Boolean) {
         customDialog.showInputNameView(inProgress)
     }
 
-    fun showInputOtpView(inProgress: Boolean) {
+    override fun showInputOtpView(inProgress: Boolean) {
         customDialog.showInputOtpView(inProgress)
     }
 
