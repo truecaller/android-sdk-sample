@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
+import kotlinx.android.synthetic.main.flow4_layouts.editName
+import kotlinx.android.synthetic.main.flow4_layouts.editOtp
+import kotlinx.android.synthetic.main.flow4_layouts.editPhone
+import kotlinx.android.synthetic.main.flow4_layouts.header
+import kotlinx.android.synthetic.main.flow4_layouts.parentLayout
+import kotlinx.android.synthetic.main.flow4_layouts.subHeader
 import kotlinx.android.synthetic.main.flow4_layouts.verificationLayout
 import kotlinx.android.synthetic.main.fragment_flow4.getStartedBtn
 import kotlinx.android.synthetic.main.fragment_flow4.homeLayout
@@ -71,42 +74,45 @@ class Flow4Fragment : BaseFragment() {
     fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
+        header.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
 
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.GONE
+        editPhone.visibility = View.VISIBLE
+        editOtp.visibility = View.GONE
+        editName.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "Please tell us your\nMobile Number"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Mobile number"
+        header.text = "Please tell us your\nMobile Number"
+        subHeader.text = "Mobile number"
     }
 
     fun showInputOtpView(inProgress: Boolean) {
         proceedButton.tag = OTP_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
+        header.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
 
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.GONE
+        editOtp.visibility = View.VISIBLE
+        editPhone.visibility = View.GONE
+        editName.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "OTP Verification"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "OTP"
+        header.text = "OTP Verification"
+        subHeader.text = "OTP"
     }
 
     fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
+        header.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
 
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.GONE
+        editName.visibility = View.VISIBLE
+        editPhone.visibility = View.GONE
+        editOtp.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "We\'d like to know\nmore about you"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Full Name"
+        header.text = "We\'d like to know\nmore about you"
+        subHeader.text = "Full Name"
     }
 }
