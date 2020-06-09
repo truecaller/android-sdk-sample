@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="100dp">
+        android:paddingTop="70dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/header"
