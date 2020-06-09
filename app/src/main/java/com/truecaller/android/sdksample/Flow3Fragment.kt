@@ -7,17 +7,16 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.ProgressBar
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
-import com.truecaller.android.sdksample.utils.NumericKeyboard
 import kotlinx.android.synthetic.main.flow3_layouts.editName
 import kotlinx.android.synthetic.main.flow3_layouts.editOtp
 import kotlinx.android.synthetic.main.flow3_layouts.editPhone
+import kotlinx.android.synthetic.main.flow3_layouts.header
+import kotlinx.android.synthetic.main.flow3_layouts.numKeyboard
+import kotlinx.android.synthetic.main.flow3_layouts.parentLayout
+import kotlinx.android.synthetic.main.flow3_layouts.subHeader
 import kotlinx.android.synthetic.main.flow3_layouts.verificationLayout
 import kotlinx.android.synthetic.main.fragment_flow3.getStartedBtn
 import kotlinx.android.synthetic.main.fragment_flow3.homeLayout
@@ -47,15 +46,15 @@ class Flow3Fragment : BaseFragment() {
         proceedButton.setOnClickListener {
             when (proceedButton.tag) {
                 PHONE_LAYOUT -> {
-                    val phoneNumber = view.findViewById<EditText>(R.id.editPhone).text.toString()
+                    val phoneNumber = editPhone.text.toString()
                     fragmentListener.initVerification(phoneNumber)
                 }
                 OTP_LAYOUT -> {
-                    val otp = view.findViewById<EditText>(R.id.editOtp).text.toString()
+                    val otp = editOtp.text.toString()
                     fragmentListener.validateOtp(otp)
                 }
                 NAME_LAYOUT -> {
-                    val fullName = view.findViewById<EditText>(R.id.editName).text.toString()
+                    val fullName = editName.text.toString()
                     val trueProfile = TrueProfile.Builder(fullName.getFirstName(), fullName.getLastName()).build()
                     fragmentListener.verifyUser(trueProfile)
                 }
@@ -89,46 +88,46 @@ class Flow3Fragment : BaseFragment() {
     fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
-        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.visibility = if (inProgress) View.GONE else View.VISIBLE
-        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.field = editPhone
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.GONE
+        numKeyboard.visibility = if (inProgress) View.GONE else View.VISIBLE
+        numKeyboard.field = editPhone
+        editPhone.visibility = View.VISIBLE
+        editOtp.visibility = View.GONE
+        editName.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "Please tell us your\nMobile Number"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Mobile number"
+        header.text = "Please tell us your\nMobile Number"
+        subHeader.text = "Mobile number"
     }
 
     fun showInputOtpView(inProgress: Boolean) {
         proceedButton.tag = OTP_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
-        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.visibility = if (inProgress) View.GONE else View.VISIBLE
-        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.field = editOtp
+        numKeyboard.visibility = if (inProgress) View.GONE else View.VISIBLE
+        numKeyboard.field = editOtp
 
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.GONE
+        editOtp.visibility = View.VISIBLE
+        editPhone.visibility = View.GONE
+        editName.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "OTP Verification"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "OTP"
+        header.text = "OTP Verification"
+        subHeader.text = "OTP"
     }
 
     fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
-        view?.findViewById<LinearLayout>(R.id.parentLayout)?.visibility = if (inProgress) View.GONE else View.VISIBLE
+        parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = View.GONE
-        view?.findViewById<NumericKeyboard>(R.id.numKeyboard)?.visibility = View.GONE
+        numKeyboard.visibility = View.GONE
 
-        view?.findViewById<AppCompatEditText>(R.id.editName)?.visibility = View.VISIBLE
-        view?.findViewById<AppCompatEditText>(R.id.editPhone)?.visibility = View.GONE
-        view?.findViewById<AppCompatEditText>(R.id.editOtp)?.visibility = View.GONE
+        editName.visibility = View.VISIBLE
+        editPhone.visibility = View.GONE
+        editOtp.visibility = View.GONE
 
-        view?.findViewById<AppCompatTextView>(R.id.header)?.text = "We\'d like to know\nmore about you"
-        view?.findViewById<AppCompatTextView>(R.id.subHeader)?.text = "Full Name"
+        header.text = "We\'d like to know\nmore about you"
+        subHeader.text = "Full Name"
     }
 }
