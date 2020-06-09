@@ -52,7 +52,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             else -> {
                 Toast.makeText(
                     callbackListener.getContext(),
-                    "Success: Verified with" + " with " + bundle!!.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
+                    "Success: Verified with " + bundle!!.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.verificationComplete()
