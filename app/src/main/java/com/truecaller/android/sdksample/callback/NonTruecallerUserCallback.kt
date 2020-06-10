@@ -47,7 +47,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                             + " and access token: " + bundle?.profile?.accessToken,
                     Toast.LENGTH_SHORT
                 ).show()
-                callbackListener.verifiedBefore()
+                callbackListener.verifiedBefore(bundle?.profile?.firstName)
             }
             else -> {
                 Toast.makeText(

@@ -16,6 +16,8 @@ class SignedInSuccessfulActivity : AppCompatActivity() {
         setContentView(R.layout.activity_signed_in_successful)
         val rootLayout = findViewById<LinearLayout>(R.id.rootLayout)
         val flowType = intent.getIntExtra("flow", 1)
+        val name = intent.getStringExtra("name")
+        name?.let { welcomeText.text = String.format("Welcome, %s!", it) }
         when (flowType) {
             FLOW1 -> rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.flow1))
             FLOW2 -> rootLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.flow2))

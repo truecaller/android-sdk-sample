@@ -34,6 +34,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     private var nonTruecallerUserCallback = NonTruecallerUserCallback(this)
     private var verificationCallbackType = 0
     private var otp: String? = null
+    private var trueProfile: TrueProfile? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,6 +152,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             Toast.makeText(this, "Please enter a valid name", Toast.LENGTH_SHORT).show()
             return
         }
+        this.trueProfile = trueProfile
         when (verificationCallbackType) {
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> TruecallerSDK.getInstance().verifyMissedCall(trueProfile, nonTruecallerUserCallback)
             VerificationCallback.TYPE_OTP_INITIATED,
@@ -192,7 +194,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    override fun success() {
+    override fun success(name: String?) {
         val intent = Intent(this, SignedInSuccessfulActivity::class.java)
         var flowType = 1
         getCurrentFragment()?.let {
@@ -204,17 +206,18 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             }
         }
         intent.putExtra("flow", flowType)
+        intent.putExtra("name", name)
         startActivityForResult(intent, REQUEST_CODE)
     }
 
-    override fun verifiedBefore() {
+    override fun verifiedBefore(name: String?) {
         getCurrentFragment()?.let {
             when (it) {
                 is FragmentPresenter -> it.closeVerificationFlow()
             }
         }
+        success(name)
         resetValues()
-        success()
     }
 
     override fun verificationComplete() {
@@ -223,8 +226,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 is FragmentPresenter -> it.closeVerificationFlow()
             }
         }
+        success(trueProfile?.firstName)
         resetValues()
-        success()
     }
 
     override fun requestFailed() {
@@ -253,5 +256,6 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     private fun resetValues() {
         verificationCallbackType = 0
         otp = ""
+        trueProfile = null
     }
 }

@@ -5,7 +5,7 @@ interface CallbackListener : BaseListener {
     fun initiatedOtp()
     fun receivedMissedCall()
     fun receivedOtp(otp: String?)
-    fun verifiedBefore()
+    fun verifiedBefore(name: String?)
     fun verificationComplete()
     fun requestFailed()
 }
