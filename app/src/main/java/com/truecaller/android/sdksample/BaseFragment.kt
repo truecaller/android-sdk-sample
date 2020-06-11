@@ -3,6 +3,8 @@ package com.truecaller.android.sdksample
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.view.View
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.truecaller.android.sdksample.callback.FragmentListener
@@ -30,8 +32,9 @@ open class BaseFragment : Fragment() {
         return if (splitName.size > 1) splitName.last() else ""
     }
 
-    fun animateView(inProgress: Boolean) {
-        when (val drawable = loaderImageView.drawable) {
+    fun animateView(view: AppCompatImageView? = null, inProgress: Boolean) {
+        val imageView = view ?: loaderImageView
+        when (val drawable = imageView.drawable) {
             is AnimatedVectorDrawableCompat -> {
                 if (inProgress) drawable.start()
                 else drawable.stop()
@@ -43,7 +46,8 @@ open class BaseFragment : Fragment() {
         }
     }
 
-    fun showCallingMessage() {
-        callMessage.visibility = View.VISIBLE
+    fun showCallingMessage(view: AppCompatTextView? = null) {
+        val textView = view ?: callMessage
+        textView.visibility = View.VISIBLE
     }
 }

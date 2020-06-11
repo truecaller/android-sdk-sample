@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Please wait while we verify you..."
-        android:textColor="@color/white"
+        android:textColor="@color/lightBlue"
         android:textSize="18sp" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -22,6 +22,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="No need to pick up the call"
+        android:textColor="@color/lightBlue"
         android:visibility="gone"
         tools:visibility="visible" />
 
