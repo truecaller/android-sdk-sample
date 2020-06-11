@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
 import kotlinx.android.synthetic.main.flow4_layouts.editName
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_flow4.homeLayout
 class Flow4Fragment : BaseFragment(), FragmentPresenter {
 
     private lateinit var proceedButton: Button
-    private lateinit var progressBar: ProgressBar
+    private lateinit var progressBar: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,8 +70,13 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
         verificationLayout.visibility = View.GONE
     }
 
+    override fun showCallingMessageInLoader() {
+        showCallingMessage()
+    }
+
     override fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
+        animateView(inProgress = inProgress)
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         header.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -87,6 +92,7 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
 
     override fun showInputOtpView(inProgress: Boolean) {
         proceedButton.tag = OTP_LAYOUT
+        animateView(inProgress = inProgress)
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         header.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -102,6 +108,7 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
 
     override fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
+        animateView(inProgress = inProgress)
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         header.visibility = if (inProgress) View.GONE else View.VISIBLE

@@ -56,17 +56,22 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
         customDialog.dismiss()
     }
 
+    override fun showCallingMessageInLoader() {
+        showCallingMessage(customDialog.findViewById(R.id.callMessage))
+    }
+
     override fun showInputNumberView(inProgress: Boolean) {
+        animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
         customDialog.showInputNumberView(inProgress)
     }
 
     override fun showInputNameView(inProgress: Boolean) {
+        animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
         customDialog.showInputNameView(inProgress)
     }
 
     override fun showInputOtpView(inProgress: Boolean) {
+        animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
         customDialog.showInputOtpView(inProgress)
     }
-
-
 }

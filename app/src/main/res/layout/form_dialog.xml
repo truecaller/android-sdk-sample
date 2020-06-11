@@ -2,8 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/close_layout"
@@ -20,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/close_layout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:paddingStart="@dimen/dp32"
         tools:ignore="RtlSymmetry">
@@ -66,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/close_layout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:paddingStart="@dimen/dp32"
         android:visibility="gone"
@@ -100,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/close_layout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:paddingStart="@dimen/dp32"
         android:visibility="gone"
@@ -148,27 +152,19 @@
             android:textSize="@dimen/sp32" />
     </LinearLayout>
 
-    <Space
-        android:id="@+id/spacer"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/close_layout"
-        android:layout_marginTop="20dp" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnProceed"
         style="@style/DefaultButton"
-        android:layout_below="@id/spacer"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="50dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:text="@string/proceed"
         android:textSize="16sp" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/progress_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
