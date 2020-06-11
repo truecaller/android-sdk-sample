@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/ic_bg_flow1" />
+    <item android:drawable="@drawable/ic_success_bg" />
+    <item
+        android:bottom="70dp"
+        android:drawable="@drawable/ic_smiling_attendant"
+        android:gravity="center" />
+</layer-list>
