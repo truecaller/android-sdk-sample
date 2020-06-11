@@ -20,4 +20,6 @@
     <color name="dial">#e8e8e8</color>
     <color name="dial_text">#444555</color>
     <color name="card_layout_color">#FFDACCC7</color>
+    <color name="overlay_flow1">#99823170</color>
+    <color name="overlay_flow2">#9905283C</color>
 </resources>

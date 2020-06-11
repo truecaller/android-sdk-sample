@@ -3,7 +3,7 @@
     <item android:drawable="@drawable/ic_bg_flow1" />
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#99823170" />
+            <solid android:color="@color/overlay_flow1" />
         </shape>
     </item>
     <item android:drawable="@drawable/ic_success_bg" />
