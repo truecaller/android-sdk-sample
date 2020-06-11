@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_bg_flow1"
+    android:background="@drawable/ic_bg_flow1_layer"
     tools:context="com.truecaller.android.sdksample.Flow1Fragment">
 
     <include layout="@layout/flow_home_page" />
