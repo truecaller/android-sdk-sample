@@ -165,6 +165,11 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun initiatedMissedCall() {
         verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED
+        getCurrentFragment()?.let {
+            when (it) {
+                is FragmentPresenter -> it.showCallingMessageInLoader()
+            }
+        }
     }
 
     override fun initiatedOtp() {
