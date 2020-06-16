@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.truecaller.android.sdk.TrueException
 import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdk.TruecallerSDK
 import com.truecaller.android.sdk.clients.VerificationCallback
@@ -235,7 +236,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         resetValues()
     }
 
-    override fun requestFailed() {
+    override fun requestFailed(e: TrueException) {
         getCurrentFragment()?.let {
             when (verificationCallbackType) {
                 VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
@@ -246,7 +247,11 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 VerificationCallback.TYPE_OTP_INITIATED,
                 VerificationCallback.TYPE_OTP_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> it.showInputOtpView(false)
+                        is FragmentPresenter -> {
+                            if (e.exceptionType == TrueException.TYPE_OTP_TIMEOUT) {
+                                it.showInputNumberView(false)
+                            } else it.showInputOtpView(false)
+                        }
                     }
                 }
                 else -> {

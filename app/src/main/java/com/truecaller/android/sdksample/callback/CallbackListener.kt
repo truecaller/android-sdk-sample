@@ -1,5 +1,7 @@
 package com.truecaller.android.sdksample.callback
 
+import com.truecaller.android.sdk.TrueException
+
 interface CallbackListener : BaseListener {
     fun initiatedMissedCall()
     fun initiatedOtp()
@@ -7,5 +9,5 @@ interface CallbackListener : BaseListener {
     fun receivedOtp(otp: String?)
     fun verifiedBefore(name: String?)
     fun verificationComplete()
-    fun requestFailed()
+    fun requestFailed(e: TrueException)
 }
