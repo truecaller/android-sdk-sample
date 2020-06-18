@@ -241,7 +241,11 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             when (verificationCallbackType) {
                 VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> it.showInputNameView(false)
+                        is FragmentPresenter -> {
+                            if (e.exceptionType == TrueException.TYPE_MISSED_CALL_TIMEOUT) {
+                                it.showInputNumberView(false)
+                            } else it.showInputNameView(false)
+                        }
                     }
                 }
                 VerificationCallback.TYPE_OTP_INITIATED,
