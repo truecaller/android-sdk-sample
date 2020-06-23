@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.TrueProfile
+import com.truecaller.android.sdksample.utils.hideKeyboard
 import kotlinx.android.synthetic.main.flow3_layouts.editName
 import kotlinx.android.synthetic.main.flow3_layouts.editOtp
 import kotlinx.android.synthetic.main.flow3_layouts.editPhone
@@ -66,6 +67,7 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= editName.right - editName.compoundDrawables[drawableRight].bounds.width()) {
                     // your action here
+                    requireContext().hideKeyboard(editName)
                     proceedButton.performClick()
                     return@OnTouchListener true
                 }
@@ -131,6 +133,7 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
         numKeyboard.visibility = View.GONE
 
         editName.visibility = View.VISIBLE
+        editName.requestFocus()
         editPhone.visibility = View.GONE
         editOtp.visibility = View.GONE
 
