@@ -195,7 +195,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = VerificationCallback.TYPE_OTP_RECEIVED
         getCurrentFragment()?.let {
             when (it) {
-                is FragmentPresenter -> it.showInputOtpView(false)
+                is FragmentPresenter -> it.showInputOtpView(false, otp)
             }
         }
     }

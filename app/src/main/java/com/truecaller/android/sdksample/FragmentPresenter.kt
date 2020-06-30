@@ -6,5 +6,5 @@ interface FragmentPresenter {
     fun showCallingMessageInLoader()
     fun showInputNumberView(inProgress: Boolean)
     fun showInputNameView(inProgress: Boolean)
-    fun showInputOtpView(inProgress: Boolean)
+    fun showInputOtpView(inProgress: Boolean, otp: String? = null)
 }

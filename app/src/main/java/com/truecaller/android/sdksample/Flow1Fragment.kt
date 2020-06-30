@@ -72,8 +72,9 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
         customDialog.showInputNameView(inProgress)
     }
 
-    override fun showInputOtpView(inProgress: Boolean) {
+    override fun showInputOtpView(inProgress: Boolean, otp: String?) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
+        customDialog.findViewById<EditText>(R.id.editOtp).setText(otp)
         customDialog.showInputOtpView(inProgress)
     }
 }

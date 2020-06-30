@@ -90,7 +90,7 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
         subHeader.text = "Mobile number"
     }
 
-    override fun showInputOtpView(inProgress: Boolean) {
+    override fun showInputOtpView(inProgress: Boolean, otp: String?) {
         proceedButton.tag = OTP_LAYOUT
         animateView(inProgress = inProgress)
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
@@ -99,6 +99,7 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
 
         editOtp.visibility = View.VISIBLE
+        editOtp.setText(otp)
         editPhone.visibility = View.GONE
         editName.visibility = View.GONE
 
