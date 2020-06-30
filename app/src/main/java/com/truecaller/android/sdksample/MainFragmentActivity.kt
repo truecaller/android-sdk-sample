@@ -114,9 +114,9 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    /*override fun closeFlow() {
+    override fun closeFlow() {
         supportFragmentManager.popBackStack()
-    }*/
+    }
 
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
 

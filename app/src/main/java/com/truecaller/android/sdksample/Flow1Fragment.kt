@@ -25,7 +25,7 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
         getStartedBtn.setOnClickListener { fragmentListener.getProfile() }
         customDialog = CustomDialog(requireContext())
         customDialog.findViewById<ImageView>(R.id.close_layout).setOnClickListener {
-            closeVerificationFlow()
+            customDialog.dismiss()
         }
         customDialog.proceedButton.setOnClickListener {
             when (customDialog.proceedButton.tag) {
@@ -45,6 +45,7 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
                 }
             }
         }
+        customDialog.setOnDismissListener { closeVerificationFlow() }
     }
 
     override fun showVerificationFlow() {
@@ -54,6 +55,7 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
 
     override fun closeVerificationFlow() {
         customDialog.dismiss()
+        fragmentListener.closeFlow()
     }
 
     override fun showCallingMessageInLoader() {

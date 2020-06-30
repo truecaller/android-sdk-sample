@@ -9,7 +9,7 @@ interface FragmentListener : BaseListener {
     fun setScope(scope: Scope)
     fun loadFlowSelectionFragment()
     fun onVerificationRequired()
-//    fun closeFlow()
+    fun closeFlow()
     fun initVerification(phoneNumber: String)
     fun validateOtp(otp: String)
     fun verifyUser(trueProfile: TrueProfile)
