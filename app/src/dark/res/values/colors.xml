@@ -22,4 +22,5 @@
     <color name="card_layout_color">#FFDACCC7</color>
     <color name="overlay_flow1">#99823170</color>
     <color name="overlay_flow2">#9905283C</color>
+    <color name="white">#FFFFFF</color>
 </resources>
