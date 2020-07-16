@@ -32,7 +32,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     //    private var flowType: Int = 0
     private lateinit var scope: Scope
-    private var nonTruecallerUserCallback = NonTruecallerUserCallback(this)
+    private var nonTruecallerUserCallback: NonTruecallerUserCallback? = null
     private var verificationCallbackType = 0
     private var otp: String? = null
     private var trueProfile: TrueProfile? = null
@@ -74,7 +74,6 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     }
 
     override fun getProfile() {
-        resetValues()
         if (TruecallerSDK.getInstance().isUsable) {
             TruecallerSDK.getInstance().getUserProfile(this)
         } else {
@@ -127,7 +126,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             getCurrentFragment()?.let {
                 when (it) {
                     is FragmentPresenter -> {
-                        TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, nonTruecallerUserCallback, this)
+                        nonTruecallerUserCallback = NonTruecallerUserCallback(this)
+                        nonTruecallerUserCallback?.let { callback -> TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, callback, this) }
                         it.showInputNumberView(true)
                     }
                 }
@@ -155,47 +155,55 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
         this.trueProfile = trueProfile
         when (verificationCallbackType) {
-            VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> TruecallerSDK.getInstance().verifyMissedCall(trueProfile, nonTruecallerUserCallback)
+            VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> nonTruecallerUserCallback?.let { TruecallerSDK.getInstance().verifyMissedCall(trueProfile, it) }
             VerificationCallback.TYPE_OTP_INITIATED,
             VerificationCallback.TYPE_OTP_RECEIVED ->
                 otp?.let {
-                    TruecallerSDK.getInstance().verifyOtp(trueProfile, it, nonTruecallerUserCallback)
+                    nonTruecallerUserCallback?.let { callback -> TruecallerSDK.getInstance().verifyOtp(trueProfile, it, callback) }
                 }
         }
     }
 
     override fun initiatedMissedCall() {
-        verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED
-        getCurrentFragment()?.let {
-            when (it) {
-                is FragmentPresenter -> it.showCallingMessageInLoader()
+        nonTruecallerUserCallback?.let {
+            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED
+            getCurrentFragment()?.let {
+                when (it) {
+                    is FragmentPresenter -> it.showCallingMessageInLoader()
+                }
             }
         }
     }
 
     override fun initiatedOtp() {
-        verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED
-        getCurrentFragment()?.let {
-            when (it) {
-                is FragmentPresenter -> it.showInputOtpView(false)
+        nonTruecallerUserCallback?.let {
+            verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED
+            getCurrentFragment()?.let {
+                when (it) {
+                    is FragmentPresenter -> it.showInputOtpView(false)
+                }
             }
         }
     }
 
     override fun receivedMissedCall() {
-        verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_RECEIVED
-        getCurrentFragment()?.let {
-            when (it) {
-                is FragmentPresenter -> it.showInputNameView(false)
+        nonTruecallerUserCallback?.let {
+            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_RECEIVED
+            getCurrentFragment()?.let {
+                when (it) {
+                    is FragmentPresenter -> it.showInputNameView(false)
+                }
             }
         }
     }
 
     override fun receivedOtp(otp: String?) {
-        verificationCallbackType = VerificationCallback.TYPE_OTP_RECEIVED
-        getCurrentFragment()?.let {
-            when (it) {
-                is FragmentPresenter -> it.showInputOtpView(false, otp)
+        nonTruecallerUserCallback?.let {
+            verificationCallbackType = VerificationCallback.TYPE_OTP_RECEIVED
+            getCurrentFragment()?.let {
+                when (it) {
+                    is FragmentPresenter -> it.showInputOtpView(false, otp)
+                }
             }
         }
     }
@@ -223,7 +231,6 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             }
         }
         success(name)
-        resetValues()
     }
 
     override fun verificationComplete() {
@@ -233,7 +240,6 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
             }
         }
         success(trueProfile?.firstName)
-        resetValues()
     }
 
     override fun requestFailed(e: TrueException) {
@@ -267,7 +273,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    private fun resetValues() {
+    override fun resetValues() {
+        nonTruecallerUserCallback = null
         verificationCallbackType = 0
         otp = ""
         trueProfile = null

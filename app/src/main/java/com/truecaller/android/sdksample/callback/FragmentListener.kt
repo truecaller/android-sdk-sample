@@ -4,6 +4,7 @@ import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdksample.Scope
 
 interface FragmentListener : BaseListener {
+    fun resetValues()
     fun startFlow(flowType: Int)
     fun getProfile()
     fun setScope(scope: Scope)

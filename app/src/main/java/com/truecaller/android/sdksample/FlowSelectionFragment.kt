@@ -31,4 +31,9 @@ class FlowSelectionFragment : BaseFragment() {
     private fun startFlow(flowType: Int) {
         fragmentListener.startFlow(flowType)
     }
+
+    override fun onResume() {
+        super.onResume()
+        fragmentListener.resetValues()
+    }
 }
