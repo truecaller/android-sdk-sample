@@ -97,7 +97,7 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onVerificationRequired() {
+        public void onVerificationRequired(final TrueError trueError) {
             Toast.makeText(SignInActivity.this,
                     "Verification Required",
                     Toast.LENGTH_SHORT).show();

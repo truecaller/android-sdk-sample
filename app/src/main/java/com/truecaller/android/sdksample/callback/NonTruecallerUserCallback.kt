@@ -11,7 +11,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             VerificationCallback.TYPE_MISSED_CALL_INITIATED -> {
                 Toast.makeText(
                     callbackListener.getContext(),
-                    "Missed call initiated",
+                    "Missed call initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.initiatedMissedCall()
@@ -27,7 +27,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             VerificationCallback.TYPE_OTP_INITIATED -> {
                 Toast.makeText(
                     callbackListener.getContext(),
-                    "OTP initiated",
+                    "OTP initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.initiatedOtp()
