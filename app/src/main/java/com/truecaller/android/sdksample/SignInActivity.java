@@ -23,8 +23,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +43,6 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.truecaller.android.sdk.ITrueCallback;
 import com.truecaller.android.sdk.SdkThemeOptions;
-import com.truecaller.android.sdk.TrueButton;
 import com.truecaller.android.sdk.TrueError;
 import com.truecaller.android.sdk.TrueException;
 import com.truecaller.android.sdk.TrueProfile;
@@ -58,6 +59,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -78,6 +80,8 @@ public class SignInActivity extends AppCompatActivity {
     private int        verificationCallbackType;
     private Spinner    ctaPrefixSpinner, prefixSpinner, suffixSpinner;
     private Spinner colorSpinner, colorTextSpinner;
+    private AppCompatTextView timerTextViewMissedCall, timerTextViewOTP;
+    private CountDownTimer timer;
 
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
@@ -111,10 +115,14 @@ public class SignInActivity extends AppCompatActivity {
         @Override
         public void onRequestSuccess(final int requestCode, @Nullable VerificationDataBundle bundle) {
             if (requestCode == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
-                Toast.makeText(SignInActivity.this,
-                        "Missed call initiated",
-                        Toast.LENGTH_SHORT).show();
                 verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
+                String ttl = bundle.getString(VerificationDataBundle.KEY_TTL);
+                if (ttl != null) {
+                    Toast.makeText(SignInActivity.this,
+                            "Missed call initiated with TTL : " + ttl,
+                            Toast.LENGTH_SHORT).show();
+                    showCountDownTimer(Double.parseDouble(ttl) * 1000);
+                }
                 showLoader("Waiting for call", false);
             } else if (requestCode == VerificationCallback.TYPE_MISSED_CALL_RECEIVED) {
                 Toast.makeText(SignInActivity.this,
@@ -122,11 +130,16 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
+                dismissCountDownTimer();
             } else if (requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
-                Toast.makeText(SignInActivity.this,
-                        "OTP initiated",
-                        Toast.LENGTH_SHORT).show();
                 verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
+                String ttl = bundle.getString(VerificationDataBundle.KEY_TTL);
+                if (ttl != null) {
+                    Toast.makeText(SignInActivity.this,
+                            "OTP initiated with TTL : " + bundle.getString(VerificationDataBundle.KEY_TTL),
+                            Toast.LENGTH_SHORT).show();
+                    showCountDownTimer(Double.parseDouble(ttl) * 1000);
+                }
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
             } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
@@ -134,6 +147,7 @@ public class SignInActivity extends AppCompatActivity {
                         "OTP received",
                         Toast.LENGTH_SHORT).show();
                 fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
+                dismissCountDownTimer();
             } else if (requestCode == VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE) {
                 Toast.makeText(SignInActivity.this,
                         "Profile verified for your app before: " + bundle.getProfile().firstName
@@ -142,6 +156,7 @@ public class SignInActivity extends AppCompatActivity {
                 showLayout(LANDING_LAYOUT);
                 startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
             } else {
+                dismissCountDownTimer();
                 Toast.makeText(SignInActivity.this,
                         "Success: Verified with" + getViaText() + " with " + bundle.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
                         Toast.LENGTH_SHORT).show();
@@ -197,22 +212,18 @@ public class SignInActivity extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener startClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(final View view) {
-            try {
-                trueButton.callOnClick();
-            } catch (Exception e) {
-                Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+    private final View.OnClickListener startClickListener = view -> {
+        try {
+            TruecallerSDK.getInstance().getUserProfile(SignInActivity.this);
+        } catch (Exception e) {
+            Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
 
     private final View.OnClickListener proceedClickListener = view -> checkPhonePermission();
 
-    private EditText   edtOtp;
-    private TrueButton trueButton;
-    private EditText   mPhoneField;
+    private EditText edtOtp;
+    private EditText mPhoneField;
 
     @SuppressLint("NewApi")
     private View.OnClickListener btnGoClickListner = v -> {
@@ -228,7 +239,6 @@ public class SignInActivity extends AppCompatActivity {
 
         edtOtp = findViewById(R.id.edtOtpCode);
         mPhoneField = findViewById(R.id.edtPhone);
-        trueButton = findViewById(R.id.com_truecaller_android_sdk_truebutton);
 
         showLayout(LANDING_LAYOUT);
 
@@ -245,6 +255,8 @@ public class SignInActivity extends AppCompatActivity {
         prefixSpinner = findViewById(R.id.prefix_spinner);
         suffixSpinner = findViewById(R.id.suffix_spinner);
 
+        timerTextViewMissedCall = findViewById(R.id.timerTextProgress);
+        timerTextViewOTP = findViewById(R.id.timerText);
         setSpinnerAdapters();
 
         initTruecallerSDK();
@@ -442,6 +454,44 @@ public class SignInActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.txtLoader)).setText(message);
     }
 
+    private void showCountDownTimer(Double ttl) {
+        final AppCompatTextView textView =
+                verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED ? timerTextViewMissedCall
+                        : timerTextViewOTP;
+        textView.setOnClickListener(null);
+        timer = new CountDownTimer(ttl.longValue(), 1000) {
+            @Override
+            public void onTick(final long millisUntilFinished) {
+                textView.setPaintFlags(textView.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
+                textView.setText(String.format(getString(R.string.retry_timer), millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                textView.setText(getString(R.string.retry_now));
+                textView.setOnClickListener(v -> {
+                    showLayout(FORM_LAYOUT);
+                });
+            }
+        };
+        textView.setVisibility(View.VISIBLE);
+        timer.start();
+    }
+
+    private void dismissCountDownTimer() {
+        final AppCompatTextView textView =
+                verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED ? timerTextViewMissedCall
+                        : timerTextViewOTP;
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (textView != null) {
+            textView.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (findViewById(R.id.optionsMenu).getVisibility() != View.VISIBLE) {
@@ -514,5 +564,11 @@ public class SignInActivity extends AppCompatActivity {
                     new String[]{ Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE },
                     REQUEST_PHONE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dismissCountDownTimer();
     }
 }
