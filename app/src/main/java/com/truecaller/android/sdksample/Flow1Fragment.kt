@@ -58,22 +58,30 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
         fragmentListener.closeFlow()
     }
 
-    override fun showCallingMessageInLoader() {
-        showCallingMessage(customDialog.findViewById(R.id.callMessage))
+    override fun showCallingMessageInLoader(ttl: Double?) {
+        showCallingMessage(customDialog.findViewById(R.id.callMessage), ttl, customDialog.findViewById(R.id.timerTextProgress))
     }
 
     override fun showInputNumberView(inProgress: Boolean) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
+        dismissCountDownTimer(customDialog.findViewById(R.id.timerText))
         customDialog.showInputNumberView(inProgress)
     }
 
     override fun showInputNameView(inProgress: Boolean) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
+        dismissCountDownTimer(customDialog.findViewById(R.id.timerText))
         customDialog.showInputNameView(inProgress)
     }
 
-    override fun showInputOtpView(inProgress: Boolean, otp: String?) {
+    override fun showInputOtpView(inProgress: Boolean, otp: String?, ttl: Double?) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
+        otp?.let { dismissCountDownTimer(customDialog.findViewById(R.id.timerText)) } ?: ttl?.let {
+            showCountDownTimer(
+                it,
+                customDialog.findViewById(R.id.timerText)
+            )
+        }
         customDialog.findViewById<EditText>(R.id.editOtp).setText(otp)
         customDialog.showInputOtpView(inProgress)
     }

@@ -164,23 +164,23 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    override fun initiatedMissedCall() {
+    override fun initiatedMissedCall(ttl: String?) {
         nonTruecallerUserCallback?.let {
             verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED
             getCurrentFragment()?.let {
                 when (it) {
-                    is FragmentPresenter -> it.showCallingMessageInLoader()
+                    is FragmentPresenter -> it.showCallingMessageInLoader(ttl?.toDouble()?.times(1000))
                 }
             }
         }
     }
 
-    override fun initiatedOtp() {
+    override fun initiatedOtp(ttl: String?) {
         nonTruecallerUserCallback?.let {
             verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED
             getCurrentFragment()?.let {
                 when (it) {
-                    is FragmentPresenter -> it.showInputOtpView(false)
+                    is FragmentPresenter -> it.showInputOtpView(false, ttl = ttl?.toDouble()?.times(1000))
                 }
             }
         }
