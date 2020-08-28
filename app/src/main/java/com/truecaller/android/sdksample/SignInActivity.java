@@ -59,6 +59,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -233,6 +234,8 @@ public class SignInActivity extends AppCompatActivity {
 
         findViewById(R.id.btnStart).setOnClickListener(startClickListener);
         findViewById(R.id.buttonGo).setOnClickListener(btnGoClickListner);
+        findViewById(R.id.buttonGo).setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        findViewById(R.id.card_layout).setBackgroundColor(ContextCompat.getColor(this, R.color.card_layout_color));
         titleSelector = findViewById(R.id.sdkTitleOptions);
         additionalFooterSelector = findViewById(R.id.additionalFooters);
 

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verificationLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="70dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please tell us your\nMobile Number"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Login with your mobile number"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_phone_num"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="visible" />
+
+        <EditText
+            android:id="@+id/editOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_otp"
+            android:inputType="phone"
+            android:maxLength="6"
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnProceed"
+        style="@style/DefaultButton"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        android:text="@string/proceed"
+        android:textSize="16sp" />
+
+    <include
+        layout="@layout/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

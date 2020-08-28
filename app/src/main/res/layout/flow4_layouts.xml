@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verificationLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <LinearLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_illustration_login" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Mobile number"
+            android:textColor="#b5bbc9" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_phone_num"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textColor="@color/lightBlue"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_otp"
+            android:inputType="phone"
+            android:maxLength="6"
+            android:textColor="@color/lightBlue"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:hint="@string/name"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColor="@color/lightBlue"
+            android:textColorHint="@color/colorPrimaryDark50"
+            android:textSize="@dimen/sp32"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/parentLayout"
+        android:layout_marginBottom="40dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:text="Please tell us your\nMobile Number"
+        android:textColor="@color/lightBlue"
+        android:textSize="26sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnProceed"
+        style="@style/DefaultButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="70dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/proceed"
+        android:textColor="@color/lightBlue"
+        android:textSize="16sp" />
+
+    <include
+        layout="@layout/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
