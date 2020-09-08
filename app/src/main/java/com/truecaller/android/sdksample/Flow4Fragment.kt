@@ -94,7 +94,8 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
     override fun showInputOtpView(inProgress: Boolean, otp: String?, ttl: Double?) {
         proceedButton.tag = OTP_LAYOUT
         animateView(inProgress = inProgress)
-        otp?.let { dismissCountDownTimer() } ?: ttl?.let { showCountDownTimer(it) }
+        ttl?.let { showCountDownTimer(it) } ?: showCountDownTimerText()
+        //        otp?.let { dismissCountDownTimer() } ?: ttl?.let { showCountDownTimer(it) }
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         header.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -112,7 +113,7 @@ class Flow4Fragment : BaseFragment(), FragmentPresenter {
     override fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         animateView(inProgress = inProgress)
-        dismissCountDownTimer()
+//        hideCountDownTimerText()
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         header.visibility = if (inProgress) View.GONE else View.VISIBLE

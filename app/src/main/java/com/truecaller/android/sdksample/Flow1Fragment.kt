@@ -70,18 +70,24 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
 
     override fun showInputNameView(inProgress: Boolean) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
-        dismissCountDownTimer(customDialog.findViewById(R.id.timerText))
+//        hideCountDownTimerText(customDialog.findViewById(R.id.timerText))
         customDialog.showInputNameView(inProgress)
     }
 
     override fun showInputOtpView(inProgress: Boolean, otp: String?, ttl: Double?) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
-        otp?.let { dismissCountDownTimer(customDialog.findViewById(R.id.timerText)) } ?: ttl?.let {
+        ttl?.let {
             showCountDownTimer(
                 it,
                 customDialog.findViewById(R.id.timerText)
             )
-        }
+        } ?: showCountDownTimerText(customDialog.findViewById(R.id.timerText))
+        /*otp?.let { dismissCountDownTimer(customDialog.findViewById(R.id.timerText)) } ?: ttl?.let {
+            showCountDownTimer(
+                it,
+                customDialog.findViewById(R.id.timerText)
+            )
+        }*/
         customDialog.findViewById<EditText>(R.id.editOtp).setText(otp)
         customDialog.showInputOtpView(inProgress)
     }

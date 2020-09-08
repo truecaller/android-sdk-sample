@@ -91,9 +91,18 @@ open class BaseFragment : Fragment() {
 
     fun dismissCountDownTimer(timerTextViewOther: AppCompatTextView? = null) {
         timer?.cancel()
+        timer = null
+        hideCountDownTimerText(timerTextViewOther)
+    }
+    
+    fun hideCountDownTimerText(timerTextViewOther: AppCompatTextView? = null) {
         val textView = timerTextViewOther ?: timerTextView
         textView?.visibility = View.GONE
-        timer = null
+    }
+    
+    fun showCountDownTimerText(timerTextViewOther: AppCompatTextView? = null) {
+        val textView = timerTextViewOther ?: timerTextView
+        textView?.visibility = View.VISIBLE
     }
 
     override fun onDetach() {
