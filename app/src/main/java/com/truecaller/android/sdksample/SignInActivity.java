@@ -130,7 +130,6 @@ public class SignInActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
-                dismissCountDownTimer();
             } else if (requestCode == VerificationCallback.TYPE_OTP_INITIATED) {
                 verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
                 String ttl = bundle.getString(VerificationDataBundle.KEY_TTL);
@@ -147,7 +146,6 @@ public class SignInActivity extends AppCompatActivity {
                         "OTP received",
                         Toast.LENGTH_SHORT).show();
                 fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
-                dismissCountDownTimer();
             } else if (requestCode == VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE) {
                 Toast.makeText(SignInActivity.this,
                         "Profile verified for your app before: " + bundle.getProfile().firstName
@@ -455,41 +453,51 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void showCountDownTimer(Double ttl) {
-        final AppCompatTextView textView =
-                verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED ? timerTextViewMissedCall
-                        : timerTextViewOTP;
-        textView.setOnClickListener(null);
+        if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+            timerTextViewMissedCall.setVisibility(View.VISIBLE);
+        }
+        timerTextViewOTP.setVisibility(View.VISIBLE);
         timer = new CountDownTimer(ttl.longValue(), 1000) {
             @Override
             public void onTick(final long millisUntilFinished) {
-                textView.setPaintFlags(textView.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
-                textView.setText(String.format(getString(R.string.retry_timer), millisUntilFinished / 1000));
+                if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+                    timerTextViewMissedCall.setPaintFlags(timerTextViewMissedCall.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
+                    timerTextViewMissedCall.setText(String.format(getString(R.string.retry_timer), millisUntilFinished / 1000));
+                }
+                timerTextViewOTP.setPaintFlags(timerTextViewOTP.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
+                timerTextViewOTP.setText(String.format(getString(R.string.retry_timer), millisUntilFinished / 1000));
             }
 
             @Override
             public void onFinish() {
-                textView.setPaintFlags(textView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                textView.setText(getString(R.string.retry_now));
-                textView.setOnClickListener(v -> {
+                if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+                    timerTextViewMissedCall.setPaintFlags(timerTextViewMissedCall.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    timerTextViewMissedCall.setText(getString(R.string.retry_now));
+                    timerTextViewMissedCall.setOnClickListener(v -> {
+                        showLayout(FORM_LAYOUT);
+                    });
+                }
+
+                timerTextViewOTP.setPaintFlags(timerTextViewOTP.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                timerTextViewOTP.setText(getString(R.string.retry_now));
+                timerTextViewOTP.setOnClickListener(v -> {
                     showLayout(FORM_LAYOUT);
                 });
             }
         };
-        textView.setVisibility(View.VISIBLE);
         timer.start();
     }
 
     private void dismissCountDownTimer() {
-        final AppCompatTextView textView =
-                verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED ? timerTextViewMissedCall
-                        : timerTextViewOTP;
         if (timer != null) {
             timer.cancel();
             timer = null;
         }
-        if (textView != null) {
-            textView.setVisibility(View.GONE);
+
+        if (verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED) {
+            timerTextViewMissedCall.setVisibility(View.GONE);
         }
+        timerTextViewOTP.setVisibility(View.GONE);
     }
 
     @Override
