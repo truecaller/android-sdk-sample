@@ -11,19 +11,19 @@ import kotlinx.android.synthetic.main.flow_home_page.getStartedBtn
 
 class Flow1Fragment : BaseFragment(), FragmentPresenter {
 
-    private lateinit var customDialog: CustomDialog
+    lateinit var customDialog: CustomDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        customDialog = CustomDialog(requireContext())
         return inflater.inflate(R.layout.fragment_flow1, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getStartedBtn.setOnClickListener { fragmentListener.getProfile() }
-        customDialog = CustomDialog(requireContext())
         customDialog.findViewById<ImageView>(R.id.close_layout).setOnClickListener {
             customDialog.dismiss()
         }
@@ -64,29 +64,21 @@ class Flow1Fragment : BaseFragment(), FragmentPresenter {
 
     override fun showInputNumberView(inProgress: Boolean) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
-        dismissCountDownTimer(customDialog.findViewById(R.id.timerText))
+        dismissCountDownTimer()
         customDialog.showInputNumberView(inProgress)
     }
 
     override fun showInputNameView(inProgress: Boolean) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
-//        hideCountDownTimerText(customDialog.findViewById(R.id.timerText))
+        showCountDownTimerText()
         customDialog.showInputNameView(inProgress)
     }
 
     override fun showInputOtpView(inProgress: Boolean, otp: String?, ttl: Double?) {
         animateView(customDialog.findViewById(R.id.loaderImageView), inProgress)
-        ttl?.let {
-            showCountDownTimer(
-                it,
-                customDialog.findViewById(R.id.timerText)
-            )
-        } ?: showCountDownTimerText(customDialog.findViewById(R.id.timerText))
-        /*otp?.let { dismissCountDownTimer(customDialog.findViewById(R.id.timerText)) } ?: ttl?.let {
-            showCountDownTimer(
-                it,
-                customDialog.findViewById(R.id.timerText)
-            )
+        ttl?.let { showCountDownTimer(it) } ?: showCountDownTimerText()
+        /*otp?.let { dismissCountDownTimer() } ?: ttl?.let {
+            showCountDownTimer(it)
         }*/
         customDialog.findViewById<EditText>(R.id.editOtp).setText(otp)
         customDialog.showInputOtpView(inProgress)

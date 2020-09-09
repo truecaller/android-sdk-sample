@@ -30,7 +30,9 @@ open class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        timerTextView = view.findViewById(R.id.timerText)
+        timerTextView = if (this is Flow1Fragment) {
+            this.customDialog.findViewById(R.id.timerText)
+        } else view.findViewById(R.id.timerText)
     }
 
     fun String.getFirstName(): String {
@@ -59,6 +61,7 @@ open class BaseFragment : Fragment() {
     fun showCallingMessage(callingMsgView: AppCompatTextView? = null, ttl: Double? = null, timerTextViewOther: AppCompatTextView? = null) {
         val textView = callingMsgView ?: callMessage
         textView.visibility = View.VISIBLE
+        //if coming via missed call flow
         ttl?.let { showCountDownTimer(it, timerTextViewOther ?: view?.findViewById(R.id.timerTextProgress)) }
     }
 
@@ -71,6 +74,13 @@ open class BaseFragment : Fragment() {
                     it.paintFlags = it.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
                     it.text = String.format(getString(R.string.retry_timer), millisUntilFinished / 1000)
                 }
+                //if coming via missed call flow, textview are different, hence set the timer to the other textview as well
+                if (textView?.id != timerTextView?.id) {
+                    timerTextView?.let {
+                        it.paintFlags = it.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+                        it.text = String.format(getString(R.string.retry_timer), millisUntilFinished / 1000)
+                    }
+                }
             }
 
             override fun onFinish() {
@@ -80,6 +90,18 @@ open class BaseFragment : Fragment() {
                     it.setOnClickListener {
                         if (this@BaseFragment is FragmentPresenter) {
                             this@BaseFragment.showInputNumberView(false)
+                        }
+                    }
+                }
+                //if coming via missed call flow, textview are different, hence finish the timer of the other textview as well
+                if (textView?.id != timerTextView?.id) {
+                    timerTextView?.let {
+                        it.paintFlags = it.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                        it.text = getString(R.string.retry_now)
+                        it.setOnClickListener {
+                            if (this@BaseFragment is FragmentPresenter) {
+                                this@BaseFragment.showInputNumberView(false)
+                            }
                         }
                     }
                 }
@@ -94,12 +116,12 @@ open class BaseFragment : Fragment() {
         timer = null
         hideCountDownTimerText(timerTextViewOther)
     }
-    
-    fun hideCountDownTimerText(timerTextViewOther: AppCompatTextView? = null) {
+
+    private fun hideCountDownTimerText(timerTextViewOther: AppCompatTextView? = null) {
         val textView = timerTextViewOther ?: timerTextView
         textView?.visibility = View.GONE
     }
-    
+
     fun showCountDownTimerText(timerTextViewOther: AppCompatTextView? = null) {
         val textView = timerTextViewOther ?: timerTextView
         textView?.visibility = View.VISIBLE

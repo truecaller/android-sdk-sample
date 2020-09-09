@@ -131,7 +131,7 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
     override fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         animateView(inProgress = inProgress)
-//        hideCountDownTimerText()
+        showCountDownTimerText()
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = View.GONE
