@@ -24,13 +24,13 @@
             android:layout_height="wrap_content"
             android:text="Please tell us your\nMobile Number"
             android:textColor="@color/lightBlue"
-            android:textSize="26sp" />
+            android:textSize="22sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/subHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="Mobile number"
             android:textColor="#b5bbc9" />
 
@@ -45,7 +45,7 @@
             android:maxLength="10"
             android:textColor="@color/lightBlue"
             android:textColorHint="@color/colorPrimaryDark50"
-            android:textSize="@dimen/sp32" />
+            android:textSize="@dimen/sp24" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editOtp"
@@ -75,6 +75,17 @@
             android:textColorHint="@color/colorPrimaryDark50"
             android:textSize="@dimen/sp32"
             android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/timerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/lightBlue"
+            android:visibility="gone"
+            tools:text="@string/retry_timer"
+            tools:visibility="visible" />
 
     </LinearLayout>
 

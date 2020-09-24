@@ -66,6 +66,8 @@
     <string name="show_bottomsheet">Show BottomSheet</string>
     <string name="shape">Rectangular Button</string>
     <string name="dark_theme">Dark Theme</string>
+    <string name="retry_timer">retry again in %d seconds</string>
+    <string name="retry_now">retry now!!</string>
     <string-array name="SdkPartnerLoginPrefixOptionsArray">
         <item>To get started</item>
         <item>To continue</item>

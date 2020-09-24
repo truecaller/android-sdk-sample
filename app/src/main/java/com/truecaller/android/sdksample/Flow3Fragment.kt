@@ -87,13 +87,14 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
         verificationLayout.visibility = View.GONE
     }
 
-    override fun showCallingMessageInLoader() {
-        showCallingMessage()
+    override fun showCallingMessageInLoader(ttl: Double?) {
+        showCallingMessage(ttl = ttl)
     }
 
     override fun showInputNumberView(inProgress: Boolean) {
         proceedButton.tag = PHONE_LAYOUT
         animateView(inProgress = inProgress)
+        dismissCountDownTimer()
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -107,9 +108,11 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
         subHeader.text = "Mobile number"
     }
 
-    override fun showInputOtpView(inProgress: Boolean, otp: String?) {
+    override fun showInputOtpView(inProgress: Boolean, otp: String?, ttl: Double?) {
         proceedButton.tag = OTP_LAYOUT
         animateView(inProgress = inProgress)
+        ttl?.let { showCountDownTimer(it) } ?: showCountDownTimerText()
+        //        otp?.let { dismissCountDownTimer() } ?: ttl?.let { showCountDownTimer(it) }
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = if (inProgress) View.GONE else View.VISIBLE
@@ -128,6 +131,7 @@ class Flow3Fragment : BaseFragment(), FragmentPresenter {
     override fun showInputNameView(inProgress: Boolean) {
         proceedButton.tag = NAME_LAYOUT
         animateView(inProgress = inProgress)
+        showCountDownTimerText()
         progressBar.visibility = if (inProgress) View.VISIBLE else View.GONE
         parentLayout.visibility = if (inProgress) View.GONE else View.VISIBLE
         proceedButton.visibility = View.GONE
