@@ -6,16 +6,16 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.xappcompat"
     implementation "com.google.android.material:material:$rootProject.xmaterial"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-//    implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
+    implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
 
     //uncomment all the dependencies below to use aar directly from local /lib folder
-    implementation files('libs/truesdk-2.3.0-ttl.aar')
+    /*implementation files('libs/truesdk-2.3.0-ttl.aar')
     implementation "androidx.annotation:annotation:1.0.0"
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation "com.squareup.retrofit2:converter-gson:2.6.0"
     implementation "com.squareup.okhttp3:logging-interceptor:3.12.1"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "com.google.android.gms:play-services-auth-api-phone:12.0.1"
+    implementation "com.google.android.gms:play-services-auth-api-phone:12.0.1"*/
 
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
