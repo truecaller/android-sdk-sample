@@ -245,23 +245,16 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun requestFailed(e: TrueException) {
         getCurrentFragment()?.let {
             when (verificationCallbackType) {
+                VerificationCallback.TYPE_MISSED_CALL_INITIATED,
                 VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> {
-                            if (e.exceptionType == TrueException.TYPE_MISSED_CALL_TIMEOUT) {
-                                it.showInputNumberView(false)
-                            } else it.showInputNameView(false)
-                        }
+                        is FragmentPresenter -> it.showInputNameView(false)
                     }
                 }
                 VerificationCallback.TYPE_OTP_INITIATED,
                 VerificationCallback.TYPE_OTP_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> {
-                            if (e.exceptionType == TrueException.TYPE_OTP_TIMEOUT) {
-                                it.showInputNumberView(false)
-                            } else it.showInputOtpView(false)
-                        }
+                        is FragmentPresenter -> it.showInputOtpView(false)
                     }
                 }
                 else -> {

@@ -27,7 +27,7 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
     override fun onVerificationRequired(trueError: TrueError?) {
         Toast.makeText(
             fragmentListener.getContext(),
-            "Verification Required",
+            "Verification Required: " + trueError?.errorType,
             Toast.LENGTH_SHORT
         ).show()
         fragmentListener.onVerificationRequired()
