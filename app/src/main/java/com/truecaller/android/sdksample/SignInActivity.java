@@ -505,7 +505,7 @@ public class SignInActivity extends AppCompatActivity {
         if (findViewById(R.id.optionsMenu).getVisibility() != View.VISIBLE) {
             showLayout(SETTINGS_LAYOUT);
         } else {
-            super.onBackPressed();
+            finishAfterTransition();
         }
     }
 
@@ -578,5 +578,6 @@ public class SignInActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         dismissCountDownTimer();
+        TruecallerSDK.clear();
     }
 }

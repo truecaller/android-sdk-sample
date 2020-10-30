@@ -14,6 +14,7 @@ import com.truecaller.android.sdksample.callback.CallbackListener
 import com.truecaller.android.sdksample.callback.FragmentListener
 import com.truecaller.android.sdksample.callback.NonTruecallerUserCallback
 import org.shadow.apache.commons.lang3.StringUtils
+import java.lang.ref.WeakReference
 import java.util.Locale
 
 const val FLOW1 = 1
@@ -53,8 +54,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    override fun getContext(): Context {
-        return this
+    override fun getContext(): WeakReference<Context> {
+        return WeakReference(this)
     }
 
     override fun startFlow(flowType: Int) {
@@ -271,5 +272,19 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = 0
         otp = ""
         trueProfile = null
+    }
+
+    override fun onBackPressed() {
+        val backStackEntryCount = supportFragmentManager.backStackEntryCount
+        if (backStackEntryCount == 0) {
+            finishAfterTransition()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TruecallerSDK.clear()
     }
 }

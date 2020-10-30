@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.RadioGroup
 import android.widget.Spinner
-import androidx.fragment.app.Fragment
 import com.truecaller.android.sdk.SdkThemeOptions
 import com.truecaller.android.sdk.TruecallerSdkScope
 import kotlinx.android.synthetic.main.optionslayout.bottomsheet
@@ -25,14 +24,14 @@ import kotlinx.android.synthetic.main.optionslayout.themeOptions
 
 class OptionsCustomizationFragment : BaseFragment() {
 
-    private lateinit var titleSelector: RadioGroup
-    private lateinit var additionalFooterSelector: RadioGroup
-    private lateinit var colorSpinner: Spinner
-    private lateinit var colorTextSpinner: Spinner
-    private lateinit var ctaPrefixSpinner: Spinner
-    private lateinit var prefixSpinner: Spinner
-    private lateinit var suffixSpinner: Spinner
-    private lateinit var scope: Scope
+    private var titleSelector: RadioGroup? = null
+    private var additionalFooterSelector: RadioGroup? = null
+    private var colorSpinner: Spinner? = null
+    private var colorTextSpinner: Spinner? = null
+    private var ctaPrefixSpinner: Spinner? = null
+    private var prefixSpinner: Spinner? = null
+    private var suffixSpinner: Spinner? = null
+    private var scope: Scope? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +45,7 @@ class OptionsCustomizationFragment : BaseFragment() {
         bottomsheet.isChecked = true
         buttonGo.setOnClickListener {
             initTruecallerSdkScope()
-            fragmentListener.setScope(scope)
+            scope?.let { fragmentListener.setScope(it) }
             fragmentListener.loadFlowSelectionFragment()
         }
         titleSelector = view.findViewById(R.id.sdkTitleOptions)
@@ -68,7 +67,7 @@ class OptionsCustomizationFragment : BaseFragment() {
             android.R.layout.simple_spinner_item
         )
         adapterP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        prefixSpinner.adapter = adapterP
+        prefixSpinner?.adapter = adapterP
 
         val adapterS = ArrayAdapter.createFromResource(
             requireContext(),
@@ -76,7 +75,7 @@ class OptionsCustomizationFragment : BaseFragment() {
             android.R.layout.simple_spinner_item
         )
         adapterS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        suffixSpinner.adapter = adapterS
+        suffixSpinner?.adapter = adapterS
 
         val adapterCP = ArrayAdapter.createFromResource(
             requireContext(),
@@ -84,7 +83,7 @@ class OptionsCustomizationFragment : BaseFragment() {
             android.R.layout.simple_spinner_item
         )
         adapterCP.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        ctaPrefixSpinner.adapter = adapterCP
+        ctaPrefixSpinner?.adapter = adapterCP
 
         val adapterColor = ArrayAdapter.createFromResource(
             requireContext(),
@@ -92,14 +91,14 @@ class OptionsCustomizationFragment : BaseFragment() {
             android.R.layout.simple_spinner_item
         )
         adapterColor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        colorSpinner.adapter = adapterColor
-        colorTextSpinner.adapter = adapterColor
+        colorSpinner?.adapter = adapterColor
+        colorTextSpinner?.adapter = adapterColor
 
-        prefixSpinner.setSelection(0)
-        suffixSpinner.setSelection(0)
-        ctaPrefixSpinner.setSelection(0)
-        colorSpinner.setSelection(2)
-        colorTextSpinner.setSelection(1)
+        prefixSpinner?.setSelection(0)
+        suffixSpinner?.setSelection(0)
+        ctaPrefixSpinner?.setSelection(0)
+        colorSpinner?.setSelection(2)
+        colorTextSpinner?.setSelection(1)
     }
 
     fun initTruecallerSdkScope() {
@@ -111,11 +110,11 @@ class OptionsCustomizationFragment : BaseFragment() {
                     else -> TruecallerSdkScope.CONSENT_MODE_POPUP
                 }
             )
-            .buttonColor(Color.parseColor(colorSpinner.selectedItem.toString())) //default TC blue
-            .buttonTextColor(Color.parseColor(colorTextSpinner.selectedItem.toString())) //default white
-            .loginTextPrefix(prefixSpinner.selectedItemPosition) //default 0
-            .loginTextSuffix(suffixSpinner.selectedItemPosition) //default 0
-            .ctaTextPrefix(ctaPrefixSpinner.selectedItemPosition) //default 0
+            .buttonColor(Color.parseColor(colorSpinner?.selectedItem.toString())) //default TC blue
+            .buttonTextColor(Color.parseColor(colorTextSpinner?.selectedItem.toString())) //default white
+            .loginTextPrefix(prefixSpinner?.selectedItemPosition ?: 0) //default 0
+            .loginTextSuffix(suffixSpinner?.selectedItemPosition ?: 0) //default 0
+            .ctaTextPrefix(ctaPrefixSpinner?.selectedItemPosition ?: 0) //default 0
             .buttonShapeOptions(
                 when {
                     shapeOptions.isChecked -> TruecallerSdkScope.BUTTON_SHAPE_RECTANGLE
@@ -125,18 +124,18 @@ class OptionsCustomizationFragment : BaseFragment() {
             .privacyPolicyUrl(editTextPp.text.toString()) //default NULL
             .termsOfServiceUrl(editTextTnC.text.toString()) //default NULL
             .footerType(
-                when (additionalFooterSelector.checkedRadioButtonId) {
+                when (additionalFooterSelector?.checkedRadioButtonId) {
                     ListView.INVALID_POSITION -> TruecallerSdkScope.FOOTER_TYPE_NONE
                     else -> resolveAdditionalFooter(
-                        additionalFooterSelector.checkedRadioButtonId
+                        additionalFooterSelector?.checkedRadioButtonId
                     )
                 }
             )
             .consentTitleOption(
-                when (titleSelector.checkedRadioButtonId) {
+                when (titleSelector?.checkedRadioButtonId) {
                     ListView.INVALID_POSITION -> TruecallerSdkScope.SDK_CONSENT_TITLE_LOG_IN
                     else -> resolveSelectedPosition(
-                        titleSelector.checkedRadioButtonId
+                        titleSelector?.checkedRadioButtonId
                     )
                 }
             )
@@ -159,7 +158,7 @@ class OptionsCustomizationFragment : BaseFragment() {
         scope = Scope(truecallerSdkScope, locale, sdkThemeOptions)
     }
 
-    private fun resolveAdditionalFooter(checkedRadioButtonId: Int): Int {
+    private fun resolveAdditionalFooter(checkedRadioButtonId: Int?): Int {
         return when (checkedRadioButtonId) {
             R.id.skip -> TruecallerSdkScope.FOOTER_TYPE_SKIP
             R.id.uan -> TruecallerSdkScope.FOOTER_TYPE_CONTINUE
@@ -170,7 +169,7 @@ class OptionsCustomizationFragment : BaseFragment() {
         }
     }
 
-    private fun resolveSelectedPosition(checkedRadioButtonId: Int): Int {
+    private fun resolveSelectedPosition(checkedRadioButtonId: Int?): Int {
         var pos = 0
         when (checkedRadioButtonId) {
             R.id.zero -> pos = 0
@@ -181,5 +180,17 @@ class OptionsCustomizationFragment : BaseFragment() {
             R.id.five -> pos = 5
         }
         return pos
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        titleSelector = null
+        additionalFooterSelector = null
+        colorSpinner = null
+        colorTextSpinner = null
+        ctaPrefixSpinner = null
+        prefixSpinner = null
+        suffixSpinner = null
+        scope = null
     }
 }
