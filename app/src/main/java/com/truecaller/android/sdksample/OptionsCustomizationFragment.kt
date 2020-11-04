@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.RadioGroup
 import android.widget.Spinner
+import android.widget.Toast
 import com.truecaller.android.sdk.SdkThemeOptions
 import com.truecaller.android.sdk.TruecallerSdkScope
 import kotlinx.android.synthetic.main.optionslayout.bottomsheet
@@ -45,8 +46,10 @@ class OptionsCustomizationFragment : BaseFragment() {
         bottomsheet.isChecked = true
         buttonGo.setOnClickListener {
             initTruecallerSdkScope()
-            scope?.let { fragmentListener.setScope(it) }
-            fragmentListener.loadFlowSelectionFragment()
+            scope?.let {
+                fragmentListener.setScope(it)
+                fragmentListener.loadFlowSelectionFragment()
+            } ?: Toast.makeText(fragmentListener.getContext().get(), "Scope is NULL", Toast.LENGTH_SHORT).show()
         }
         titleSelector = view.findViewById(R.id.sdkTitleOptions)
         additionalFooterSelector = view.findViewById(R.id.additionalFooters)
@@ -102,7 +105,8 @@ class OptionsCustomizationFragment : BaseFragment() {
     }
 
     fun initTruecallerSdkScope() {
-        val truecallerSdkScope = TruecallerSdkScope.Builder(requireContext(), truecallerUserCallback)
+        val callback = truecallerUserCallback ?: return
+        val truecallerSdkScope = TruecallerSdkScope.Builder(requireContext(), callback)
             .consentMode(
                 when {
                     fullscreen.isChecked -> TruecallerSdkScope.CONSENT_MODE_FULLSCREEN
