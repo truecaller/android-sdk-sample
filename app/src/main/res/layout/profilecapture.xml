@@ -104,7 +104,7 @@
 
     <Button
         android:id="@+id/btnVerify"
-        style="@style/com_truecaller_truebutton_text_style"
+        android:padding="@dimen/com_truecaller_truebutton_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

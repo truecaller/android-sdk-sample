@@ -9,7 +9,7 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
 
     override fun onSuccessProfileShared(trueProfile: TrueProfile) {
         Toast.makeText(
-            fragmentListener.getContext(),
+            fragmentListener.getContext().get(),
             "Verified Truecaller User: " + trueProfile.firstName,
             Toast.LENGTH_SHORT
         ).show()
@@ -18,7 +18,7 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
 
     override fun onFailureProfileShared(trueError: TrueError) {
         Toast.makeText(
-            fragmentListener.getContext(),
+            fragmentListener.getContext().get(),
             "onFailureProfileShared: " + trueError.errorType,
             Toast.LENGTH_SHORT
         ).show()
@@ -26,8 +26,8 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
 
     override fun onVerificationRequired(trueError: TrueError?) {
         Toast.makeText(
-            fragmentListener.getContext(),
-            "Verification Required",
+            fragmentListener.getContext().get(),
+            "Verification Required: " + trueError?.errorType,
             Toast.LENGTH_SHORT
         ).show()
         fragmentListener.onVerificationRequired()

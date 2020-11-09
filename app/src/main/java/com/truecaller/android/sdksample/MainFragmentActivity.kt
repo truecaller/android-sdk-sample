@@ -14,6 +14,7 @@ import com.truecaller.android.sdksample.callback.CallbackListener
 import com.truecaller.android.sdksample.callback.FragmentListener
 import com.truecaller.android.sdksample.callback.NonTruecallerUserCallback
 import org.shadow.apache.commons.lang3.StringUtils
+import java.lang.ref.WeakReference
 import java.util.Locale
 
 const val FLOW1 = 1
@@ -53,8 +54,8 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         }
     }
 
-    override fun getContext(): Context {
-        return this
+    override fun getContext(): WeakReference<Context> {
+        return WeakReference(this.applicationContext)
     }
 
     override fun startFlow(flowType: Int) {
@@ -77,7 +78,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         if (TruecallerSDK.getInstance().isUsable) {
             TruecallerSDK.getInstance().getUserProfile(this)
         } else {
-            Toast.makeText(this, "No compatible client available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext().get(), "No compatible client available", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -121,7 +122,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun initVerification(phoneNumber: String) {
         if (phoneNumber.isBlank() || phoneNumber.length != 10) {
-            Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext().get(), "Please enter a valid number", Toast.LENGTH_SHORT).show()
         } else {
             getCurrentFragment()?.let {
                 when (it) {
@@ -137,7 +138,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun validateOtp(otp: String) {
         if (otp.isBlank() || otp.length != 6) {
-            Toast.makeText(this, "Please enter a valid otp", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext().get(), "Please enter a valid otp", Toast.LENGTH_SHORT).show()
         } else {
             this.otp = otp
             getCurrentFragment()?.let {
@@ -150,7 +151,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun verifyUser(trueProfile: TrueProfile) {
         if (trueProfile.firstName.isNullOrBlank()) {
-            Toast.makeText(this, "Please enter a valid name", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getContext().get(), "Please enter a valid name", Toast.LENGTH_SHORT).show()
             return
         }
         this.trueProfile = trueProfile
@@ -245,23 +246,16 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun requestFailed(e: TrueException) {
         getCurrentFragment()?.let {
             when (verificationCallbackType) {
+                VerificationCallback.TYPE_MISSED_CALL_INITIATED,
                 VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> {
-                            if (e.exceptionType == TrueException.TYPE_MISSED_CALL_TIMEOUT) {
-                                it.showInputNumberView(false)
-                            } else it.showInputNameView(false)
-                        }
+                        is FragmentPresenter -> it.showInputNameView(false)
                     }
                 }
                 VerificationCallback.TYPE_OTP_INITIATED,
                 VerificationCallback.TYPE_OTP_RECEIVED -> {
                     when (it) {
-                        is FragmentPresenter -> {
-                            if (e.exceptionType == TrueException.TYPE_OTP_TIMEOUT) {
-                                it.showInputNumberView(false)
-                            } else it.showInputOtpView(false)
-                        }
+                        is FragmentPresenter -> it.showInputOtpView(false)
                     }
                 }
                 else -> {
@@ -278,5 +272,19 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
         verificationCallbackType = 0
         otp = ""
         trueProfile = null
+    }
+
+    override fun onBackPressed() {
+        val backStackEntryCount = supportFragmentManager.backStackEntryCount
+        if (backStackEntryCount == 0) {
+            finishAfterTransition()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        TruecallerSDK.clear()
     }
 }

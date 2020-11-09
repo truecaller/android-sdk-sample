@@ -10,7 +10,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
         when (requestCode) {
             VerificationCallback.TYPE_MISSED_CALL_INITIATED -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "Missed call initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -18,7 +18,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             }
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "Missed call received",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -26,7 +26,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             }
             VerificationCallback.TYPE_OTP_INITIATED -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "OTP initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -34,7 +34,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             }
             VerificationCallback.TYPE_OTP_RECEIVED -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "OTP received",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -42,7 +42,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             }
             VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "Profile verified for your app before: " + bundle?.profile?.firstName
                             + " and access token: " + bundle?.profile?.accessToken,
                     Toast.LENGTH_SHORT
@@ -51,7 +51,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
             }
             else -> {
                 Toast.makeText(
-                    callbackListener.getContext(),
+                    callbackListener.getContext().get(),
                     "Success: Verified with " + bundle!!.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
                     Toast.LENGTH_SHORT
                 ).show()
@@ -62,7 +62,7 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
 
     override fun onRequestFailure(requestCode: Int, e: TrueException) {
         Toast.makeText(
-            callbackListener.getContext(),
+            callbackListener.getContext().get(),
             "OnFailureApiCallback: " + e.exceptionType + "\n" + e.exceptionMessage,
             Toast.LENGTH_SHORT
         )

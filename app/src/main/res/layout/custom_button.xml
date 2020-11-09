@@ -16,8 +16,8 @@ SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
 -->
 <RelativeLayout
     android:id="@+id/btnStart"
-    style="@style/com_truecaller_truebutton_text_style"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/com_truecaller_truebutton_padding"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="16dp"

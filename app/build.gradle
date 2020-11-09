@@ -9,7 +9,7 @@ dependencies {
     implementation "com.truecaller.android.sdk:truecaller-sdk:$rootProject.truecallerSdk"
 
     //uncomment all the dependencies below to use aar directly from local /lib folder
-    /*implementation files('libs/truesdk-2.3.0-ttl.aar')
+    /*implementation files('libs/truecallersdk-2.5.0.aar')
     implementation "androidx.annotation:annotation:1.0.0"
     implementation "com.squareup.retrofit2:retrofit:2.6.0"
     implementation "com.squareup.retrofit2:converter-gson:2.6.0"

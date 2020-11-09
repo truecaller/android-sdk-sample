@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.progress_layout.loaderImageView
 open class BaseFragment : Fragment() {
 
     lateinit var fragmentListener: FragmentListener
-    lateinit var truecallerUserCallback: TruecallerUserCallback
+    var truecallerUserCallback: TruecallerUserCallback? = null
     private var timer: CountDownTimer? = null
     private var timerTextView: AppCompatTextView? = null
 
@@ -31,7 +31,7 @@ open class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         timerTextView = if (this is Flow1Fragment) {
-            this.customDialog.findViewById(R.id.timerText)
+            this.customDialog?.findViewById(R.id.timerText)
         } else view.findViewById(R.id.timerText)
     }
 
@@ -127,8 +127,14 @@ open class BaseFragment : Fragment() {
         textView?.visibility = View.VISIBLE
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        timerTextView = null
+    }
+
     override fun onDetach() {
         super.onDetach()
+        truecallerUserCallback = null
         dismissCountDownTimer()
     }
 }
