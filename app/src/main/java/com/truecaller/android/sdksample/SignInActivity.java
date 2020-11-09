@@ -86,7 +86,7 @@ public class SignInActivity extends AppCompatActivity {
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
         public void onSuccessProfileShared(@NonNull final TrueProfile trueProfile) {
-            Toast.makeText(SignInActivity.this,
+            Toast.makeText(SignInActivity.this.getApplicationContext(),
                     "Verified Truecaller User: " + trueProfile.firstName,
                     Toast.LENGTH_SHORT).show();
             showLayout(LANDING_LAYOUT);
@@ -95,14 +95,14 @@ public class SignInActivity extends AppCompatActivity {
 
         @Override
         public void onFailureProfileShared(@NonNull final TrueError trueError) {
-            Toast.makeText(SignInActivity.this, "onFailureProfileShared: " + trueError.getErrorType(), Toast
+            Toast.makeText(SignInActivity.this.getApplicationContext(), "onFailureProfileShared: " + trueError.getErrorType(), Toast
                     .LENGTH_SHORT).show();
             showLayout(LANDING_LAYOUT);
         }
 
         @Override
         public void onVerificationRequired(final TrueError trueError) {
-            Toast.makeText(SignInActivity.this,
+            Toast.makeText(SignInActivity.this.getApplicationContext(),
                     "Verification Required",
                     Toast.LENGTH_SHORT).show();
             showLayout(FORM_LAYOUT);
@@ -118,14 +118,14 @@ public class SignInActivity extends AppCompatActivity {
                 verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
                 String ttl = bundle.getString(VerificationDataBundle.KEY_TTL);
                 if (ttl != null) {
-                    Toast.makeText(SignInActivity.this,
+                    Toast.makeText(SignInActivity.this.getApplicationContext(),
                             "Missed call initiated with TTL : " + ttl,
                             Toast.LENGTH_SHORT).show();
                     showCountDownTimer(Double.parseDouble(ttl) * 1000);
                 }
                 showLoader("Waiting for call", false);
             } else if (requestCode == VerificationCallback.TYPE_MISSED_CALL_RECEIVED) {
-                Toast.makeText(SignInActivity.this,
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
                         "Missed call received",
                         Toast.LENGTH_SHORT).show();
                 showLayout(PROFILE_LAYOUT);
@@ -134,7 +134,7 @@ public class SignInActivity extends AppCompatActivity {
                 verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
                 String ttl = bundle.getString(VerificationDataBundle.KEY_TTL);
                 if (ttl != null) {
-                    Toast.makeText(SignInActivity.this,
+                    Toast.makeText(SignInActivity.this.getApplicationContext(),
                             "OTP initiated with TTL : " + bundle.getString(VerificationDataBundle.KEY_TTL),
                             Toast.LENGTH_SHORT).show();
                     showCountDownTimer(Double.parseDouble(ttl) * 1000);
@@ -142,12 +142,12 @@ public class SignInActivity extends AppCompatActivity {
                 showLayout(PROFILE_LAYOUT);
                 findViewById(R.id.btnVerify).setOnClickListener(verifyClickListener);
             } else if (requestCode == VerificationCallback.TYPE_OTP_RECEIVED) {
-                Toast.makeText(SignInActivity.this,
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
                         "OTP received",
                         Toast.LENGTH_SHORT).show();
                 fillOtp(bundle.getString(VerificationDataBundle.KEY_OTP));
             } else if (requestCode == VerificationCallback.TYPE_PROFILE_VERIFIED_BEFORE) {
-                Toast.makeText(SignInActivity.this,
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
                         "Profile verified for your app before: " + bundle.getProfile().firstName
                                 + " and access token: " + bundle.getProfile().accessToken,
                         Toast.LENGTH_SHORT).show();
@@ -155,7 +155,7 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
             } else {
                 dismissCountDownTimer();
-                Toast.makeText(SignInActivity.this,
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
                         "Success: Verified with" + getViaText() + " with " + bundle.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
                         Toast.LENGTH_SHORT).show();
                 showLayout(LANDING_LAYOUT);
@@ -166,7 +166,7 @@ public class SignInActivity extends AppCompatActivity {
         @Override
         public void onRequestFailure(final int requestCode, @NonNull final TrueException e) {
             Toast.makeText(
-                    SignInActivity.this,
+                    SignInActivity.this.getApplicationContext(),
                     "OnFailureApiCallback: " + e.getExceptionType() + "\n" + e.getExceptionMessage(),
                     Toast.LENGTH_SHORT)
                     .show();
@@ -214,7 +214,7 @@ public class SignInActivity extends AppCompatActivity {
         try {
             TruecallerSDK.getInstance().getUserProfile(SignInActivity.this);
         } catch (Exception e) {
-            Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignInActivity.this.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
 
