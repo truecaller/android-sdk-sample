@@ -31,7 +31,7 @@ open class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         timerTextView = if (this is Flow1Fragment) {
-            this.customDialog.findViewById(R.id.timerText)
+            this.customDialog?.findViewById(R.id.timerText)
         } else view.findViewById(R.id.timerText)
     }
 
