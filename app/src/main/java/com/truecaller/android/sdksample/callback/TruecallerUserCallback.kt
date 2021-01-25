@@ -10,7 +10,8 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
     override fun onSuccessProfileShared(trueProfile: TrueProfile) {
         Toast.makeText(
             fragmentListener.getContext().get(),
-            "Verified Truecaller User: " + trueProfile.firstName,
+            "Verified Truecaller User: " + trueProfile.firstName
+            + "\nand Business profile: " + trueProfile.isBusiness,
             Toast.LENGTH_SHORT
         ).show()
         fragmentListener.success(trueProfile.firstName)
