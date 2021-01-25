@@ -444,7 +444,7 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data);
+        TruecallerSDK.getInstance().onActivityResultObtained(this, requestCode, resultCode, data);
     }
 
     public void showLoader(String message, final boolean showSmsVerificationButton) {

@@ -96,10 +96,13 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE) {
-            supportFragmentManager.popBackStack()
-        } else {
-            TruecallerSDK.getInstance().onActivityResultObtained(this, resultCode, data)
+        when (requestCode) {
+            REQUEST_CODE -> {
+                supportFragmentManager.popBackStack()
+            }
+            TruecallerSDK.SHARE_PROFILE_REQUEST_CODE -> {
+                TruecallerSDK.getInstance().onActivityResultObtained(this, requestCode, resultCode, data)
+            }
         }
     }
 
