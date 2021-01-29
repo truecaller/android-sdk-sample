@@ -89,6 +89,7 @@ open class BaseFragment : Fragment() {
                     it.text = getString(R.string.retry_now)
                     it.setOnClickListener {
                         if (this@BaseFragment is FragmentPresenter) {
+                            fragmentListener.resetValues()
                             this@BaseFragment.showInputNumberView(false)
                         }
                     }
@@ -100,6 +101,7 @@ open class BaseFragment : Fragment() {
                         it.text = getString(R.string.retry_now)
                         it.setOnClickListener {
                             if (this@BaseFragment is FragmentPresenter) {
+                                fragmentListener.resetValues()
                                 this@BaseFragment.showInputNumberView(false)
                             }
                         }
