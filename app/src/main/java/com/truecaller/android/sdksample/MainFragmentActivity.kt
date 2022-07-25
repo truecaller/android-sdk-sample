@@ -131,9 +131,16 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                 when (it) {
                     is FragmentPresenter -> {
                         nonTruecallerUserCallback = NonTruecallerUserCallback(this)
-                        nonTruecallerUserCallback?.let { callback -> TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, callback, this) }
-                        it.showInputNumberView(true)
-                    }
+                        nonTruecallerUserCallback?.let { callback ->
+                            try {
+                                TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, callback, this)
+                                it.showInputNumberView(true)
+                            } catch (e: RuntimeException) {
+                                Toast.makeText(getContext().get(), e.message, Toast.LENGTH_SHORT).show()
+                                it.showInputNumberView(false)
+                            }
+                        }
+                    } else -> {}
                 }
             }
         }

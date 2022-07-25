@@ -401,7 +401,11 @@ public class SignInActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(phone)) {
             showLoader("Trying " + getViaText() + "...",
                     verificationCallbackType == VerificationCallback.TYPE_MISSED_CALL_INITIATED);
-            TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback, this);
+            try {
+                TruecallerSDK.getInstance().requestVerification("IN", phone, apiCallback, this);
+            } catch (RuntimeException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
