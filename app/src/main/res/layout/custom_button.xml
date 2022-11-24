@@ -31,7 +31,7 @@ SDK PRODUCT YOU ARE ASSUMING THE ENTIRE RISK AS TO ITS QUALITY AND PERFORMANCE.
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/com_truecaller_icon"/>
+        android:src="@drawable/ic_truecaller_logo_white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
