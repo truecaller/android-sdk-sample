@@ -1,6 +1,8 @@
 package com.truecaller.android.sdksample
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +12,7 @@ import com.truecaller.android.sdk.TrueException
 import com.truecaller.android.sdk.TrueProfile
 import com.truecaller.android.sdk.TruecallerSDK
 import com.truecaller.android.sdk.clients.VerificationCallback
+import com.truecaller.android.sdk.clients.callVerification.RequestPermissionHandler
 import com.truecaller.android.sdksample.callback.CallbackListener
 import com.truecaller.android.sdksample.callback.FragmentListener
 import com.truecaller.android.sdksample.callback.NonTruecallerUserCallback
@@ -30,6 +33,8 @@ const val NAME_LAYOUT = 3
 const val REQUEST_CODE = 1291
 
 class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackListener {
+
+    private var permissionHandler: RequestPermissionHandler? = null
 
     //    private var flowType: Int = 0
     private lateinit var scope: Scope
@@ -133,17 +138,52 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         nonTruecallerUserCallback = NonTruecallerUserCallback(this)
                         nonTruecallerUserCallback?.let { callback ->
                             try {
-                                TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, callback, this)
+                                checkAndRequestPermissions(it, phoneNumber, callback) //DC-OTP
                                 it.showInputNumberView(true)
                             } catch (e: RuntimeException) {
                                 Toast.makeText(getContext().get(), e.message, Toast.LENGTH_SHORT).show()
                                 it.showInputNumberView(false)
                             }
                         }
-                    } else -> {}
+                    }
+                    else -> {}
                 }
             }
         }
+    }
+
+    private fun checkAndRequestPermissions(
+        fragmentPresenter: FragmentPresenter, phoneNumber: String, callback: VerificationCallback
+    ) {
+        permissionHandler = RequestPermissionHandler(this, object : RequestPermissionHandler.Listener {
+            override fun onComplete(grantedPermissions: Set<String>, deniedPermissions: Set<String>) {
+                if (deniedPermissions.isEmpty()) {
+                    TruecallerSDK.getInstance().requestVerification("IN", phoneNumber, callback, this@MainFragmentActivity)
+                } else {
+                    Toast.makeText(getContext().get(), "Cannot proceed ahead unless permissions are granted", Toast.LENGTH_SHORT).show()
+                    fragmentPresenter.showInputNumberView(false)
+                }
+            }
+
+            override fun onShowPermissionRationale(permissions: Set<String>): Boolean {
+                AlertDialog.Builder(this@MainFragmentActivity)
+                    .setMessage("For verifying your number, we need Calls and Phone permission")
+                    .setCancelable(false)
+                    .setPositiveButton("OK") { _: DialogInterface?, _: Int -> permissionHandler?.retryRequestDeniedPermission() }
+                    .setNegativeButton("Cancel") { dialogInterface: DialogInterface, _: Int ->
+                        permissionHandler?.cancel()
+                        dialogInterface.dismiss()
+                    }
+                    .show()
+                return true
+            }
+
+            override fun onShowSettingRationale(permissions: Set<String>): Boolean {
+                fragmentPresenter.showInputNumberView(false)
+                return false // since we don't want to show any rationale when permanently denied, returning false here
+            }
+        })
+        permissionHandler?.requestPermission()
     }
 
     override fun validateOtp(otp: String) {
@@ -296,5 +336,6 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
     override fun onDestroy() {
         super.onDestroy()
         TruecallerSDK.clear()
+        permissionHandler = null
     }
 }

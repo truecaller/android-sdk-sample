@@ -66,7 +66,7 @@ android {
 //    no need to assign each, since only one dimension is used
     productFlavors {
         dark {
-            applicationId 'com.truecaller.sdksample2'
+            applicationId 'com.truecaller.sdksample290123'
         }
         light {
             // uses defaultConfig

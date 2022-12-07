@@ -17,18 +17,16 @@
 
 package com.truecaller.android.sdksample;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -40,7 +38,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.truecaller.android.sdk.ITrueCallback;
 import com.truecaller.android.sdk.SdkThemeOptions;
 import com.truecaller.android.sdk.TrueError;
@@ -50,23 +47,23 @@ import com.truecaller.android.sdk.TruecallerSDK;
 import com.truecaller.android.sdk.TruecallerSdkScope;
 import com.truecaller.android.sdk.clients.VerificationCallback;
 import com.truecaller.android.sdk.clients.VerificationDataBundle;
+import com.truecaller.android.sdk.clients.callVerification.RequestPermissionHandler;
 
 import org.shadow.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private static final String TAG           = "SignInActivity";
-    private static final int    REQUEST_PHONE = 0;
+    private static final String TAG = "SignInActivity";
 
     //constants for layouts
     private static final int LANDING_LAYOUT  = 1;
@@ -81,7 +78,8 @@ public class SignInActivity extends AppCompatActivity {
     private Spinner    ctaPrefixSpinner, prefixSpinner, suffixSpinner;
     private Spinner colorSpinner, colorTextSpinner;
     private AppCompatTextView timerTextViewMissedCall, timerTextViewOTP;
-    private CountDownTimer timer;
+    private CountDownTimer           timer;
+    private RequestPermissionHandler permissionHandler;
 
     private final ITrueCallback sdkCallback = new ITrueCallback() {
         @Override
@@ -121,6 +119,9 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this.getApplicationContext(),
                             "Missed call initiated with TTL : " + ttl,
                             Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this.getApplicationContext(),
+                            "Req Nonce : " + bundle.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
+                            Toast.LENGTH_SHORT).show();
                     showCountDownTimer(Double.parseDouble(ttl) * 1000);
                 }
                 showLoader("Waiting for call", false);
@@ -137,6 +138,9 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this.getApplicationContext(),
                             "OTP initiated with TTL : " + bundle.getString(VerificationDataBundle.KEY_TTL),
                             Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignInActivity.this.getApplicationContext(),
+                            "Req Nonce : " + bundle.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
+                            Toast.LENGTH_SHORT).show();
                     showCountDownTimer(Double.parseDouble(ttl) * 1000);
                 }
                 showLayout(PROFILE_LAYOUT);
@@ -151,12 +155,18 @@ public class SignInActivity extends AppCompatActivity {
                         "Profile verified for your app before: " + bundle.getProfile().firstName
                                 + " and access token: " + bundle.getProfile().accessToken,
                         Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
+                        "Req Nonce : " + bundle.getProfile().requestNonce,
+                        Toast.LENGTH_SHORT).show();
                 showLayout(LANDING_LAYOUT);
                 startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
             } else {
                 dismissCountDownTimer();
                 Toast.makeText(SignInActivity.this.getApplicationContext(),
                         "Success: Verified with" + getViaText() + " with " + bundle.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
+                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this.getApplicationContext(),
+                        "Req Nonce : " + bundle.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
                         Toast.LENGTH_SHORT).show();
                 showLayout(LANDING_LAYOUT);
                 startActivity(new Intent(SignInActivity.this, SignedInActivity.class));
@@ -166,9 +176,9 @@ public class SignInActivity extends AppCompatActivity {
         @Override
         public void onRequestFailure(final int requestCode, @NonNull final TrueException e) {
             Toast.makeText(
-                    SignInActivity.this.getApplicationContext(),
-                    "OnFailureApiCallback: " + e.getExceptionType() + "\n" + e.getExceptionMessage(),
-                    Toast.LENGTH_SHORT)
+                            SignInActivity.this.getApplicationContext(),
+                            "OnFailureApiCallback: " + e.getExceptionType() + "\n" + e.getExceptionMessage(),
+                            Toast.LENGTH_SHORT)
                     .show();
             showLayout(FORM_LAYOUT);
         }
@@ -218,7 +228,7 @@ public class SignInActivity extends AppCompatActivity {
         }
     };
 
-    private final View.OnClickListener proceedClickListener = view -> checkPhonePermission();
+    private final View.OnClickListener proceedClickListener = view -> checkAndRequestPermissions();
 
     private EditText edtOtp;
     private EditText mPhoneField;
@@ -258,13 +268,6 @@ public class SignInActivity extends AppCompatActivity {
         setSpinnerAdapters();
 
         initTruecallerSDK();
-        System.out.println("phone permission " + (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE) == PackageManager
-                .PERMISSION_GRANTED));
-        System.out.println("log permission " + (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CALL_LOG) == PackageManager
-                .PERMISSION_GRANTED));
-        System.out.println("answer call permission " + isAnswerCallPermissionEnabled());
     }
 
     private void setSpinnerAdapters() {
@@ -409,40 +412,37 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    public void checkPhonePermission() {
-        //commented the logic for asking permission because that became a part of SDK 2.0 itself
-        /*if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED
-                || !isAnswerCallPermissionEnabled()) {
-            requestPhonePermission();
-        } else {*/
-        //            verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
-        requestVerification();
-        //        }
-    }
+    private void checkAndRequestPermissions() {
+        permissionHandler = new RequestPermissionHandler(this, new RequestPermissionHandler.Listener() {
+            @Override
+            public boolean onShowSettingRationale(@NonNull final Set<String> set) {
+                return false;
+            }
 
-    /**
-     * Requests the phone permission.
-     * If the permission has been denied previously, a SnackBar will prompt the user to grant the
-     * permission, otherwise it is requested directly.
-     */
-    private void requestPhonePermission() {
-        Log.i(TAG, "PHONE permission has NOT been granted. Requesting permission.");
+            @Override
+            public boolean onShowPermissionRationale(@NonNull final Set<String> set) {
+                new AlertDialog.Builder(SignInActivity.this)
+                        .setMessage("For verifying your number, we need Calls and Phone permission")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (dialogInterface, i) -> permissionHandler.retryRequestDeniedPermission())
+                        .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                            permissionHandler.cancel();
+                            dialogInterface.dismiss();
+                        })
+                        .show();
+                return true;
+            }
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALL_LOG)
-                || shouldShowAnswerCallRequestPermissionRationale()) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example if the user has previously denied the permission.
-            Snackbar.make(findViewById(R.id.activity_landing), "Give permission to identify device.",
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Allow", view -> requestRequiredPhonePermissions())
-                    .show();
-        } else {
-            // Phone permission has not been granted yet. Request it directly.
-            requestRequiredPhonePermissions();
-        }
+            @Override
+            public void onComplete(@NonNull final Set<String> grantedPermissions, @NonNull final Set<String> deniedPermissions) {
+                if (deniedPermissions.isEmpty()) {
+                    requestVerification();
+                } else {
+                    Toast.makeText(SignInActivity.this, "Cannot proceed ahead unless permissions are granted", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        permissionHandler.requestPermission();
     }
 
     @Override
@@ -526,62 +526,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions,
-                                           @NonNull final int[] grantResults) {
-        //       we continue whether we get required phone permissions or not
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        /*if (requestCode == REQUEST_PHONE) {
-            boolean isPhonePermissionsGiven = true;
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    isPhonePermissionsGiven = false;
-                    break;
-                }
-            }
-            if (isPhonePermissionsGiven) {
-                //               this will start missed-call verification
-                verificationCallbackType = VerificationCallback.TYPE_MISSED_CALL_INITIATED;
-                requestVerification();
-            }
-            //                if any of the phone permissions are not given, we would fallback to otp flow
-            //                it would be a better place to request sms permission to auto-fill otp
-            else {
-                verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
-                requestVerification();
-            }
-        } else {
-            //            this will start sms verification
-            verificationCallbackType = VerificationCallback.TYPE_OTP_INITIATED;
-            requestVerification();
-        }*/
-    }
-
-    private boolean isAnswerCallPermissionEnabled() {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.O
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    private boolean shouldShowAnswerCallRequestPermissionRationale() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
-                && ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ANSWER_PHONE_CALLS);
-    }
-
-    private void requestRequiredPhonePermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            ActivityCompat.requestPermissions(SignInActivity.this,
-                    new String[]{ Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.READ_CALL_LOG,
-                            Manifest.permission.READ_PHONE_STATE }, REQUEST_PHONE);
-        } else {
-            ActivityCompat.requestPermissions(SignInActivity.this,
-                    new String[]{ Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE },
-                    REQUEST_PHONE);
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         dismissCountDownTimer();
         TruecallerSDK.clear();
+        permissionHandler = null;
     }
 }

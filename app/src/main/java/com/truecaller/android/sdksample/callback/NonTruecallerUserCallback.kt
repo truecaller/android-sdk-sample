@@ -14,6 +14,11 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                     "Missed call initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
                     Toast.LENGTH_SHORT
                 ).show()
+                Toast.makeText(
+                    callbackListener.getContext().get(),
+                    "Req Nonce : " + bundle?.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
+                    Toast.LENGTH_SHORT
+                ).show()
                 callbackListener.initiatedMissedCall(bundle?.getString(VerificationDataBundle.KEY_TTL))
             }
             VerificationCallback.TYPE_MISSED_CALL_RECEIVED -> {
@@ -28,6 +33,11 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                 Toast.makeText(
                     callbackListener.getContext().get(),
                     "OTP initiated with TTL : " + bundle?.getString(VerificationDataBundle.KEY_TTL),
+                    Toast.LENGTH_SHORT
+                ).show()
+                Toast.makeText(
+                    callbackListener.getContext().get(),
+                    "Req Nonce : " + bundle?.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.initiatedOtp(bundle?.getString(VerificationDataBundle.KEY_TTL))
@@ -47,12 +57,22 @@ class NonTruecallerUserCallback(private val callbackListener: CallbackListener) 
                             + " and access token: " + bundle?.profile?.accessToken,
                     Toast.LENGTH_SHORT
                 ).show()
+                Toast.makeText(
+                    callbackListener.getContext().get(),
+                    "Req nonce: " + bundle?.profile?.requestNonce,
+                    Toast.LENGTH_SHORT
+                ).show()
                 callbackListener.verifiedBefore(bundle?.profile?.firstName)
             }
             else -> {
                 Toast.makeText(
                     callbackListener.getContext().get(),
                     "Success: Verified with " + bundle!!.getString(VerificationDataBundle.KEY_ACCESS_TOKEN),
+                    Toast.LENGTH_SHORT
+                ).show()
+                Toast.makeText(
+                    callbackListener.getContext().get(),
+                    "Req Nonce : " + bundle.getString(VerificationDataBundle.KEY_REQUEST_NONCE),
                     Toast.LENGTH_SHORT
                 ).show()
                 callbackListener.verificationComplete()
