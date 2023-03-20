@@ -1,6 +1,6 @@
 package com.truecaller.android.sdksample.callback
 
-import com.truecaller.android.sdk.TrueProfile
+import com.truecaller.android.sdk.common.models.TrueProfile
 import com.truecaller.android.sdksample.Scope
 
 interface FragmentListener : BaseListener {

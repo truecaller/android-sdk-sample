@@ -1,6 +1,6 @@
 package com.truecaller.android.sdksample.callback
 
-import com.truecaller.android.sdk.TrueException
+import com.truecaller.android.sdk.common.TrueException
 
 interface CallbackListener : BaseListener {
     fun initiatedMissedCall(ttl: String?)

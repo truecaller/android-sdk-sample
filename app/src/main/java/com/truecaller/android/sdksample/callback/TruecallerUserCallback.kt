@@ -1,9 +1,9 @@
 package com.truecaller.android.sdksample.callback
 
 import android.widget.Toast
-import com.truecaller.android.sdk.ITrueCallback
-import com.truecaller.android.sdk.TrueError
-import com.truecaller.android.sdk.TrueProfile
+import com.truecaller.android.sdk.common.models.TrueProfile
+import com.truecaller.android.sdk.legacy.ITrueCallback
+import com.truecaller.android.sdk.legacy.TrueError
 
 class TruecallerUserCallback(private val fragmentListener: FragmentListener) : ITrueCallback {
 
@@ -11,7 +11,7 @@ class TruecallerUserCallback(private val fragmentListener: FragmentListener) : I
         Toast.makeText(
             fragmentListener.getContext().get(),
             "Verified Truecaller User: " + trueProfile.firstName
-            + "\nand Business profile: " + trueProfile.isBusiness,
+                    + "\nand Business profile: " + trueProfile.isBusiness,
             Toast.LENGTH_SHORT
         ).show()
         fragmentListener.success(trueProfile.firstName)

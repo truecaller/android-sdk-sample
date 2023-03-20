@@ -11,8 +11,8 @@ import android.widget.ListView
 import android.widget.RadioGroup
 import android.widget.Spinner
 import android.widget.Toast
-import com.truecaller.android.sdk.SdkThemeOptions
-import com.truecaller.android.sdk.TruecallerSdkScope
+import com.truecaller.android.sdk.legacy.SdkThemeOptions
+import com.truecaller.android.sdk.legacy.TruecallerSdkScope
 import kotlinx.android.synthetic.main.optionslayout.bottomsheet
 import kotlinx.android.synthetic.main.optionslayout.buttonGo
 import kotlinx.android.synthetic.main.optionslayout.editTextPp

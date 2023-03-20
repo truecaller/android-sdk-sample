@@ -38,16 +38,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.truecaller.android.sdk.ITrueCallback;
-import com.truecaller.android.sdk.SdkThemeOptions;
-import com.truecaller.android.sdk.TrueError;
-import com.truecaller.android.sdk.TrueException;
-import com.truecaller.android.sdk.TrueProfile;
-import com.truecaller.android.sdk.TruecallerSDK;
-import com.truecaller.android.sdk.TruecallerSdkScope;
-import com.truecaller.android.sdk.clients.VerificationCallback;
-import com.truecaller.android.sdk.clients.VerificationDataBundle;
-import com.truecaller.android.sdk.clients.callVerification.RequestPermissionHandler;
+import com.truecaller.android.sdk.common.TrueException;
+import com.truecaller.android.sdk.common.VerificationCallback;
+import com.truecaller.android.sdk.common.VerificationDataBundle;
+import com.truecaller.android.sdk.common.callVerification.RequestPermissionHandler;
+import com.truecaller.android.sdk.common.models.TrueProfile;
+import com.truecaller.android.sdk.legacy.ITrueCallback;
+import com.truecaller.android.sdk.legacy.SdkThemeOptions;
+import com.truecaller.android.sdk.legacy.TrueError;
+import com.truecaller.android.sdk.legacy.TruecallerSDK;
+import com.truecaller.android.sdk.legacy.TruecallerSdkScope;
 
 import org.shadow.apache.commons.lang3.StringUtils;
 

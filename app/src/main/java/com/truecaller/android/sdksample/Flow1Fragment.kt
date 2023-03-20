@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import com.truecaller.android.sdk.TrueProfile
+import com.truecaller.android.sdk.common.models.TrueProfile
 import kotlinx.android.synthetic.main.flow_home_page.getStartedBtn
 
 class Flow1Fragment : BaseFragment(), FragmentPresenter {

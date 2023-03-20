@@ -8,11 +8,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.truecaller.android.sdk.TrueException
-import com.truecaller.android.sdk.TrueProfile
-import com.truecaller.android.sdk.TruecallerSDK
-import com.truecaller.android.sdk.clients.VerificationCallback
-import com.truecaller.android.sdk.clients.callVerification.RequestPermissionHandler
+import com.truecaller.android.sdk.common.TrueException
+import com.truecaller.android.sdk.common.VerificationCallback
+import com.truecaller.android.sdk.common.callVerification.RequestPermissionHandler
+import com.truecaller.android.sdk.common.models.TrueProfile
+import com.truecaller.android.sdk.legacy.TruecallerSDK
 import com.truecaller.android.sdksample.callback.CallbackListener
 import com.truecaller.android.sdksample.callback.FragmentListener
 import com.truecaller.android.sdksample.callback.NonTruecallerUserCallback
@@ -138,7 +138,7 @@ class MainFragmentActivity : AppCompatActivity(), FragmentListener, CallbackList
                         nonTruecallerUserCallback = NonTruecallerUserCallback(this)
                         nonTruecallerUserCallback?.let { callback ->
                             try {
-                                checkAndRequestPermissions(it, phoneNumber, callback) //DC-OTP
+                                checkAndRequestPermissions(it, phoneNumber, callback)
                                 it.showInputNumberView(true)
                             } catch (e: RuntimeException) {
                                 Toast.makeText(getContext().get(), e.message, Toast.LENGTH_SHORT).show()

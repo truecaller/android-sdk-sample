@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import com.truecaller.android.sdk.TrueProfile
+import com.truecaller.android.sdk.common.models.TrueProfile
 import kotlinx.android.synthetic.main.flow4_layouts.editName
 import kotlinx.android.synthetic.main.flow4_layouts.editOtp
 import kotlinx.android.synthetic.main.flow4_layouts.editPhone

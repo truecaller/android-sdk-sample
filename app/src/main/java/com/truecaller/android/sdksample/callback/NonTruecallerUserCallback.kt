@@ -1,9 +1,9 @@
 package com.truecaller.android.sdksample.callback
 
 import android.widget.Toast
-import com.truecaller.android.sdk.TrueException
-import com.truecaller.android.sdk.clients.VerificationCallback
-import com.truecaller.android.sdk.clients.VerificationDataBundle
+import com.truecaller.android.sdk.common.TrueException
+import com.truecaller.android.sdk.common.VerificationCallback
+import com.truecaller.android.sdk.common.VerificationDataBundle
 
 class NonTruecallerUserCallback(private val callbackListener: CallbackListener) : VerificationCallback {
     override fun onRequestSuccess(requestCode: Int, bundle: VerificationDataBundle?) {
